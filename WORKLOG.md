@@ -1,10 +1,12 @@
 # Work Log
 
-## GROUP MEMBER 1
+## Victor Casado
 
-### date x
+### date 5/22
 
-info
+Made GamePiece Class
+
+Note: canMove method has to be in game class, not in GamePiece class
 
 ### date y
 
