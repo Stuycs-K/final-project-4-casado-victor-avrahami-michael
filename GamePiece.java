@@ -17,7 +17,7 @@ public abstract class GamePiece{
         return true;//placeholder
     }
     public String toString(){
-        return "";//placeholder
+        return "" + type + "(" + xLoc + "," + yLoc + ")" + "Player 1:" + OwnedByPlayerOne;//placeholder
     }
 
 }
