@@ -13,9 +13,8 @@ public abstract class GamePiece{
 
     abstract boolean move(int newX, int newY);
     abstract boolean isLegalMove(int newX, int newY);
-    public boolean canMove(){
-        return true;//placeholder
-    }
+    // no canMove method, needs board access, so needs to be in game class
+
     public String toString(){
         return "" + type + "(" + xLoc + "," + yLoc + ")" + "Player 1:" + OwnedByPlayerOne;//placeholder
     }
