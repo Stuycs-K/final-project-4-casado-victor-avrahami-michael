@@ -8,25 +8,32 @@
   }
 
   void draw(){
+    //drawBoard(10);
+    hexagon(10, 10, 10);
+  }
+  
+  void drawBoard(int hexSideLength){
+    int h = hexSideLength;
     for (int i = 0; i < gameBoard.length; i++){
-      for (int j = 0; j < gameBoard.length; j++){
-        int extra20 = 0;
+      for (int j = 0; j < gameBoard[i].length; j++){
+        float downSet = 0;
         if (j % 2 == 1){
-          extra20 = 20;
+          downSet = h / 2 * sqrt(3);
         }
-        
-        polygon((j + 1) * 30, (i + 1) * 30 + extra20, 20, 6);
+        hexagon(h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h);
       }
     }
   }
   
-  void polygon(float x, float y, float radius, int npoints) {
-  float angle = TWO_PI / npoints;
-  beginShape();
-  for (float a = 0; a < TWO_PI; a += angle) {
-    float sx = x + cos(a) * radius;
-    float sy = y + sin(a) * radius;
-    vertex(sx, sy);
+  // x and y represent top left vertex of hexagon
+  void hexagon(float x, float y, float sideLength) {
+    beginShape();
+    vertex(x, y);
+    vertex(x + sideLength, y);
+    vertex(x + sideLength * 1.5, y + sideLength / 2 * sqrt(3));
+    vertex(x + sideLength, y + sideLength * sqrt(3));
+    vertex(x, y + sideLength * sqrt(3));
+    vertex(x - sideLength * 0.5, y + sideLength / 2 * sqrt(3));
+    vertex(x, y);
+    endShape();
   }
-  endShape(CLOSE);
-  }  
