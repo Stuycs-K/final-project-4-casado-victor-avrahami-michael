@@ -24,3 +24,13 @@ Uncommented "name" instance variable as it could be useful for toString or displ
 
 Added methods to GamePiece class (set new location)
 Made Game Class, added instance variable, check if queens are surrounded, toggling turn, set queen reference
+
+
+## Michael Avrahami
+
+### date 5/23
+
+Created an inlaid hexagon board display in processing.
+Wrote logic to only display pieces in array
+Temporarily customized different piece display
+
