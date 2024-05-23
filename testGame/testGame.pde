@@ -27,7 +27,7 @@
   
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength) {
-    fill(255, 0, 0);
+    //fill(255, 0, 0);
     beginShape();
     vertex(x, y);
     vertex(x + sideLength, y);
