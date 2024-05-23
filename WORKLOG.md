@@ -13,11 +13,13 @@ Note: canMove method has to be in game class, not in GamePiece class
 info
 
 
-## GROUP MEMBER 2
+## Michael Avrahami
 
-### date x
+### date 5/22
 
-info
+Added accessor methods to GamePiece class
+Created five subclasses of GamePiece and filled in code for them
+Uncommented "name" instance variable as it could be useful for toString or display
 
 ### date y
 
