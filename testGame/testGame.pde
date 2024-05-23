@@ -8,7 +8,16 @@
   }
 
   void draw(){
-    polygon(20, 20, 20, 6);
+    for (int i = 0; i < gameBoard.length; i++){
+      for (int j = 0; j < gameBoard.length; j++){
+        int extra20 = 0;
+        if (j % 2 == 1){
+          extra20 = 20;
+        }
+        
+        polygon((j + 1) * 30, (i + 1) * 30 + extra20, 20, 6);
+      }
+    }
   }
   
   void polygon(float x, float y, float radius, int npoints) {
