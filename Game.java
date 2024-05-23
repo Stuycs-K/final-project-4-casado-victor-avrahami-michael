@@ -21,8 +21,25 @@ public class Game{
         }
     }
 
-    public boolean isGameOver(){
+    public int isGameOver(){//0 for false, 1 for p1 queen trapped, 2 for p2 queen trapped, 3 for both trapped
         GamePiece[] queen1Neighbors = getNeighbors(player1Queen.getX(), player1Queen.get(Y));
         GamePiece[] queen2Neighbors = getNeighbors(player2Queen.getX(), player2Queen.get(Y));
+        boolean queen1Trapped = true;
+        for(int i = 0; i < queen1Neighbors.length; i++){
+            if(queen1Neighbors[i] == null)
+                queen1Trapped = false;
+        }
+        boolean queen2Trapped = true;
+        for(int i = 0; i < queen2Neighbors.length; i++){
+            if(queen2Neighbors[i] == null)
+                queen2Trapped = false;
+        }
+        if(queen1Trapped && queen2Trapped)
+            return 3;
+        if(queen1Trapped)
+            return 1;
+        if(queen2Trapped)
+            return 2;
+        return 0;
     }
 }
