@@ -21,11 +21,11 @@ public abstract class GamePiece{
 	}
 	
 	public int getX(){
-		return x;
+		return xLoc;
 	}
 	
 	public int getY(){
-		return y;
+		return yLoc;
 	}
 	
 	public boolean getTurn(){

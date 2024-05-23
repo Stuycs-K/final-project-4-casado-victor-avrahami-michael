@@ -9,9 +9,13 @@ public class Spider extends GamePiece{
     }
 
     public boolean move(int newX, int newY){
-		if (isLegalMove){
+		if (isLegalMove(newX, newY)){
 			xLoc = newX;
 			yLoc = newY;
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
     public boolean isLegalMove(int newX, int newY){
