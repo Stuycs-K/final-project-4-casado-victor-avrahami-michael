@@ -2,14 +2,14 @@
   int[][] gameBoard;
 
   void setup(){
-    size(500, 500);
+    size(1000, 1000);
     background(255);
     gameBoard = new int[22][22];
   }
 
   void draw(){
-    //drawBoard(10);
-    hexagon(10, 10, 10);
+    drawBoard(20);
+    //hexagon(10, 10, 10);
   }
   
   void drawBoard(int hexSideLength){
@@ -27,6 +27,7 @@
   
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength) {
+    fill(255, 0, 0);
     beginShape();
     vertex(x, y);
     vertex(x + sideLength, y);
