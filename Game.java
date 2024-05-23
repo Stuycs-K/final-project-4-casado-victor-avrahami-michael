@@ -20,4 +20,9 @@ public class Game{
             return new GamePiece[] {board[x-1][y], board[x][y-1], board[x][y+1], board[x+1][y], board[x+1][y-1], board[x+1][x+1]};
         }
     }
+
+    public boolean isGameOver(){
+        GamePiece[] queen1Neighbors = getNeighbors(player1Queen.getX(), player1Queen.get(Y));
+        GamePiece[] queen2Neighbors = getNeighbors(player2Queen.getX(), player2Queen.get(Y));
+    }
 }

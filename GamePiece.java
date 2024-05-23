@@ -27,6 +27,11 @@ public abstract class GamePiece{
 	public int getY(){
 		return yLoc;
 	}
+
+    public void changeLocation(int newX, int newY){
+        xLoc = newX;
+        yLoc = newY;
+    }
 	
 	public boolean getTurn(){
 		return OwnedByPlayerOne;
