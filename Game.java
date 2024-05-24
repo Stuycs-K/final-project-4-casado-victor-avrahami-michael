@@ -19,6 +19,24 @@ public class Game{
             player2Queen = queen;
     }
 
+    public void addPiece(GamePiece piece, int x, int y){
+        if(isPlayerOneTurn){
+            for(int i = 0; i < player1Pieces.length; i++){
+                if(player1Pieces[i] == null){
+                    player1Pieces[i] = piece;
+                }
+            }
+        }
+        else{
+            for(int i = 0; i < player2Pieces.length; i++){
+                if(player2Pieces[i] == null){
+                    player2Pieces[i] = piece;
+                }
+            }
+        }
+        board[x][y] = piece;
+    }
+
     public void toggleTurn(){
         isPlayerOneTurn = !isPlayerOneTurn;
     }
@@ -63,7 +81,7 @@ public class Game{
         return 0;
     }
 
-    private boolean isHiveConnected(){
+    public boolean isHiveConnected(){
         //searches through array to make sure that hive is intact
         //will be called after removing a piece from the board to make sure it can move
 
