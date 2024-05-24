@@ -25,10 +25,19 @@ public class Game{
 
     public GamePiece[] getNeighbors(int x, int y){
         if(y % 2 == 0){
-            return new GamePiece[] {board[x-1][y], board[x][y-1], board[x][y+1], board[x+1][y], board[x-1][y-1], board[x-1][x+1]};
+            return new GamePiece[] {board[x-1][y], board[x][y-1], board[x][y+1], board[x+1][y], board[x-1][y-1], board[x-1][y+1]};
         }
         else{
-            return new GamePiece[] {board[x-1][y], board[x][y-1], board[x][y+1], board[x+1][y], board[x+1][y-1], board[x+1][x+1]};
+            return new GamePiece[] {board[x-1][y], board[x][y-1], board[x][y+1], board[x+1][y], board[x+1][y-1], board[x+1][y+1]};
+        }
+    }
+
+    public int[][] getNeighborLocations(int x, int y){
+        if(y % 2 == 0){
+            return new int[][] {{x-1,y}, {x,y-1}, {x, y+1}, {x+1, y}, {x-1,y-1}, {x-1,y+1}};
+        }
+        else{
+            return new int[][] {{x-1,y}, {x,y-1}, {x, y+1}, {x+1, y}, {x+1,y-1}, {x+1,y+1}};
         }
     }
 
@@ -52,5 +61,37 @@ public class Game{
         if(queen2Trapped)
             return 2;
         return 0;
+    }
+
+    private boolean isHiveConnected(){
+        //searches through array to make sure that hive is intact
+        //will be called after removing a piece from the board to make sure it can move
+
+        if (player1Pieces[0] == null) {
+            return true; //no pieces on board
+        }
+        int[] start = new int[] {player1Pieces[0].getX(), player1Pieces[0].getY()}; //this piece has to exist if a piece exists
+        boolean[][] visited = new boolean[board.length][board[0].length]; //check if a square has been "found"
+
+        search(start, visited); //makes all connections possible from start
+
+        for(int i = 0; i < board.length; i++){
+            for (int j = 0; j < board[0].length; j++){ //make sure all pieces have been found
+                if(board[i][j] != null && !visited[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void search(int[] start, boolean[][] visited){
+        visited[start[0]][start[1]] = true;
+        int[][] neighbors = getNeighborLocations(start[0], start[1]);
+        for(int i = 0; i < neighbors.length; i++){
+            if(board[neighbors[i][0]][neighbors[i][1]] != null && !visited[neighbors[i][0]][neighbors[i][1]]){
+                search(new int[] {neighbors[i][0], neighbors[i][1]}, visited);
+            }
+        }
     }
 }
