@@ -34,3 +34,11 @@ Created an inlaid hexagon board display in processing.
 Wrote logic to only display pieces in array
 Temporarily customized different piece display
 
+## Victor Casado
+
+### date 5/23
+
+Added method isHiveConnected() to Game class and all helper methods necessary   
+the method checks if the hive is connected, to be used when checking if a piece can move
+utilizes depth-first-search
+
