@@ -3,8 +3,9 @@ public abstract class GamePiece{
     private int type;
     private int xLoc, yLoc;
     private boolean OwnedByPlayerOne;
+    private Game game;
 
-    public GamePiece(int type, int x, int y, boolean isPlayerOneTurn, String name){
+    public GamePiece(int type, int x, int y, boolean isPlayerOneTurn, String name, Game game){
         this.type = type;
         xLoc = x;
         yLoc = y;
@@ -13,6 +14,7 @@ public abstract class GamePiece{
     }
 
     abstract boolean move(int newX, int newY);
+    abstract int[][] getLegalMoves();
     abstract boolean isLegalMove(int newX, int newY);
     // no canMove method, needs board access, so needs to be in game class
 	
@@ -20,6 +22,10 @@ public abstract class GamePiece{
 		return name;
 	}
 	
+    public String getGame(){
+        return game;
+    }
+
 	public int getX(){
 		return xLoc;
 	}

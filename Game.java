@@ -164,7 +164,7 @@ public class Game{
             for(int[] pos: neighbors){
                 if(board[pos[0]][pos[1]] == null && hasPieceNeighbor(pos[0], pos[1])){ //empty space w piece neighbor
                     //need to see if we can fit through there
-                    if(!beenIn[pos[0]][pos[1]] && canPhysicallySlideTo(startX, startY, pos[0], pos[1])){
+                    if(!beenIn[pos[0]][pos[1]] && canPhysicallySlideToDist1(startX, startY, pos[0], pos[1])){
                         beenIn[pos[0]][pos[1]] = true;
                         returnThis.add(pos);
                         findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis, beenIn);
@@ -183,7 +183,21 @@ public class Game{
         return false;
     }
 
-    private boolean canPhysicallySlideTo(int startX, int startY, int endX, int endY){
-        return true;
+    //we only ask it to slide one tile with this method
+    //too hard to call exception so just be careful when calling it
+    private boolean canPhysicallySlideToDist1(int startX, int startY, int endX, int endY){
+        //one of their mutual neighbors must be empty
+        int[][] startNeighbors = getNeighborLocations(startX, startY);
+        int[][] endNeighbors = getNeighborLocations(endX, endY);
+        for(int i = 0; i < startNeighbors.length; i++){
+            for(int j = 0; j < endNeighbors.length; j++){
+                if(startNeighbors[i][0] == endNeighbors[j][0] && startNeighbors[i][1] == endNeighbors[j][1]){ //mutual neighbor
+                    if(board[startNeighbors[i][0]][startNeighbors[i][1]] == null){ //empty
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
