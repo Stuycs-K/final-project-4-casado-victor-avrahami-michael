@@ -149,7 +149,8 @@ public class Game{
         ArrayList<int[]> a= new ArrayList<int[]>();
         GamePiece temp = board[startX][startY];
         board[startX][startY] = null; // so we dont try to move onto ourselves
-        findSlidableMoves(startX, startY, stepNum, a, new boolean[board.length][board[0].length]);
+        boolean[][] beenIn = new boolean[board.length][board[0].length];
+        findSlidableMoves(startX, startY, stepNum, a, beenIn, true);
         int[][] returner = new int[a.size()][2]; 
         for(int i = 0; i < a.size(); i++){
             returner[i] = a.get(i);
@@ -158,7 +159,7 @@ public class Game{
         return returner;
     }
 
-    private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis, boolean[][] beenIn){
+    private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis, boolean[][] beenIn, boolean isFirst){
         if(stepNum != 0){
             int[][] neighbors = getNeighborLocations(startX, startY);
             for(int[] pos: neighbors){
@@ -166,8 +167,10 @@ public class Game{
                     //need to see if we can fit through there
                     if(!beenIn[pos[0]][pos[1]] && canPhysicallySlideToDist1(startX, startY, pos[0], pos[1])){
                         beenIn[pos[0]][pos[1]] = true;
-                        returnThis.add(pos);
-                        findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis, beenIn);
+                        if(!isFirst){ //you cant move to where you already are
+                            returnThis.add(pos);
+                        }
+                        findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis, beenIn, false);
                     }
                 }
             }
