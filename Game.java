@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 public class Game{
     public GamePiece[][] board;
     public boolean isPlayerOneTurn;
@@ -12,14 +13,17 @@ public class Game{
         board = new GamePiece[22][22];
     }
 
-    public void setQueen(Queen queen){
+    public void addQueen(Queen queen){
         if(isPlayerOneTurn)
             player1Queen = queen;
         else
             player2Queen = queen;
+        addPiece(queen);
     }
 
-    public void addPiece(GamePiece piece, int x, int y){
+    public void addPiece(GamePiece piece){
+        int x = piece.getX();
+        int y = piece.getY();
         if(isPlayerOneTurn){
             for(int i = 0; i < player1Pieces.length; i++){
                 if(player1Pieces[i] == null){
@@ -43,19 +47,47 @@ public class Game{
 
     public GamePiece[] getNeighbors(int x, int y){
         if(y % 2 == 0){
+            if(x > 0 && y > 0)
             return new GamePiece[] {board[x-1][y], board[x][y-1], board[x][y+1], board[x+1][y], board[x-1][y-1], board[x-1][y+1]};
+            if(x > 0)
+            return new GamePiece[] {board[x-1][y], board[x][y+1], board[x+1][y], board[x-1][y+1]};
+            if(y > 0)
+            return new GamePiece[] {board[x][y-1], board[x][y+1], board[x+1][y]};
+            return new GamePiece[] {board[x][y+1], board[x+1][y]};
+
+
+
         }
         else{
+            if(x > 0 && y > 0)
             return new GamePiece[] {board[x-1][y], board[x][y-1], board[x][y+1], board[x+1][y], board[x+1][y-1], board[x+1][y+1]};
+            if(x > 0)
+            return new GamePiece[] {board[x-1][y], board[x][y+1], board[x+1][y], board[x+1][y+1]};
+            if(y > 0)
+            return new GamePiece[] {board[x][y-1], board[x][y+1], board[x+1][y], board[x+1][y-1], board[x+1][y+1]};
+            return new GamePiece[] {board[x][y+1], board[x+1][y], board[x+1][y+1]};
         }
     }
 
+
     public int[][] getNeighborLocations(int x, int y){
         if(y % 2 == 0){
+            if(x > 0 && y > 0)
             return new int[][] {{x-1,y}, {x,y-1}, {x, y+1}, {x+1, y}, {x-1,y-1}, {x-1,y+1}};
+            if(x > 0)
+            return new int[][] {{x-1,y}, {x, y+1}, {x+1, y}, {x-1,y+1}};
+            if(y > 0)
+            return new int[][] {{x,y-1}, {x, y+1}, {x+1, y}};
+            return new int[][] {{x, y+1}, {x+1, y}};
         }
         else{
+            if(x > 0 && y > 0)
             return new int[][] {{x-1,y}, {x,y-1}, {x, y+1}, {x+1, y}, {x+1,y-1}, {x+1,y+1}};
+            if(x > 0)
+            return new int[][] {{x-1,y}, {x, y+1}, {x+1, y}, {x+1,y+1}};
+            if(y > 0)
+            return new int[][] {{x,y-1}, {x, y+1}, {x+1, y}, {x+1,y-1}, {x+1,y+1}};
+            return new int[][] {{x, y+1}, {x+1, y}, {x+1,y+1}};
         }
     }
 
@@ -113,21 +145,39 @@ public class Game{
         }
     }
 
-    public int[][] findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis){
-        if(stepNum == 0){
-            return returnThis;
+    public int[][] findSlidableMoves(int startX, int startY, int stepNum){
+        ArrayList<int[]> a= new ArrayList<int[]>();
+        findSlidableMoves(startX, startY, stepNum, a, new boolean[board.length][board[0].length]);
+        int[][] returner = new int[a.size()][2]; 
+        for(int i = 0; i < a.size(); i++){
+            returner[i] = a.get(i);
         }
-        int[][] neighbors = getNeighborLocations(startX, startY);
-        for(int[] pos: neighbors){
-            if(board[pos[0]][pos[1]] == null){ //empty space
-                //need to see if we can fit through there
-                if(canPhysicallySlideTo(startX, startY, pos[0], pos[1])){
-                    returnThis.add(pos);
-                    findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis);
+        return returner;
+    }
+    
+    private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis, boolean[][] beenIn){
+        if(stepNum != 0){
+            int[][] neighbors = getNeighborLocations(startX, startY);
+            for(int[] pos: neighbors){
+                if(board[pos[0]][pos[1]] == null && hasPieceNeighbor(pos[0], pos[1])){ //empty space w piece neighbor
+                    //need to see if we can fit through there
+                    if(!beenIn[pos[0]][pos[1]] && canPhysicallySlideTo(startX, startY, pos[0], pos[1])){
+                        beenIn[pos[0]][pos[1]] = true;
+                        returnThis.add(pos);
+                        findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis, beenIn);
+                    }
                 }
             }
         }
-        return returnThis;
+    }
+
+    public boolean hasPieceNeighbor(int x, int y){
+        GamePiece[] neighbors = getNeighbors(x, y);
+        for(int i = 0; i < neighbors.length; i++){
+            if(neighbors[i] != null)
+                return true;
+        }
+        return false;
     }
 
     private boolean canPhysicallySlideTo(int startX, int startY, int endX, int endY){
