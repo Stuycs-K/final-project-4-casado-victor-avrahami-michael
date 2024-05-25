@@ -22,7 +22,7 @@ public abstract class GamePiece{
 		return name;
 	}
 	
-    public String getGame(){
+    public Game getGame(){
         return game;
     }
 
