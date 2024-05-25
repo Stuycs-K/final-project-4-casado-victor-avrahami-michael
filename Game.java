@@ -147,14 +147,17 @@ public class Game{
 
     public int[][] findSlidableMoves(int startX, int startY, int stepNum){
         ArrayList<int[]> a= new ArrayList<int[]>();
+        GamePiece temp = board[startX][startY];
+        board[startX][startY] = null; // so we dont try to move onto ourselves
         findSlidableMoves(startX, startY, stepNum, a, new boolean[board.length][board[0].length]);
         int[][] returner = new int[a.size()][2]; 
         for(int i = 0; i < a.size(); i++){
             returner[i] = a.get(i);
         }
+        board[startX][startY] = temp;
         return returner;
     }
-    
+
     private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis, boolean[][] beenIn){
         if(stepNum != 0){
             int[][] neighbors = getNeighborLocations(startX, startY);
