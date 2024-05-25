@@ -112,4 +112,25 @@ public class Game{
             }
         }
     }
+
+    public int[][] findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis){
+        if(stepNum == 0){
+            return returnThis;
+        }
+        int[][] neighbors = getNeighborLocations(startX, startY);
+        for(int[] pos: neighbors){
+            if(board[pos[0]][pos[1]] == null){ //empty space
+                //need to see if we can fit through there
+                if(canPhysicallySlideTo(startX, startY, pos[0], pos[1])){
+                    returnThis.add(pos);
+                    findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis);
+                }
+            }
+        }
+        return returnThis;
+    }
+
+    private boolean canPhysicallySlideTo(int startX, int startY, int endX, int endY){
+        return true;
+    }
 }
