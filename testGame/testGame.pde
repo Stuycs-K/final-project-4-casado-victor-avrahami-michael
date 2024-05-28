@@ -27,9 +27,15 @@
   }
 
   void draw(){
-    drawBoard(20);
+    //drawBoard(20);
     //hexagon(10, 10, 10);
   }
+  
+  void mouseClicked(){
+    int currX = mouseX;
+    int currY = mouseY;
+  }
+    
   
   void drawBoard(int hexSideLength){
     int h = hexSideLength;
@@ -42,6 +48,18 @@
           }
           hexagon(h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
         }
+      }
+    }
+  }
+  
+  void drawPieces(int hexSideLength){
+    int h = hexSideLength;
+    for (int i = 0; i < game.player1Pieces.length; i++){
+      if (game.player1Pieces[i] != null){
+        hexagon(10, (2 * i + 1) * hexSideLength, hexSideLength, game.player1Pieces[i]);
+      }
+      if (game.player2Pieces[i] != null){
+        hexagon(10 + 2 * hexSideLength, (2 * i + 1) * hexSideLength, hexSideLength, game.player2Pieces[i]);
       }
     }
   }

@@ -11,8 +11,25 @@ public class Game{
         //create queens when added into game
         isPlayerOneTurn = true;
         board = new GamePiece[22][22];
+        initializePieces();
     }
-
+    
+    public void choosePiece(int x, int y){
+      String prompt = "Player ";
+      if (isPlayerOneTurn){
+        prompt += "1";
+      }
+      else {
+        prompt += "2";
+      }
+      prompt += "\'s turn. Choose a piece to add or move.";
+      text(prompt, 100, height - 100);
+      
+    }
+    
+    public void initializePieces(){
+    }
+    
     public void addQueen(Queen queen){
         if(isPlayerOneTurn)
             player1Queen = queen;
