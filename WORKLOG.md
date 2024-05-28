@@ -50,3 +50,4 @@ still have to test all of it so remains on branch
 
 ### date 5/28
 grasshopper specific movement and merged with main
+added images for each piece
