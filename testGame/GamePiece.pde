@@ -5,11 +5,11 @@ public abstract class GamePiece{
     private boolean OwnedByPlayerOne;
     private Game game;
 
-    public GamePiece(int type, int x, int y, boolean isPlayerOneTurn, String name, Game game){
+    public GamePiece(int type, int x, int y, boolean p1, String name, Game game){
         this.type = type;
         xLoc = x;
         yLoc = y;
-        OwnedByPlayerOne = isPlayerOneTurn;
+        OwnedByPlayerOne = p1;
     this.name = name;
     }
 

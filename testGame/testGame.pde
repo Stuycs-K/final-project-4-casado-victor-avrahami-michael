@@ -13,7 +13,7 @@
   
   
   void setup(){
-    size(1000, 1000);
+    size(1000, 800);
     background(255);
     game = new Game();
     gameBoard = game.board;
@@ -27,9 +27,39 @@
   }
 
   void draw(){
-    drawBoard(20);
-    //hexagon(10, 10, 10);
+    
   }
+  
+  void mouseClicked(){
+    int x = mouseX;
+    int y = mouseY;
+    
+    background(255);
+    drawUnplacedPieces(36);
+    drawBoard(36);
+    
+    boolean successfulAction = game.makeAction(x, y); // This will return true if a piece is added or moved, and false otherwise;
+    
+    if (successfulAction){
+      game.toggleTurn();
+    }
+    
+    promptUser();
+  }
+  
+  public void promptUser(){
+      String prompt = "Player ";
+      if (game.isPlayerOneTurn){
+        prompt += "1";
+      }
+      else {
+        prompt += "2";
+      }
+      prompt += "\'s turn. Choose a piece to add or move.";
+      text(prompt, 300, height - 100);
+      
+    }
+    
   
   void drawBoard(int hexSideLength){
     int h = hexSideLength;
@@ -40,8 +70,20 @@
           if (j % 2 == 1){
             downSet = h / 2 * sqrt(3);
           }
-          hexagon(h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
+          hexagon(5 * h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
         }
+      }
+    }
+  }
+  
+  void drawUnplacedPieces(int hexSideLength){
+    int h = hexSideLength;
+    for (int i = 0; i < game.p1Store.length; i++){
+      if (game.p1Store[i] != null){
+        hexagon(10, (2 * i + 0.5) * h, h, game.p1Store[i]);
+      }
+      if (game.p2Store[i] != null){
+        hexagon(10 + 2 * h, (2 * i + 0.5) * h, h, game.p2Store[i]);
       }
     }
   }
