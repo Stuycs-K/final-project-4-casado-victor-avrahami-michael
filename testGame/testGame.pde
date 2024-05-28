@@ -5,11 +5,23 @@
   final color YELLOW = color(127, 127, 0);
   final color MAGENTA = color(127, 0, 127);
   final color CYAN = color(0, 127, 127);
-
+  
+  Game game; 
+  GamePiece[][] gameBoard;
+  
+  
   void setup(){
     size(1000, 1000);
     background(255);
-    gameBoard = new GamePiece[22][22];
+    game = new Game();
+    gameBoard = game.board;
+    
+    game.addPiece(new Queen(0,0,0,true,"a", game));
+    game.addPiece(new Queen(0,0,1,true,"a", game));
+    game.addPiece(new Queen(0,1,1,true,"a",game));
+    game.addPiece(new Queen(0,2,1,true,"a",game));
+    game.addPiece(new Queen(0,3,1,true,"a",game));
+    game.addPiece(new Queen(0,3,2,true,"a",game));
   }
 
   void draw(){
@@ -34,30 +46,25 @@
   
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength, GamePiece g) {
-    String text = "";
+    String text = g.getName().substring(0, 1);
     //fill(255, 0, 0);
     int type = 0;
     type = g.getType();
     
     if (type == 0){
       fill(RED);
-      text = "?";
     }
     if (type == 1){
       fill(GREEN);
-      text = "?";
     }
     if (type == 2){
       fill(BLUE);
-      text = "?";
     }
     if (type == 3){
       fill(YELLOW);
-      text = "?";
     }
     if (type == 4){
       fill(MAGENTA);
-      text = "?";
     }
     text(text, x + sideLength / 2, y + sideLength / 2 * sqrt(3));
     
