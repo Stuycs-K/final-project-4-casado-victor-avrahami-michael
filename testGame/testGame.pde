@@ -1,6 +1,4 @@
 // Every "Object" in this class will eventually be replaced by GamePiece
-  Object[][] gameBoard;
-  
   final color RED = color(255, 0, 0);
   final color GREEN = color(0, 255, 0);
   final color BLUE = color(0, 0, 255);
@@ -11,7 +9,7 @@
   void setup(){
     size(1000, 1000);
     background(255);
-    gameBoard = new Object[22][22];
+    gameBoard = new GamePiece[22][22];
   }
 
   void draw(){
@@ -35,12 +33,12 @@
   }
   
   // x and y represent top left vertex of hexagon
-  void hexagon(float x, float y, float sideLength, Object g) {
+  void hexagon(float x, float y, float sideLength, GamePiece g) {
     String text = "";
     //fill(255, 0, 0);
     int type = 0;
-    /* WHEN g is GAMEPIECE UNCOMMENT THIS!!! 
-       type = g.getType();*/
+    type = g.getType();
+    
     if (type == 0){
       fill(RED);
       text = "?";
