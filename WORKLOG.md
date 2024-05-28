@@ -24,3 +24,26 @@ Uncommented "name" instance variable as it could be useful for toString or displ
 
 Added methods to GamePiece class (set new location)
 Made Game Class, added instance variable, check if queens are surrounded, toggling turn, set queen reference
+
+
+## Michael Avrahami
+
+### date 5/23
+
+Created an inlaid hexagon board display in processing.
+Wrote logic to only display pieces in array
+Temporarily customized different piece display
+
+## Victor Casado
+
+### date 5/23
+
+Added method isHiveConnected() to Game class and all helper methods necessary   
+the method checks if the hive is connected, to be used when checking if a piece can move
+utilizes depth-first-search
+
+### date 5/24
+
+Added piece specific movement for Ant, Spider, and Queen
+added a way to find a neighbor based on a direction for grasshopper movement
+still have to test all of it so remains on branch
