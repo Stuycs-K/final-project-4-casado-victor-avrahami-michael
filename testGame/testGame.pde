@@ -27,15 +27,38 @@
   }
 
   void draw(){
-    drawUnplacedPieces(36);
-    drawBoard(36);
-    //hexagon(10, 10, 10);
+    
   }
   
   void mouseClicked(){
-    int currX = mouseX;
-    int currY = mouseY;
+    int x = mouseX;
+    int y = mouseY;
+    
+    background(255);
+    drawUnplacedPieces(36);
+    drawBoard(36);
+    
+    boolean successfulAction = game.makeAction(x, y); // This will return true if a piece is added or moved, and false otherwise;
+    
+    if (successfulAction){
+      game.toggleTurn();
+    }
+    
+    promptUser();
   }
+  
+  public void promptUser(){
+      String prompt = "Player ";
+      if (game.isPlayerOneTurn){
+        prompt += "1";
+      }
+      else {
+        prompt += "2";
+      }
+      prompt += "\'s turn. Choose a piece to add or move.";
+      text(prompt, 300, height - 100);
+      
+    }
     
   
   void drawBoard(int hexSideLength){

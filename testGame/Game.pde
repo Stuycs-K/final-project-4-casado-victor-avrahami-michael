@@ -16,18 +16,10 @@ public class Game{
         initializePieceStore();
     }
     
-    public void choosePiece(int x, int y){
-      String prompt = "Player ";
-      if (isPlayerOneTurn){
-        prompt += "1";
-      }
-      else {
-        prompt += "2";
-      }
-      prompt += "\'s turn. Choose a piece to add or move.";
-      text(prompt, 100, height - 100);
-      
+    public boolean makeAction(int x, int y){
+      return true;
     }
+      
     
     public void initializePieceStore(){
       p1Store[0] = new Queen(0, 0, 0, true, "Queen", this);
