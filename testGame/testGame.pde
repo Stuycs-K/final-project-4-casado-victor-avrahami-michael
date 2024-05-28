@@ -5,6 +5,8 @@
   final color YELLOW = color(127, 127, 0);
   final color MAGENTA = color(127, 0, 127);
   final color CYAN = color(0, 127, 127);
+  final color BLACK = color(0, 0, 0);
+  final color WHITE = color(255, 255, 255);
   
   Game game; 
   GamePiece[][] gameBoard;
@@ -66,7 +68,6 @@
     if (type == 4){
       fill(MAGENTA);
     }
-    text(text, x + sideLength / 2, y + sideLength / 2 * sqrt(3));
     
     beginShape();
     vertex(x, y);
@@ -77,4 +78,7 @@
     vertex(x - sideLength * 0.5, y + sideLength / 2 * sqrt(3));
     vertex(x, y);
     endShape();
+    
+    fill(BLACK);
+    text(text, x + sideLength / 2, y + sideLength / 2 * sqrt(3));
   }
