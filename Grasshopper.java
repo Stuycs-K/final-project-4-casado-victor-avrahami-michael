@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 public class Grasshopper extends GamePiece{
     private String name;
     private int type;
@@ -22,7 +23,7 @@ public class Grasshopper extends GamePiece{
 		return true;
 	}
 
-	public int[] getLocationInDirection(int direction){ //if returns -1, -1 then out of board
+	private int[] getLocationInDirection(int direction){ //if returns -1, -1 then out of board
 		if(direction == 0){ //up
 			if(xLoc > 0){
 				return new int[] {xLoc - 1, yLoc};
@@ -30,7 +31,7 @@ public class Grasshopper extends GamePiece{
 			return new int[] {-1, -1};
 		}
 		if(direction == 1){//up and right
-			if(y % 2 == 0){
+			if(yLoc % 2 == 0){
 				if(xLoc > 0 && yLoc < getGame().board[0].length - 1){
 					return new int[] {xLoc - 1, yLoc + 1};
 				}
@@ -42,7 +43,7 @@ public class Grasshopper extends GamePiece{
 			return new int[] {-1, -1};
 		}
 		if(direction == 2){ //down and right
-			if(y % 2 == 1){
+			if(yLoc % 2 == 1){
 				if(xLoc < getGame().board[0].length - 1 && yLoc < getGame().board[0].length - 1){
 					return new int[] {xLoc + 1, yLoc + 1};
 				}
@@ -60,7 +61,7 @@ public class Grasshopper extends GamePiece{
 			return new int[] {-1, -1};
 		}
 		if(direction == 4){ //down and left
-			if(y % 2 == 0){
+			if(yLoc % 2 == 0){
 				if(yLoc > 0){
 					return new int[] {xLoc, yLoc - 1};
 				}
@@ -72,7 +73,7 @@ public class Grasshopper extends GamePiece{
 			return new int[] {-1, -1};
 		}
 		if(direction == 5){// up and left
-			if(y % 2 == 1){
+			if(yLoc % 2 == 1){
 				if(yLoc > 0){
 					return new int[] {xLoc, yLoc - 1};
 				}
@@ -86,5 +87,28 @@ public class Grasshopper extends GamePiece{
 		return new int[] {-1, -1};
 	}
     // no canMove method, needs board access, so needs to be in game class
+
+
+	public int[][] getLegalMoves(){
+		ArrayList<int[]> returner = new ArrayList<int[]>();
+		int saveX = xLoc;
+		int saveY = yLoc;
+		for(int i = 0; i < 6; i = i){
+			int[] newLoc = getLocationInDirection(i);
+			if(getGame().board[newLoc[0]][newLoc[1]] == null){
+				returner.add(newLoc);
+				i++;
+			}
+			else{
+				xLoc = newLoc[0];
+				yLoc = newLoc[1];
+			}
+		}
+		int[][] returnThis = new int[returner.size()][2];
+		for(int i = 0; i < returner.size(); i++){
+			returnThis[i] = returner.get(i);
+		}
+		return returnThis;
+	}
 
 }
