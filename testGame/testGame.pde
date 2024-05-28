@@ -13,7 +13,7 @@
   
   
   void setup(){
-    size(1000, 1000);
+    size(1000, 800);
     background(255);
     game = new Game();
     gameBoard = game.board;
@@ -27,7 +27,8 @@
   }
 
   void draw(){
-    //drawBoard(20);
+    drawUnplacedPieces(36);
+    drawBoard(36);
     //hexagon(10, 10, 10);
   }
   
@@ -46,20 +47,20 @@
           if (j % 2 == 1){
             downSet = h / 2 * sqrt(3);
           }
-          hexagon(h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
+          hexagon(5 * h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
         }
       }
     }
   }
   
-  void drawPieces(int hexSideLength){
+  void drawUnplacedPieces(int hexSideLength){
     int h = hexSideLength;
-    for (int i = 0; i < game.player1Pieces.length; i++){
-      if (game.player1Pieces[i] != null){
-        hexagon(10, (2 * i + 1) * hexSideLength, hexSideLength, game.player1Pieces[i]);
+    for (int i = 0; i < game.p1Store.length; i++){
+      if (game.p1Store[i] != null){
+        hexagon(10, (2 * i + 0.5) * h, h, game.p1Store[i]);
       }
-      if (game.player2Pieces[i] != null){
-        hexagon(10 + 2 * hexSideLength, (2 * i + 1) * hexSideLength, hexSideLength, game.player2Pieces[i]);
+      if (game.p2Store[i] != null){
+        hexagon(10 + 2 * h, (2 * i + 0.5) * h, h, game.p2Store[i]);
       }
     }
   }

@@ -2,16 +2,18 @@ import java.util.ArrayList;
 public class Game{
     public GamePiece[][] board;
     public boolean isPlayerOneTurn;
-    public GamePiece[] player1Pieces, player2Pieces;
+    public GamePiece[] player1Pieces, player2Pieces, p1Store, p2Store;
     public Queen player1Queen, player2Queen;
 
     public Game(){
         player1Pieces = new GamePiece[11];
         player2Pieces = new GamePiece[11];
+        p1Store = new GamePiece[11];
+        p2Store = new GamePiece[11];
         //create queens when added into game
         isPlayerOneTurn = true;
         board = new GamePiece[22][22];
-        initializePieces();
+        initializePieceStore();
     }
     
     public void choosePiece(int x, int y){
@@ -27,7 +29,40 @@ public class Game{
       
     }
     
-    public void initializePieces(){
+    public void initializePieceStore(){
+      p1Store[0] = new Queen(0, 0, 0, true, "Queen", this);
+      p2Store[0] = new Queen(0, 0, 0, false, "Queen", this);
+      
+      p1Store[1] = new Spider(1, 0, 0, true, "Spider", this);
+      p2Store[1] = new Spider(1, 0, 0, false, "Spider", this);
+      
+      p1Store[2] = new Spider(1, 0, 0, true, "Spider", this);
+      p2Store[2] = new Spider(1, 0, 0, false, "Spider", this);
+      
+     // p1Store[3] = new Beetle(2, 0, 0, true, "Beetle", this);
+     // p2Store[3] = new Beetle(2, 0, 0, false, "Beetle", this);
+      
+     // p1Store[4] = new Beetle(2, 0, 0, true, "Beetle", this);
+     // p2Store[4] = new Beetle(2, 0, 0, false, "Beetle", this);
+      
+      p1Store[5] = new Grasshopper(3, 0, 0, true, "Grasshopper", this);
+      p2Store[5] = new Grasshopper(3, 0, 0, false, "Grasshopper", this);
+      
+      p1Store[6] = new Grasshopper(3, 0, 0, true, "Grasshopper", this);
+      p2Store[6] = new Grasshopper(3, 0, 0, false, "Grasshopper", this);
+      
+      p1Store[7] = new Grasshopper(3, 0, 0, true, "Grasshopper", this);
+      p2Store[7] = new Grasshopper(3, 0, 0, false, "Grasshopper", this);
+      
+      p1Store[8] = new Ant(4, 0, 0, true, "Ant", this);
+      p2Store[8] = new Ant(4, 0, 0, false, "Ant", this);
+      
+      p1Store[9] = new Ant(4, 0, 0, true, "Ant", this);
+      p2Store[9] = new Ant(4, 0, 0, false, "Ant", this);
+      
+      p1Store[10] = new Ant(4, 0, 0, true, "Ant", this);
+      p2Store[10] = new Ant(4, 0, 0, false, "Ant", this);
+      
     }
     
     public void addQueen(Queen queen){
