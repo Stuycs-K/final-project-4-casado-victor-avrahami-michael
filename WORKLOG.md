@@ -51,3 +51,7 @@ still have to test all of it so remains on branch
 ### date 5/28
 grasshopper specific movement and merged with main
 added images for each piece
+
+## Michael Avrahami
+### date 5/28
+put all classes except beetle into processing
