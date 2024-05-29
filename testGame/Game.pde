@@ -48,7 +48,11 @@ public class Game{
           return false;
         }
         
-
+        if ((! (isPlayerOneTurn && board[row][col].getTurn()) && (! (! isPlayerOneTurn && ! board[row][col].getTurn()))) || ! canMove(row, col)){
+          return false;
+        }
+        
+        //movePiece(board[row][col]);
         
         
         return true;
