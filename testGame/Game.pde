@@ -257,8 +257,60 @@ public class Game{
     }
     
     public int[][] getPlacableLocations(){
+      ArrayList<int[]> spots = new ArrayList<int[]>();
       if(isPlayerOneTurn){
-         
+         for(int i = 0; i < player1Pieces.length; i++){
+           int[][] neighbors = getNeighborLocations(player1Pieces[i].getX(), player1Pieces[i].getY());
+           for(int j = 0; j < neighbors.length; j++){
+             if(board[neighbors[j][0]][neighbors[j][1]] == null){
+               int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
+               boolean hasNoOpponentNeighbors = true;
+               for(int k = 0; k < neighborNeighbors.length; k++){
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                   hasNoOpponentNeighbors = false;
+               }
+               if(hasNoOpponentNeighbors)
+                 spots.add(neighbors[j]);
+             }
+           }
+         }
+         int[][] returner = new int[spots.size()][2];
+         for(int i = 0; i < spots.size(); i++){
+           returner[i] = spots.get(i);
+         }
+         return returner;
       }
+      else{
+         for(int i = 0; i < player2Pieces.length; i++){
+           int[][] neighbors = getNeighborLocations(player2Pieces[i].getX(), player2Pieces[i].getY());
+           for(int j = 0; j < neighbors.length; j++){
+             if(board[neighbors[j][0]][neighbors[j][1]] == null){
+               int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
+               boolean hasNoOpponentNeighbors = true;
+               for(int k = 0; k < neighborNeighbors.length; k++){
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || !board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                   hasNoOpponentNeighbors = false;
+               }
+               if(hasNoOpponentNeighbors)
+                 spots.add(neighbors[j]);
+             }
+           }
+         }
+         int[][] returner = new int[spots.size()][2];
+         for(int i = 0; i < spots.size(); i++){
+           returner[i] = spots.get(i);
+         }
+         return returner;
+      }
+    }
+    
+    public boolean isLegalPlacement(int x, int y){
+      int[][] places = getPlacableLocations();
+      for(int i = 0; i < places.length; i++){
+        if(places[i][0] == x && places[i][1] == y){
+          return true;
+        }
+      }
+      return false;
     }
 }
