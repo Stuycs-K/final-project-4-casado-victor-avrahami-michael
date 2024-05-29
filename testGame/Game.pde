@@ -16,7 +16,33 @@ public class Game{
         initializePieceStore();
     }
     
-    public boolean makeAction(int x, int y){
+    public boolean makeAction(float x, float y, int hexSize){
+      if (x > 150){
+        int currX = 5 * hexSize;
+        int col = 0;
+        while (! (x >= currX && x <= currX + hexSize)){
+          currX += 1.5 * hexSize;
+          col++;
+        }
+        
+        int currY = 10;
+        
+        if (col % 2 == 0){
+          currY += hexSize / 2 * sqrt(3);
+        }
+        
+        int row = 0;
+        
+        while (! (y >= currY && y <= currY + hexSize * sqrt(3))){
+          row ++;
+          currY += hexSize * sqrt(3);
+        }
+        
+        text("" + row + " " + col, 500, 500);
+      }
+      else {
+        
+      }
       return true;
     }
       

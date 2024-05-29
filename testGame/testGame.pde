@@ -40,7 +40,7 @@
     drawBoard(hexSize);
     drawBorder(hexSize * 4);
     
-    boolean successfulAction = game.makeAction(x, y); // This will return true if a piece is added or moved, and false otherwise;
+    boolean successfulAction = game.makeAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
     
     if (successfulAction){
       game.toggleTurn();
@@ -77,7 +77,7 @@
           if (j % 2 == 1){
             downSet = h / 2 * sqrt(3);
           }
-          hexagon(5 * h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
+          hexagon(5 * h + h * 1.5 * j, 10 + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
         }
       }
     }
@@ -87,10 +87,10 @@
     int h = hexSideLength;
     for (int i = 0; i < game.p1Store.length; i++){
       if (game.p1Store[i] != null){
-        hexagon(10, (2 * i + 0.5) * h, h, game.p1Store[i]);
+        hexagon(h / 2, 10 + 2 * i * h, h, game.p1Store[i]);
       }
       if (game.p2Store[i] != null){
-        hexagon(10 + 2 * h, (2 * i + 0.5) * h, h, game.p2Store[i]);
+        hexagon(h / 2 + 2 * h, 10 + 2 * i * h, h, game.p2Store[i]);
       }
     }
   }
