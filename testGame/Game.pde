@@ -23,6 +23,9 @@ public class Game{
         while (! (x >= currX && x <= currX + hexSize)){
           currX += 1.5 * hexSize;
           col++;
+          if (col > 23){
+            return false;
+          }
         }
         
         int currY = 10;
@@ -36,14 +39,62 @@ public class Game{
         while (! (y >= currY && y <= currY + hexSize * sqrt(3))){
           row ++;
           currY += hexSize * sqrt(3);
+          if (row > 23){
+            return false;
+          }
         }
+        
+        if (board[row][col] == null){
+          return false;
+        }
+        
+
+        
+        
+        return true;
         
         //text("x: " + x + " currX: " + currX + " currY: " + currY + " y: " + y + " " + row + " " + col, 500, 500);
       }
       else {
+          int xBound1 = hexSize / 2;
+          if (! isPlayerOneTurn){
+            xBound1 += 2 * hexSize;
+          }
+          int xBound2 = xBound1 + hexSize;
+          if (x >= xBound1 && x <= xBound2){
+            int currY = 10;
+            int currPiece = 0;
+        
+            while (! (y >= currY && y <= currY + hexSize * sqrt(3))){
+              currY += 2 * hexSize;
+              currPiece++;
+              if (currPiece > 12){
+                return false;
+              }
+            }
+          
+            if (isPlayerOneTurn){
+              if (p1Store[currPiece] == null){
+                return false;
+              }
+              addPiece(p1Store[currPiece]);
+              p1Store[currPiece] = null;
+            }
+            else {
+              if (p2Store[currPiece] == null){
+                return false;
+              }
+              addPiece(p2Store[currPiece]);
+              p2Store[currPiece] = null;
+            }
+            
+           // text(y + " " + currY + " " + currPiece + " ", 500, 500);
+            
+            return true;
+         }
         
       }
-      return true;
+      return false;
     }
       
     
