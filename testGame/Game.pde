@@ -273,4 +273,140 @@ public class Game{
         }
         return false;
     }
+    
+    public boolean canMove(int x, int y){
+      GamePiece temp = board[x][y];
+      board[x][y] = null;
+      boolean returner = isHiveConnected();
+      board[x][y] = temp;
+      return returner;
+    }
+    
+    public int[][] getPlacableLocations(){
+      ArrayList<int[]> spots = new ArrayList<int[]>();
+      if(isPlayerOneTurn){
+         for(int i = 0; i < player1Pieces.length; i++){
+           int[][] neighbors = getNeighborLocations(player1Pieces[i].getX(), player1Pieces[i].getY());
+           for(int j = 0; j < neighbors.length; j++){
+             if(board[neighbors[j][0]][neighbors[j][1]] == null){
+               int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
+               boolean hasNoOpponentNeighbors = true;
+               for(int k = 0; k < neighborNeighbors.length; k++){
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                   hasNoOpponentNeighbors = false;
+               }
+               if(hasNoOpponentNeighbors)
+                 spots.add(neighbors[j]);
+             }
+           }
+         }
+         int[][] returner = new int[spots.size()][2];
+         for(int i = 0; i < spots.size(); i++){
+           returner[i] = spots.get(i);
+         }
+         return returner;
+      }
+      else{
+         for(int i = 0; i < player2Pieces.length; i++){
+           int[][] neighbors = getNeighborLocations(player2Pieces[i].getX(), player2Pieces[i].getY());
+           for(int j = 0; j < neighbors.length; j++){
+             if(board[neighbors[j][0]][neighbors[j][1]] == null){
+               int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
+               boolean hasNoOpponentNeighbors = true;
+               for(int k = 0; k < neighborNeighbors.length; k++){
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || !board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                   hasNoOpponentNeighbors = false;
+               }
+               if(hasNoOpponentNeighbors)
+                 spots.add(neighbors[j]);
+             }
+           }
+         }
+         int[][] returner = new int[spots.size()][2];
+         for(int i = 0; i < spots.size(); i++){
+           returner[i] = spots.get(i);
+         }
+         return returner;
+      }
+    }
+    
+    public boolean isLegalPlacement(int x, int y){
+      int[][] places = getPlacableLocations();
+      for(int i = 0; i < places.length; i++){
+        if(places[i][0] == x && places[i][1] == y){
+          return true;
+        }
+      }
+      return false;
+    }
 }
+
+  public void drawBorder(int xLoc){
+    fill(BLACK);
+    rect(xLoc, 0, 10, height);
+  }
+
+  
+  void drawBoard(int hexSideLength){
+    int h = hexSideLength;
+    for (int i = 0; i < gameBoard.length; i++){
+      for (int j = 0; j < gameBoard[i].length; j++){
+        if (gameBoard[i][j] != null){
+          float downSet = 0;
+          if (j % 2 == 1){
+            downSet = h / 2 * sqrt(3);
+          }
+          hexagon(5 * h + h * 1.5 * j, h + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
+        }
+      }
+    }
+  }
+  
+  void drawUnplacedPieces(int hexSideLength){
+    int h = hexSideLength;
+    for (int i = 0; i < game.p1Store.length; i++){
+      if (game.p1Store[i] != null){
+        hexagon(10, (2 * i + 0.5) * h, h, game.p1Store[i]);
+      }
+      if (game.p2Store[i] != null){
+        hexagon(10 + 2 * h, (2 * i + 0.5) * h, h, game.p2Store[i]);
+      }
+    }
+  }
+  
+  // x and y represent top left vertex of hexagon
+  void hexagon(float x, float y, float sideLength, GamePiece g) {
+    String text = g.getName().substring(0, 1);
+    //fill(255, 0, 0);
+    int type = 0;
+    type = g.getType();
+    
+    if (type == 0){
+      fill(RED);
+    }
+    if (type == 1){
+      fill(GREEN);
+    }
+    if (type == 2){
+      fill(BLUE);
+    }
+    if (type == 3){
+      fill(YELLOW);
+    }
+    if (type == 4){
+      fill(MAGENTA);
+    }
+    
+    beginShape();
+    vertex(x, y);
+    vertex(x + sideLength, y);
+    vertex(x + sideLength * 1.5, y + sideLength / 2 * sqrt(3));
+    vertex(x + sideLength, y + sideLength * sqrt(3));
+    vertex(x, y + sideLength * sqrt(3));
+    vertex(x - sideLength * 0.5, y + sideLength / 2 * sqrt(3));
+    vertex(x, y);
+    endShape();
+    
+    fill(BLACK);
+    text(text, x + sideLength / 2, y + sideLength / 2 * sqrt(3));
+  }

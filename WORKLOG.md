@@ -55,3 +55,7 @@ added images for each piece
 ## Michael Avrahami
 ### date 5/28
 put all classes except beetle into processing
+
+## Victor Casado
+### date 5/29 
+found legal placements, detect if placement is legal, whether a piece can move
