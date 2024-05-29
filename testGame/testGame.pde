@@ -33,10 +33,12 @@
   void mouseClicked(){
     int x = mouseX;
     int y = mouseY;
+    int hexSize = 36;
     
     background(255);
-    drawUnplacedPieces(36);
-    drawBoard(36);
+    drawUnplacedPieces(hexSize);
+    drawBoard(hexSize);
+    drawBorder(hexSize * 4);
     
     boolean successfulAction = game.makeAction(x, y); // This will return true if a piece is added or moved, and false otherwise;
     
@@ -45,6 +47,11 @@
     }
     
     promptUser();
+  }
+  
+  public void drawBorder(int xLoc){
+    fill(BLACK);
+    rect(xLoc, 0, 10, height);
   }
   
   public void promptUser(){
