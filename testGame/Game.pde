@@ -247,4 +247,18 @@ public class Game{
         }
         return false;
     }
+    
+    public boolean canMove(int x, int y){
+      GamePiece temp = board[x][y];
+      board[x][y] = null;
+      boolean returner = isHiveConnected();
+      board[x][y] = temp;
+      return returner;
+    }
+    
+    public int[][] getPlacableLocations(){
+      if(isPlayerOneTurn){
+         
+      }
+    }
 }
