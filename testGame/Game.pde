@@ -27,7 +27,7 @@ public class Game{
         
         int currY = 10;
         
-        if (col % 2 == 0){
+        if (col % 2 != 0){
           currY += hexSize / 2 * sqrt(3);
         }
         
@@ -38,7 +38,7 @@ public class Game{
           currY += hexSize * sqrt(3);
         }
         
-        text("" + row + " " + col, 500, 500);
+        //text("x: " + x + " currX: " + currX + " currY: " + currY + " y: " + y + " " + row + " " + col, 500, 500);
       }
       else {
         
@@ -339,3 +339,4 @@ public class Game{
       }
       return false;
     }
+}

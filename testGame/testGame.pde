@@ -1,4 +1,3 @@
-// Every "Object" in this class will eventually be replaced by GamePiece
   final color RED = color(255, 0, 0);
   final color GREEN = color(0, 255, 0);
   final color BLUE = color(0, 0, 255);
