@@ -59,3 +59,8 @@ put all classes except beetle into processing
 ## Victor Casado
 ### date 5/29 
 found legal placements, detect if placement is legal, whether a piece can move
+
+## Michael Avrahami
+### date 5/29
+Created border between unplaced and placed pieces
+Wrote makeAction function, which detects which piece has been clicked and makes an action based on it
