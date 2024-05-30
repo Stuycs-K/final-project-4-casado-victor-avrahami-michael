@@ -6,6 +6,11 @@
   final color CYAN = color(0, 127, 127);
   final color BLACK = color(0, 0, 0);
   final color WHITE = color(255, 255, 255);
+  final int QUEENBEE = 0;
+  final int ANT = 1;
+  final int BEETLE = 2;
+  final int GRASSHOPPER = 3;
+  final int SPIDER = 4;
   final int hexSize = 36;
   
   Game game; 
@@ -163,12 +168,24 @@
     endShape();
     
     fill(BLACK);
-    image(findImage(g), x+ sideLength / 2 - 20, y + sideLength / 2 * sqrt(3) - 20, 20, 20);
+    image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
   }
   
   PImage findImage(GamePiece g){
-    if(g.type == 0){ // Queen
+    if(g.type == QUEENBEE){ // Queen
       return loadImage("../images/bee.png");
     }
-    return loadImage("../images/ant.png");
+    if(g.type == ANT){
+      return loadImage("../images/ant.png");
+    }
+    if(g.type == GRASSHOPPER){
+      return loadImage("../images/grasshopper.png");
+    }
+    if(g.type == SPIDER){
+      return loadImage("../images/spider.png");
+    }
+    if(g.type == BEETLE){
+      return loadImage("../images/beetle.png");
+    }
+    throw new IllegalArgumentException();
   }
