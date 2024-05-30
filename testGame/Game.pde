@@ -15,6 +15,15 @@ public class Game{
         board = new GamePiece[22][22];
         initializePieceStore();
     }
+
+    public float[] boardToProcessingCoors(int x, int y){
+          int h = 36;
+          float downSet = 0;
+          if (y % 2 == 1){
+            downSet =  (h / 2 * sqrt(3));
+          }
+          return new float[] {5 * h + h * 1.5 * y, 10 + downSet + h * sqrt(3) * y};
+    }
     
     public boolean makeAction(float x, float y, int hexSize){
       if (x > 150){
