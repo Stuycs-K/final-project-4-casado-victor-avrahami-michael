@@ -6,9 +6,11 @@
   final color CYAN = color(0, 127, 127);
   final color BLACK = color(0, 0, 0);
   final color WHITE = color(255, 255, 255);
+  final int hexSize = 36;
   
   Game game; 
   GamePiece[][] gameBoard;
+  int turnType = 1;
   
   
   void setup(){
@@ -32,20 +34,24 @@
   void mouseClicked(){
     int x = mouseX;
     int y = mouseY;
-    int hexSize = 36;
     
     background(255);
     drawUnplacedPieces(hexSize);
     drawBoard(hexSize);
     drawBorder(hexSize * 4);
     
-    GamePiece successfulAction = game.makeAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
-    
-    if (successfulAction != null){
+    if (turnType == 0){
+        GamePiece successfulAction = game.makeAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
+        promptUser();
+        
+        if (successfulAction != null){
+          turnType++;
+          turnType %= 2;
+        }
+    }
+    else {
       game.toggleTurn();
     }
-    
-    promptUser();
   }
   
   public void drawBorder(int xLoc){
