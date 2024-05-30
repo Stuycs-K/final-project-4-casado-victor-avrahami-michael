@@ -106,6 +106,8 @@ public class Game{
       if (x > 150){
         int[] coords = getPlacedLocation(x, y, hexSize);
         placing = false;
+        if(coords == null)
+          return null;
         return (board[coords[0]][coords[1]]);
       }
       else {
