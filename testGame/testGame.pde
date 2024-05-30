@@ -31,8 +31,8 @@
   }
   
   void mouseClicked(){
-    int x = mouseX;
-    int y = mouseY;
+    float x = mouseX;
+    float y = mouseY;
     
     background(255);
     drawUnplacedPieces(hexSize);
@@ -40,7 +40,7 @@
     drawBorder(hexSize * 4);
     
     if (turnType == 0){
-        GamePiece successfulAction = game.makeAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
+        GamePiece successfulAction = game.findAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
         promptUser();
         
         if (successfulAction != null){
@@ -49,6 +49,13 @@
         }
     }
     else {
+      int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
+      if (game.placing){
+        addPiece(whereToGo[0], whereToGo[1]);
+      }
+      else {
+        //movePiece(whereToGo[0], whereToGo[1]);
+      }
       game.toggleTurn();
     }
   }
