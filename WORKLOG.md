@@ -69,3 +69,7 @@ Wrote makeAction function, which detects which piece has been clicked and makes 
 ### date 5/30
 Finished addPiece part of the game loop
 - Set up function for movePiece as well
+
+## Victor Casado
+### date 5/30 
+pieces have images now, fixed bug that would crash game
