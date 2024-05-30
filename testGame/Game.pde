@@ -4,6 +4,7 @@ public class Game{
     public boolean isPlayerOneTurn;
     public GamePiece[] player1Pieces, player2Pieces, p1Store, p2Store;
     public Queen player1Queen, player2Queen;
+    public boolean placing;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -12,6 +13,7 @@ public class Game{
         p2Store = new GamePiece[11];
         //create queens when added into game
         isPlayerOneTurn = true;
+        placing = true;
         board = new GamePiece[22][22];
         initializePieceStore();
     }
@@ -44,18 +46,22 @@ public class Game{
             }
           
             if (isPlayerOneTurn){
-              if (p1Store[currPiece] == null){
+              GamePiece g = p1Store[currPiece];
+              if (g == null){
                 return null;
               }
-              return p1Store[currPiece];
+              p1Store[currPiece] = null;
+              return g;
             }
             else {
-              if (p2Store[currPiece] == null){
+              GamePiece g = p2Store[currPiece];
+              if (g == null){
                 return null;
               }
-              return p2Store[currPiece];
+              p2Store[currPiece] = null;
+              return g;
             }
-            
+           
            // text(y + " " + currY + " " + currPiece + " ", 500, 500);
          }
          return null;
@@ -87,15 +93,6 @@ public class Game{
             return null;
           }
         }
-        
-        if (board[row][col] == null){
-          return null;
-        }
-        
-        if ((! (isPlayerOneTurn && board[row][col].getTurn()) && (! (! isPlayerOneTurn && ! board[row][col].getTurn()))) || ! canMove(row, col)){
-          return null;
-        }
-        
         //movePiece(board[row][col]);
         
         
@@ -105,19 +102,16 @@ public class Game{
     }
       
     
-    public GamePiece makeAction(float x, float y, int hexSize){
+    public GamePiece findAction(float x, float y, int hexSize){
       if (x > 150){
         int[] coords = getPlacedLocation(x, y, hexSize);
-        if (coords != null){
-          return (board[coords[0]][coords[1]]);
-        }
+        placing = false;
+        return (board[coords[0]][coords[1]]);
       }
       else {
-          if (getUnplacedPiece(x, y, hexSize) != null){
-            return getUnplacedPiece(x, y, hexSize);
-          }
+        placing = true;
+        return getUnplacedPiece(x, y, hexSize);
       }
-      return null;
     }
       
     
