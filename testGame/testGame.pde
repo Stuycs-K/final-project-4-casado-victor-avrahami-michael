@@ -28,7 +28,6 @@
   }
 
   void draw(){
-    
   }
   
   void mouseClicked(){
@@ -134,5 +133,12 @@
     endShape();
     
     fill(BLACK);
-    text(text, x + sideLength / 2, y + sideLength / 2 * sqrt(3));
+    image(findImage(g), x+ sideLength / 2 - 20, y + sideLength / 2 * sqrt(3) - 20, 20, 20);
+  }
+  
+  PImage findImage(GamePiece g){
+    if(g.type == 0){ // Queen
+      return loadImage("../images/bee.png");
+    }
+    return loadImage("../images/ant.png");
   }

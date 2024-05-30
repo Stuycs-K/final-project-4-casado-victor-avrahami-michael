@@ -15,6 +15,15 @@ public class Game{
         board = new GamePiece[22][22];
         initializePieceStore();
     }
+
+    public float[] boardToProcessingCoors(int x, int y){
+          int h = 36;
+          float downSet = 0;
+          if (y % 2 == 1){
+            downSet =  (h / 2 * sqrt(3));
+          }
+          return new float[] {5 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
+    }
     
     public GamePiece getUnplacedPiece(float x, float y, int hexSize){
       int xBound1 = hexSize / 2;
