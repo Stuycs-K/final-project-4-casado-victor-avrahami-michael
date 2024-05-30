@@ -46,18 +46,22 @@ public class Game{
             }
           
             if (isPlayerOneTurn){
-              if (p1Store[currPiece] == null){
+              GamePiece g = p1Store[currPiece];
+              if (g == null){
                 return null;
               }
-              return p1Store[currPiece];
+              p1Store[currPiece] = null;
+              return g;
             }
             else {
-              if (p2Store[currPiece] == null){
+              GamePiece g = p2Store[currPiece];
+              if (g == null){
                 return null;
               }
-              return p2Store[currPiece];
+              p2Store[currPiece] = null;
+              return g;
             }
-            
+           
            // text(y + " " + currY + " " + currPiece + " ", 500, 500);
          }
          return null;
@@ -102,17 +106,12 @@ public class Game{
       if (x > 150){
         int[] coords = getPlacedLocation(x, y, hexSize);
         placing = false;
-        if (coords != null){
-          return (board[coords[0]][coords[1]]);
-        }
+        return (board[coords[0]][coords[1]]);
       }
       else {
         placing = true;
-          if (getUnplacedPiece(x, y, hexSize) != null){
-            return getUnplacedPiece(x, y, hexSize);
-          }
+        return getUnplacedPiece(x, y, hexSize);
       }
-      return null;
     }
       
     

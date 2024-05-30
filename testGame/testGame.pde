@@ -10,7 +10,8 @@
   
   Game game; 
   GamePiece[][] gameBoard;
-  int turnType = 1;
+  int turnType = 0;
+  GamePiece currPiece;
   
   
   void setup(){
@@ -25,6 +26,12 @@
     game.addPiece(new Queen(0,2,1,true,"a",game));
     game.addPiece(new Queen(0,3,1,true,"a",game));
     game.addPiece(new Queen(0,3,2,true,"a",game));
+    
+    background(255);
+    drawUnplacedPieces(hexSize);
+    drawBoard(hexSize);
+    drawBorder(hexSize * 4);
+    promptUser();
   }
 
   void draw(){
@@ -34,14 +41,15 @@
     float x = mouseX;
     float y = mouseY;
     
-    background(255);
-    drawUnplacedPieces(hexSize);
-    drawBoard(hexSize);
-    drawBorder(hexSize * 4);
+    text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
+    
+    
     
     if (turnType == 0){
         GamePiece successfulAction = game.findAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
-        promptUser();
+        
+        
+        currPiece = successfulAction;
         
         if (successfulAction != null){
           turnType++;
@@ -50,14 +58,29 @@
     }
     else {
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
-      if (game.placing){
-        addPiece(whereToGo[0], whereToGo[1]);
+      if (whereToGo != null){
+        
+        currPiece.setX(whereToGo[0]);
+        currPiece.setY(whereToGo[1]);
+        if (game.placing){
+          game.addPiece(currPiece);
+        }
+        else {
+          //movePiece(whereToGo[0], whereToGo[1]);
+        }
+        turnType++;
+        turnType %= 2;
+        game.toggleTurn();
       }
-      else {
-        //movePiece(whereToGo[0], whereToGo[1]);
-      }
-      game.toggleTurn();
     }
+    
+    background(255);
+    drawUnplacedPieces(hexSize);
+    drawBoard(hexSize);
+    drawBorder(hexSize * 4);
+    promptUser();
+    
+    text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
   }
   
   public void drawBorder(int xLoc){

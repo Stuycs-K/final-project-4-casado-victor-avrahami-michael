@@ -50,5 +50,13 @@ public abstract class GamePiece{
     public String toString(){
         return "" + type + "(" + xLoc + "," + yLoc + ")" + "Player 1:" + OwnedByPlayerOne;//placeholder
     }
+    
+    public void setX(int newX){
+      xLoc = newX;
+    }
+    
+    public void setY(int newY){
+      yLoc = newY;
+    }
 
 }
