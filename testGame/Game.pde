@@ -16,15 +16,50 @@ public class Game{
         initializePieceStore();
     }
     
-    public boolean makeAction(float x, float y, int hexSize){
-      if (x > 150){
-        int currX = 5 * hexSize;
+    public GamePiece getUnplacedPiece(float x, float y, int hexSize){
+      int xBound1 = hexSize / 2;
+          if (! isPlayerOneTurn){
+            xBound1 += 2 * hexSize;
+          }
+          int xBound2 = xBound1 + hexSize;
+          if (x >= xBound1 && x <= xBound2){
+            int currY = 10;
+            int currPiece = 0;
+        
+            while (! (y >= currY && y <= currY + hexSize * sqrt(3))){
+              currY += 2 * hexSize;
+              currPiece++;
+              if (currPiece > 12){
+                return null;
+              }
+            }
+          
+            if (isPlayerOneTurn){
+              if (p1Store[currPiece] == null){
+                return null;
+              }
+              return p1Store[currPiece];
+            }
+            else {
+              if (p2Store[currPiece] == null){
+                return null;
+              }
+              return p2Store[currPiece];
+            }
+            
+           // text(y + " " + currY + " " + currPiece + " ", 500, 500);
+         }
+         return null;
+    }
+    
+    public int[] getPlacedLocation(float x, float y, int hexSize){
+      int currX = 5 * hexSize;
         int col = 0;
         while (! (x >= currX && x <= currX + hexSize)){
           currX += 1.5 * hexSize;
           col++;
           if (col > 23){
-            return false;
+            return null;
           }
         }
         
@@ -40,65 +75,40 @@ public class Game{
           row ++;
           currY += hexSize * sqrt(3);
           if (row > 23){
-            return false;
+            return null;
           }
         }
         
         if (board[row][col] == null){
-          return false;
+          return null;
         }
         
         if ((! (isPlayerOneTurn && board[row][col].getTurn()) && (! (! isPlayerOneTurn && ! board[row][col].getTurn()))) || ! canMove(row, col)){
-          return false;
+          return null;
         }
         
         //movePiece(board[row][col]);
         
         
-        return true;
+        return new int[]{row, col};
         
         //text("x: " + x + " currX: " + currX + " currY: " + currY + " y: " + y + " " + row + " " + col, 500, 500);
+    }
+      
+    
+    public GamePiece makeAction(float x, float y, int hexSize){
+      if (x > 150){
+        int[] coords = getPlacedLocation(x, y, hexSize);
+        if (coords != null){
+          return (board[coords[0]][coords[1]]);
+        }
       }
       else {
-          int xBound1 = hexSize / 2;
-          if (! isPlayerOneTurn){
-            xBound1 += 2 * hexSize;
+          if (getUnplacedPiece(x, y, hexSize) != null){
+            return getUnplacedPiece(x, y, hexSize);
           }
-          int xBound2 = xBound1 + hexSize;
-          if (x >= xBound1 && x <= xBound2){
-            int currY = 10;
-            int currPiece = 0;
-        
-            while (! (y >= currY && y <= currY + hexSize * sqrt(3))){
-              currY += 2 * hexSize;
-              currPiece++;
-              if (currPiece > 12){
-                return false;
-              }
-            }
-          
-            if (isPlayerOneTurn){
-              if (p1Store[currPiece] == null){
-                return false;
-              }
-              addPiece(p1Store[currPiece]);
-              p1Store[currPiece] = null;
-            }
-            else {
-              if (p2Store[currPiece] == null){
-                return false;
-              }
-              addPiece(p2Store[currPiece]);
-              p2Store[currPiece] = null;
-            }
-            
-           // text(y + " " + currY + " " + currPiece + " ", 500, 500);
-            
-            return true;
-         }
-        
       }
-      return false;
+      return null;
     }
       
     

@@ -39,9 +39,9 @@
     drawBoard(hexSize);
     drawBorder(hexSize * 4);
     
-    boolean successfulAction = game.makeAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
+    GamePiece successfulAction = game.makeAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
     
-    if (successfulAction){
+    if (successfulAction != null){
       game.toggleTurn();
     }
     
