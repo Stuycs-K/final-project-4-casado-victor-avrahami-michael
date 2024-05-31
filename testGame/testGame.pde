@@ -65,8 +65,10 @@
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
         
+        currPiece.setX(whereToGo[0]);
+        currPiece.setY(whereToGo[1]);
         if (game.placing){
-          game.addPiece(currPiece, whereToGo[0], whereToGo[1]);
+          game.addPiece(currPiece);
         }
         else {
           //movePiece(whereToGo[0], whereToGo[1]);
