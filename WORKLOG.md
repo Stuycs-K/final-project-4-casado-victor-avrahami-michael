@@ -74,3 +74,8 @@ Finished addPiece part of the game loop
 ### date 5/31
 fixed ant image, add piece checks legality (kinda broke but fixable)
 fixed a nullPointerException bug
+
+## Michael Avrahami
+### date 5/31
+Worked on addPiece and fixed bugs in it
+Fixed bugs in various other functions like findAction
