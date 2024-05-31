@@ -25,13 +25,6 @@
     game = new Game();
     gameBoard = game.board;
     
-    game.addPiece(new Queen(0,0,0,true,"a", game));
-    game.addPiece(new Queen(0,0,1,true,"a", game));
-    game.addPiece(new Queen(0,1,1,true,"a",game));
-    game.addPiece(new Queen(0,2,1,true,"a",game));
-    game.addPiece(new Queen(0,3,1,true,"a",game));
-    game.addPiece(new Queen(0,3,2,true,"a",game));
-    
     background(255);
     drawUnplacedPieces(hexSize);
     drawBoard(hexSize);
