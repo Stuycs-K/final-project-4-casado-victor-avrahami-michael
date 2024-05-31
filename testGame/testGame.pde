@@ -1,3 +1,4 @@
+  import java.util.*;
   final color RED = color(255, 0, 0);
   final color GREEN = color(0, 255, 0);
   final color BLUE = color(0, 0, 255);
@@ -36,6 +37,7 @@
   }
   
   void mouseClicked(){
+    
     float x = mouseX;
     float y = mouseY;
     
@@ -85,6 +87,12 @@
     promptUser();
     
     text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
+    if (game.board[0][0] == null){
+      text("NULL", 600, 600);
+    }
+    else {
+      text(game.board[0][0].toString(), 600, 400);
+    }
   }
   
   public void drawBorder(int xLoc){
@@ -110,13 +118,11 @@
     int h = hexSideLength;
     for (int i = 0; i < gameBoard.length; i++){
       for (int j = 0; j < gameBoard[i].length; j++){
-        if (gameBoard[i][j] != null){
           float downSet = 0;
           if (j % 2 == 1){
             downSet = h / 2 * sqrt(3);
           }
           hexagon(5 * h + h * 1.5 * j, 10 + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
-        }
       }
     }
   }
@@ -135,15 +141,21 @@
   
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength, GamePiece g) {
-    String text = g.getName().substring(0, 1);
-    //fill(255, 0, 0);
-    boolean player1 = g.getTurn();
+    if (g != null){
+      String text = g.getName().substring(0, 1);
+      //fill(255, 0, 0);
+      boolean player1 = g.getTurn();
     
-    if (player1){
-      fill(GREEN);
+      if (player1){
+        fill(GREEN);
+      }
+      else{
+        fill(BLUE);
+      }
     }
-    else{
-      fill(BLUE);
+    else {
+      fill(WHITE);
+      stroke(BLACK);
     }
     
     beginShape();
@@ -156,8 +168,10 @@
     vertex(x, y);
     endShape();
     
-    fill(BLACK);
-    image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
+    if (g != null){
+      fill(BLACK);
+      image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
+    }
   }
   
   PImage findImage(GamePiece g){
