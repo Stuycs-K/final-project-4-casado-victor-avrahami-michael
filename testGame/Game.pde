@@ -3,7 +3,7 @@ public class Game{
     public GamePiece[][] board;
     public boolean isPlayerOneTurn;
     public GamePiece[] player1Pieces, player2Pieces, p1Store, p2Store;
-    public Queen player1Queen, player2Queen;
+    public GamePiece player1Queen, player2Queen;
     public boolean placing;
     public int turnCount;
 
@@ -28,6 +28,36 @@ public class Game{
           }
           return new float[] {5 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
     }
+    
+    public boolean movePiece(GamePiece g, int moveX, int moveY){
+      board[g.getX()][g.getY()] = null;
+      if(!isHiveConnected()){
+        board[g.getX()][g.getY()] = g;
+        return false;
+      }
+      if(g.isLegalMove(moveX, moveY)){
+        board[moveX][moveY] = g;
+        g.changeLocation(moveX, moveY);
+        return true;
+      }
+      return false;
+    }
+    
+    public boolean addPiece(GamePiece g, int placeX, int placeY){
+      if(isLegalPlacement(placeX, placeY)){
+        g.changeLocation(placeX, placeY);
+        if(g.getType() == 0){
+          if(isPlayerOneTurn)
+            player1Queen = g;
+          else
+            player2Queen = g;
+        }
+        addPiece(g);
+        return true;
+      }
+      return false;
+    }
+ 
     
     public GamePiece getUnplacedPiece(float x, float y, int hexSize){
       int xBound1 = hexSize / 2;
@@ -155,21 +185,16 @@ public class Game{
       
     }
     
-    public void addQueen(Queen queen){
-        if(isPlayerOneTurn)
-            player1Queen = queen;
-        else
-            player2Queen = queen;
-        addPiece(queen);
-    }
 
-    public void addPiece(GamePiece piece){
+
+    private void addPiece(GamePiece piece){
         int x = piece.getX();
         int y = piece.getY();
         if(isPlayerOneTurn){
             for(int i = 0; i < player1Pieces.length; i++){
                 if(player1Pieces[i] == null){
                     player1Pieces[i] = piece;
+                    i = player1Pieces.length;
                 }
             }
         }
@@ -177,6 +202,7 @@ public class Game{
             for(int i = 0; i < player2Pieces.length; i++){
                 if(player2Pieces[i] == null){
                     player2Pieces[i] = piece;
+                    i = player2Pieces.length;
                 }
             }
         }

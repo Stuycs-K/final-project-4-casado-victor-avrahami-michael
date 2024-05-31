@@ -25,13 +25,6 @@
     game = new Game();
     gameBoard = game.board;
     
-    game.addPiece(new Queen(0,0,0,true,"a", game));
-    game.addPiece(new Queen(0,0,1,true,"a", game));
-    game.addPiece(new Queen(0,1,1,true,"a",game));
-    game.addPiece(new Queen(0,2,1,true,"a",game));
-    game.addPiece(new Queen(0,3,1,true,"a",game));
-    game.addPiece(new Queen(0,3,2,true,"a",game));
-    
     background(255);
     drawUnplacedPieces(hexSize);
     drawBoard(hexSize);
@@ -144,23 +137,13 @@
   void hexagon(float x, float y, float sideLength, GamePiece g) {
     String text = g.getName().substring(0, 1);
     //fill(255, 0, 0);
-    int type = 0;
-    type = g.getType();
+    boolean player1 = g.getTurn();
     
-    if (type == 0){
-      fill(RED);
-    }
-    if (type == 1){
+    if (player1){
       fill(GREEN);
     }
-    if (type == 2){
+    else{
       fill(BLUE);
-    }
-    if (type == 3){
-      fill(YELLOW);
-    }
-    if (type == 4){
-      fill(MAGENTA);
     }
     
     beginShape();
