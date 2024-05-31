@@ -20,7 +20,7 @@
   
   
   void setup(){
-    size(1000, 800);
+    size(1500, 800);
     background(255);
     game = new Game();
     gameBoard = game.board;
@@ -46,9 +46,14 @@
     float x = mouseX;
     float y = mouseY;
     
-    text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
+    //text(currPiece + " " + turnType + " " + "Player's turn: " + game.isPlayerOneTurn + " " + "Placing: " + game.placing, 400, 400);
     
-    
+    if (game.turnCount >= 4){
+      int gameOver = game.isGameOver();
+      if (gameOver > 0){
+        game.endGame(gameOver);
+      }
+    }
     
     if (turnType == 0){
         GamePiece successfulAction = game.findAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
@@ -76,6 +81,7 @@
         turnType++;
         turnType %= 2;
         game.toggleTurn();
+        game.turnCount++;
       }
     }
     

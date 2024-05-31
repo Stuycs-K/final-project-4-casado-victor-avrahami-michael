@@ -5,6 +5,7 @@ public class Game{
     public GamePiece[] player1Pieces, player2Pieces, p1Store, p2Store;
     public Queen player1Queen, player2Queen;
     public boolean placing;
+    public int turnCount;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -15,6 +16,7 @@ public class Game{
         isPlayerOneTurn = true;
         placing = true;
         board = new GamePiece[22][22];
+        turnCount = 0;
         initializePieceStore();
     }
 
@@ -408,5 +410,20 @@ public class Game{
         }
       }
       return false;
+    }
+    
+    public void endGame(int trapped){
+      String endText = "The game has ended. Player ";
+      if (trapped == 1){
+        endText += "2\'s queen is trapped and they lose the game. Player 1 is victorious.";
+      }
+      if (trapped == 2){
+        endText += "1\'s queen is trapped and they lose the game. Player 2 is victorious.";
+      }
+      
+      if (trapped == 3){
+        endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
+      }
+      text(endText, 500, height - 100);
     }
 }
