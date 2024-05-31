@@ -384,6 +384,7 @@ public class Game{
       ArrayList<int[]> spots = new ArrayList<int[]>();
       if(isPlayerOneTurn){
          for(int i = 0; i < player1Pieces.length; i++){
+         if(player1Pieces[i] != null){
            int[][] neighbors = getNeighborLocations(player1Pieces[i].getX(), player1Pieces[i].getY());
            for(int j = 0; j < neighbors.length; j++){
              if(board[neighbors[j][0]][neighbors[j][1]] == null){
@@ -398,6 +399,7 @@ public class Game{
              }
            }
          }
+         }
          int[][] returner = new int[spots.size()][2];
          for(int i = 0; i < spots.size(); i++){
            returner[i] = spots.get(i);
@@ -406,6 +408,7 @@ public class Game{
       }
       else{
          for(int i = 0; i < player2Pieces.length; i++){
+         if(player2Pieces[i] != null){
            int[][] neighbors = getNeighborLocations(player2Pieces[i].getX(), player2Pieces[i].getY());
            for(int j = 0; j < neighbors.length; j++){
              if(board[neighbors[j][0]][neighbors[j][1]] == null){
@@ -419,6 +422,7 @@ public class Game{
                  spots.add(neighbors[j]);
              }
            }
+         }
          }
          int[][] returner = new int[spots.size()][2];
          for(int i = 0; i < spots.size(); i++){
