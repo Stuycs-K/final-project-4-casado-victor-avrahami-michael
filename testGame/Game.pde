@@ -19,6 +19,24 @@ public class Game{
         turnCount = 1;
         initializePieceStore();
     }
+    
+    public void print2DArray(GamePiece[][] t){
+      for (int i = 0; i < t.length; i++){
+        for (int j = 0; j < t[i].length; j++){
+          print(t[i][j] + ", ");
+        }
+        println();
+      }
+    }
+    
+    public void print2DArray(boolean[][] t){
+      for (int i = 0; i < t.length; i++){
+        for (int j = 0; j < t[i].length; j++){
+          print(t[i][j] + ", ");
+        }
+        println();
+      }
+    }
 
     public float[] boardToProcessingCoors(int x, int y){
           int h = 36;
@@ -307,8 +325,11 @@ public class Game{
         }
         int[] start = new int[] {arraySearched[0].getX(), arraySearched[0].getY()}; //this piece has to exist if a piece exists
         boolean[][] visited = new boolean[board.length][board[0].length]; //check if a square has been "found"
+        
 
         search(start, visited); //makes all connections possible from start
+        
+        print2DArray(visited);
 
         for(int i = 0; i < board.length; i++){
             for (int j = 0; j < board[0].length; j++){ //make sure all pieces have been found
