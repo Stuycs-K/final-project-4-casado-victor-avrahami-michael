@@ -10,7 +10,8 @@ public abstract class GamePiece{
         xLoc = x;
         yLoc = y;
         OwnedByPlayerOne = p1;
-    this.name = name;
+        this.game = game;
+        this.name = name;
     }
 
     abstract boolean move(int newX, int newY);

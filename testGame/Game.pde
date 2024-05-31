@@ -3,8 +3,9 @@ public class Game{
     public GamePiece[][] board;
     public boolean isPlayerOneTurn;
     public GamePiece[] player1Pieces, player2Pieces, p1Store, p2Store;
-    public Queen player1Queen, player2Queen;
+    public GamePiece player1Queen, player2Queen;
     public boolean placing;
+    public int turnCount;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -15,7 +16,26 @@ public class Game{
         isPlayerOneTurn = true;
         placing = true;
         board = new GamePiece[22][22];
+        turnCount = 1;
         initializePieceStore();
+    }
+    
+    public void print2DArray(GamePiece[][] t){
+      for (int i = 0; i < t.length; i++){
+        for (int j = 0; j < t[i].length; j++){
+          print(t[i][j] + ", ");
+        }
+        println();
+      }
+    }
+    
+    public void print2DArray(boolean[][] t){
+      for (int i = 0; i < t.length; i++){
+        for (int j = 0; j < t[i].length; j++){
+          print(t[i][j] + ", ");
+        }
+        println();
+      }
     }
 
     public float[] boardToProcessingCoors(int x, int y){
@@ -26,6 +46,45 @@ public class Game{
           }
           return new float[] {5 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
     }
+    
+    public boolean movePiece(GamePiece g, int moveX, int moveY){
+      println("You're moving a piece!");
+      board[g.getX()][g.getY()] = null;
+      if(!isHiveConnected()){
+        println("The hive was not connected :(");
+        board[g.getX()][g.getY()] = g;
+        return false;
+      }
+      if(g.isLegalMove(moveX, moveY)){
+        println("Successful move?!");
+        board[moveX][moveY] = g;
+        g.changeLocation(moveX, moveY);
+        return true;
+      }
+      board[g.getX()][g.getY()] = g;
+      println("Not a legal move for other reasons");
+      return false;
+    }
+    
+    public boolean addPiece(GamePiece g, int placeX, int placeY){
+      boolean canPlace = isLegalPlacement(placeX, placeY);
+      if (! canPlace){
+        println("can't place");
+      }
+      if(canPlace){
+        g.changeLocation(placeX, placeY);
+        if(g.getType() == 0){
+          if(isPlayerOneTurn)
+            player1Queen = g;
+          else
+            player2Queen = g;
+        }
+        addPiece(g);
+        return true;
+      }
+      return false;
+    }
+ 
     
     public GamePiece getUnplacedPiece(float x, float y, int hexSize){
       int xBound1 = hexSize / 2;
@@ -153,13 +212,7 @@ public class Game{
       
     }
     
-    public void addQueen(Queen queen){
-        if(isPlayerOneTurn)
-            player1Queen = queen;
-        else
-            player2Queen = queen;
-        addPiece(queen);
-    }
+
 
     public void addPiece(GamePiece piece){
         int x = piece.getX();
@@ -168,6 +221,7 @@ public class Game{
             for(int i = 0; i < player1Pieces.length; i++){
                 if(player1Pieces[i] == null){
                     player1Pieces[i] = piece;
+                    i = player1Pieces.length;
                 }
             }
         }
@@ -175,6 +229,7 @@ public class Game{
             for(int i = 0; i < player2Pieces.length; i++){
                 if(player2Pieces[i] == null){
                     player2Pieces[i] = piece;
+                    i = player2Pieces.length;
                 }
             }
         }
@@ -262,8 +317,11 @@ public class Game{
         }
         int[] start = new int[] {player1Pieces[0].getX(), player1Pieces[0].getY()}; //this piece has to exist if a piece exists
         boolean[][] visited = new boolean[board.length][board[0].length]; //check if a square has been "found"
+        
 
         search(start, visited); //makes all connections possible from start
+        
+       // print2DArray(visited);
 
         for(int i = 0; i < board.length; i++){
             for (int j = 0; j < board[0].length; j++){ //make sure all pieces have been found
@@ -356,19 +414,21 @@ public class Game{
       ArrayList<int[]> spots = new ArrayList<int[]>();
       if(isPlayerOneTurn){
          for(int i = 0; i < player1Pieces.length; i++){
+         if(player1Pieces[i] != null){
            int[][] neighbors = getNeighborLocations(player1Pieces[i].getX(), player1Pieces[i].getY());
            for(int j = 0; j < neighbors.length; j++){
              if(board[neighbors[j][0]][neighbors[j][1]] == null){
                int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
                boolean hasNoOpponentNeighbors = true;
                for(int k = 0; k < neighborNeighbors.length; k++){
-                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][1]] == null || board[neighborNeighbors[k][0]][neighborNeighbors[k][1]].getTurn()))
                    hasNoOpponentNeighbors = false;
                }
                if(hasNoOpponentNeighbors)
                  spots.add(neighbors[j]);
              }
            }
+         }
          }
          int[][] returner = new int[spots.size()][2];
          for(int i = 0; i < spots.size(); i++){
@@ -378,19 +438,21 @@ public class Game{
       }
       else{
          for(int i = 0; i < player2Pieces.length; i++){
+         if(player2Pieces[i] != null){
            int[][] neighbors = getNeighborLocations(player2Pieces[i].getX(), player2Pieces[i].getY());
            for(int j = 0; j < neighbors.length; j++){
              if(board[neighbors[j][0]][neighbors[j][1]] == null){
                int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
                boolean hasNoOpponentNeighbors = true;
                for(int k = 0; k < neighborNeighbors.length; k++){
-                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || !board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][1]] == null || !board[neighborNeighbors[k][0]][neighborNeighbors[k][1]].getTurn()))
                    hasNoOpponentNeighbors = false;
                }
                if(hasNoOpponentNeighbors)
                  spots.add(neighbors[j]);
              }
            }
+         }
          }
          int[][] returner = new int[spots.size()][2];
          for(int i = 0; i < spots.size(); i++){
@@ -401,6 +463,9 @@ public class Game{
     }
     
     public boolean isLegalPlacement(int x, int y){
+      if (turnCount <= 2){
+        return true;
+      }
       int[][] places = getPlacableLocations();
       for(int i = 0; i < places.length; i++){
         if(places[i][0] == x && places[i][1] == y){
@@ -408,5 +473,20 @@ public class Game{
         }
       }
       return false;
+    }
+    
+    public void endGame(int trapped){
+      String endText = "The game has ended. Player ";
+      if (trapped == 1){
+        endText += "2\'s queen is trapped and they lose the game. Player 1 is victorious.";
+      }
+      if (trapped == 2){
+        endText += "1\'s queen is trapped and they lose the game. Player 2 is victorious.";
+      }
+      
+      if (trapped == 3){
+        endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
+      }
+      text(endText, 500, height - 100);
     }
 }

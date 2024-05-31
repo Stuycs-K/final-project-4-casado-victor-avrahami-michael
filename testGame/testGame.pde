@@ -1,3 +1,4 @@
+  import java.util.*;
   final color RED = color(255, 0, 0);
   final color GREEN = color(0, 255, 0);
   final color BLUE = color(0, 0, 255);
@@ -20,17 +21,10 @@
   
   
   void setup(){
-    size(1000, 800);
+    size(1500, 800);
     background(255);
     game = new Game();
     gameBoard = game.board;
-    
-    game.addPiece(new Queen(0,0,0,true,"a", game));
-    game.addPiece(new Queen(0,0,1,true,"a", game));
-    game.addPiece(new Queen(0,1,1,true,"a",game));
-    game.addPiece(new Queen(0,2,1,true,"a",game));
-    game.addPiece(new Queen(0,3,1,true,"a",game));
-    game.addPiece(new Queen(0,3,2,true,"a",game));
     
     background(255);
     drawUnplacedPieces(hexSize);
@@ -40,15 +34,31 @@
   }
 
   void draw(){
+    //println("HI");
+    fill(WHITE);
+    rect(width - 250, 0, 150, 150);
+    fill(BLACK);
+    text("DEBUG INFO", width - 240, 20);
+    text("isTurnOne: " + game.isPlayerOneTurn, width - 240, 30);
+    text("isPlacing: " + game.placing, width - 240, 40);
+    text("CurrPiece: " + currPiece, width - 240, 50);
+    text("Turn: " + game.turnCount, width - 240, 60);
+    text("Turntype: " + turnType, width - 240, 70);
   }
   
   void mouseClicked(){
+    
     float x = mouseX;
     float y = mouseY;
     
-    text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
+    //text(currPiece + " " + turnType + " " + "Player's turn: " + game.isPlayerOneTurn + " " + "Placing: " + game.placing, 400, 400);
     
-    
+    if (game.turnCount >= 9){
+      int gameOver = game.isGameOver();
+      if (gameOver > 0){
+        game.endGame(gameOver);
+      }
+    }
     
     if (turnType == 0){
         GamePiece successfulAction = game.findAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
@@ -56,7 +66,7 @@
         
         currPiece = successfulAction;
         
-        if (successfulAction != null){
+        if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
           turnType++;
           turnType %= 2;
         }
@@ -65,17 +75,23 @@
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
         
-        currPiece.setX(whereToGo[0]);
-        currPiece.setY(whereToGo[1]);
+        boolean successfulAction = false;
         if (game.placing){
-          game.addPiece(currPiece);
+          if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
         }
         else {
-          //movePiece(whereToGo[0], whereToGo[1]);
+          if (game.movePiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
         }
-        turnType++;
-        turnType %= 2;
-        game.toggleTurn();
+        if (successfulAction){
+          turnType++;
+          turnType %= 2;
+          game.toggleTurn();
+          game.turnCount++;
+        }
       }
     }
     
@@ -85,7 +101,7 @@
     drawBorder(hexSize * 4);
     promptUser();
     
-    text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
+    //text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
   }
   
   public void drawBorder(int xLoc){
@@ -111,13 +127,11 @@
     int h = hexSideLength;
     for (int i = 0; i < gameBoard.length; i++){
       for (int j = 0; j < gameBoard[i].length; j++){
-        if (gameBoard[i][j] != null){
           float downSet = 0;
           if (j % 2 == 1){
             downSet = h / 2 * sqrt(3);
           }
           hexagon(5 * h + h * 1.5 * j, 10 + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
-        }
       }
     }
   }
@@ -136,25 +150,21 @@
   
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength, GamePiece g) {
-    String text = g.getName().substring(0, 1);
-    //fill(255, 0, 0);
-    int type = 0;
-    type = g.getType();
+    if (g != null){
+      String text = g.getName().substring(0, 1);
+      //fill(255, 0, 0);
+      boolean player1 = g.getTurn();
     
-    if (type == 0){
-      fill(RED);
+      if (player1){
+        fill(GREEN);
+      }
+      else{
+        fill(BLUE);
+      }
     }
-    if (type == 1){
-      fill(GREEN);
-    }
-    if (type == 2){
-      fill(BLUE);
-    }
-    if (type == 3){
-      fill(YELLOW);
-    }
-    if (type == 4){
-      fill(MAGENTA);
+    else {
+      fill(WHITE);
+      stroke(BLACK);
     }
     
     beginShape();
@@ -167,8 +177,10 @@
     vertex(x, y);
     endShape();
     
-    fill(BLACK);
-    image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
+    if (g != null){
+      fill(BLACK);
+      image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
+    }
   }
   
   PImage findImage(GamePiece g){
