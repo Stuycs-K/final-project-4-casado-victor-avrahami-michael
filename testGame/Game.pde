@@ -187,7 +187,7 @@ public class Game{
     
 
 
-    private void addPiece(GamePiece piece){
+    public void addPiece(GamePiece piece){
         int x = piece.getX();
         int y = piece.getY();
         if(isPlayerOneTurn){
