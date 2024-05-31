@@ -69,3 +69,8 @@ Wrote makeAction function, which detects which piece has been clicked and makes 
 ### date 5/30
 Finished addPiece part of the game loop
 - Set up function for movePiece as well
+
+## Victor Casado
+### date 5/31
+fixed ant image, add piece checks legality (kinda broke but fixable)
+fixed a nullPointerException bug
