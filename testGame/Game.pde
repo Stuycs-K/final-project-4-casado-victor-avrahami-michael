@@ -27,6 +27,20 @@ public class Game{
           return new float[] {5 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
     }
     
+    public boolean movePiece(GamePiece g, int moveX, int moveY){
+      board[g.getX()][g.getY()] = null;
+      if(!isHiveConnected()){
+        board[g.getX()][g.getY()] = g;
+        return false;
+      }
+      if(g.isLegalMove(moveX, moveY)){
+        board[moveX][moveY] = g;
+        g.changeLocation(moveX, moveY);
+        return true;
+      }
+      return false;
+    }
+    
     public GamePiece getUnplacedPiece(float x, float y, int hexSize){
       int xBound1 = hexSize / 2;
           if (! isPlayerOneTurn){
