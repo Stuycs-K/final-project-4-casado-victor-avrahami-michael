@@ -16,7 +16,7 @@ public class Game{
         isPlayerOneTurn = true;
         placing = true;
         board = new GamePiece[22][22];
-        turnCount = 0;
+        turnCount = 1;
         initializePieceStore();
     }
 
@@ -44,7 +44,11 @@ public class Game{
     }
     
     public boolean addPiece(GamePiece g, int placeX, int placeY){
-      if(isLegalPlacement(placeX, placeY)){
+      boolean canPlace = isLegalPlacement(placeX, placeY);
+      if (! canPlace){
+        println("can't place");
+      }
+      if(canPlace){
         g.changeLocation(placeX, placeY);
         if(g.getType() == 0){
           if(isPlayerOneTurn)
@@ -433,6 +437,9 @@ public class Game{
     }
     
     public boolean isLegalPlacement(int x, int y){
+      if (turnCount <= 2){
+        return true;
+      }
       int[][] places = getPlacableLocations();
       for(int i = 0; i < places.length; i++){
         if(places[i][0] == x && places[i][1] == y){

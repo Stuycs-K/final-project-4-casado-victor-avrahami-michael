@@ -43,7 +43,7 @@
     
     //text(currPiece + " " + turnType + " " + "Player's turn: " + game.isPlayerOneTurn + " " + "Placing: " + game.placing, 400, 400);
     
-    if (game.turnCount >= 4){
+    if (game.turnCount >= 8){
       int gameOver = game.isGameOver();
       if (gameOver > 0){
         game.endGame(gameOver);
@@ -65,13 +65,11 @@
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
         
-        currPiece.setX(whereToGo[0]);
-        currPiece.setY(whereToGo[1]);
         if (game.placing){
-          game.addPiece(currPiece);
+          game.addPiece(currPiece, whereToGo[0], whereToGo[1]);
         }
         else {
-          //movePiece(whereToGo[0], whereToGo[1]);
+          game.movePiece(currPiece, whereToGo[0], whereToGo[1]);
         }
         turnType++;
         turnType %= 2;
@@ -86,13 +84,7 @@
     drawBorder(hexSize * 4);
     promptUser();
     
-    text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
-    if (game.board[0][0] == null){
-      text("NULL", 600, 600);
-    }
-    else {
-      text(game.board[0][0].toString(), 600, 400);
-    }
+    //text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
   }
   
   public void drawBorder(int xLoc){
