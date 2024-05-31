@@ -310,26 +310,17 @@ public class Game{
     public boolean isHiveConnected(){
         //searches through array to make sure that hive is intact
         //will be called after removing a piece from the board to make sure it can move
-        
-        GamePiece[] arraySearched;
-        
-        if (isPlayerOneTurn){
-          arraySearched = player1Pieces;
-        }
-        else {
-          arraySearched = player2Pieces;
-        }
 
-        if (arraySearched[0] == null) {
+        if (player1Pieces[0] == null) {
             return true; //no pieces on board
         }
-        int[] start = new int[] {arraySearched[0].getX(), arraySearched[0].getY()}; //this piece has to exist if a piece exists
+        int[] start = new int[] {player1Pieces[0].getX(), player1Pieces[0].getY()}; //this piece has to exist if a piece exists
         boolean[][] visited = new boolean[board.length][board[0].length]; //check if a square has been "found"
         
 
         search(start, visited); //makes all connections possible from start
         
-        print2DArray(visited);
+       // print2DArray(visited);
 
         for(int i = 0; i < board.length; i++){
             for (int j = 0; j < board[0].length; j++){ //make sure all pieces have been found
