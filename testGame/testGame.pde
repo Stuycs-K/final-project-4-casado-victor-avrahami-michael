@@ -53,7 +53,7 @@
     
     //text(currPiece + " " + turnType + " " + "Player's turn: " + game.isPlayerOneTurn + " " + "Placing: " + game.placing, 400, 400);
     
-    if (game.turnCount >= 8){
+    if (game.turnCount >= 9){
       int gameOver = game.isGameOver();
       if (gameOver > 0){
         game.endGame(gameOver);

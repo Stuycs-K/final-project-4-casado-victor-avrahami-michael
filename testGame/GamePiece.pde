@@ -10,6 +10,7 @@ public abstract class GamePiece{
         xLoc = x;
         yLoc = y;
         OwnedByPlayerOne = p1;
+        this.game = game;
         this.name = name;
     }
 

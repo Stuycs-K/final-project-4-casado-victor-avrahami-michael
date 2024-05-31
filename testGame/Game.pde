@@ -61,6 +61,7 @@ public class Game{
         g.changeLocation(moveX, moveY);
         return true;
       }
+      board[g.getX()][g.getY()] = g;
       println("Not a legal move for other reasons");
       return false;
     }
