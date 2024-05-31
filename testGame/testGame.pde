@@ -34,6 +34,16 @@
   }
 
   void draw(){
+    //println("HI");
+    fill(WHITE);
+    rect(width - 250, 0, 150, 150);
+    fill(BLACK);
+    text("DEBUG INFO", width - 240, 20);
+    text("isTurnOne: " + game.isPlayerOneTurn, width - 240, 30);
+    text("isPlacing: " + game.placing, width - 240, 40);
+    text("CurrPiece: " + currPiece, width - 240, 50);
+    text("Turn: " + game.turnCount, width - 240, 60);
+    text("Turntype: " + turnType, width - 240, 70);
   }
   
   void mouseClicked(){
@@ -43,7 +53,7 @@
     
     //text(currPiece + " " + turnType + " " + "Player's turn: " + game.isPlayerOneTurn + " " + "Placing: " + game.placing, 400, 400);
     
-    if (game.turnCount >= 4){
+    if (game.turnCount >= 8){
       int gameOver = game.isGameOver();
       if (gameOver > 0){
         game.endGame(gameOver);
@@ -56,7 +66,7 @@
         
         currPiece = successfulAction;
         
-        if (successfulAction != null){
+        if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
           turnType++;
           turnType %= 2;
         }
@@ -65,18 +75,23 @@
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
         
-        currPiece.setX(whereToGo[0]);
-        currPiece.setY(whereToGo[1]);
+        boolean successfulAction = false;
         if (game.placing){
-          game.addPiece(currPiece);
+          if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
         }
         else {
-          //movePiece(whereToGo[0], whereToGo[1]);
+          if (game.movePiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
         }
-        turnType++;
-        turnType %= 2;
-        game.toggleTurn();
-        game.turnCount++;
+        if (successfulAction){
+          turnType++;
+          turnType %= 2;
+          game.toggleTurn();
+          game.turnCount++;
+        }
       }
     }
     
@@ -86,13 +101,7 @@
     drawBorder(hexSize * 4);
     promptUser();
     
-    text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
-    if (game.board[0][0] == null){
-      text("NULL", 600, 600);
-    }
-    else {
-      text(game.board[0][0].toString(), 600, 400);
-    }
+    //text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
   }
   
   public void drawBorder(int xLoc){
