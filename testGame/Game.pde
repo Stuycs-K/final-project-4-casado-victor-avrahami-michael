@@ -30,16 +30,20 @@ public class Game{
     }
     
     public boolean movePiece(GamePiece g, int moveX, int moveY){
+      println("You're moving a piece!");
       board[g.getX()][g.getY()] = null;
       if(!isHiveConnected()){
+        println("The hive was not connected :(");
         board[g.getX()][g.getY()] = g;
         return false;
       }
       if(g.isLegalMove(moveX, moveY)){
+        println("Successful move?!");
         board[moveX][moveY] = g;
         g.changeLocation(moveX, moveY);
         return true;
       }
+      println("Not a legal move for other reasons");
       return false;
     }
     
@@ -288,11 +292,20 @@ public class Game{
     public boolean isHiveConnected(){
         //searches through array to make sure that hive is intact
         //will be called after removing a piece from the board to make sure it can move
+        
+        GamePiece[] arraySearched;
+        
+        if (isPlayerOneTurn){
+          arraySearched = player1Pieces;
+        }
+        else {
+          arraySearched = player2Pieces;
+        }
 
-        if (player1Pieces[0] == null) {
+        if (arraySearched[0] == null) {
             return true; //no pieces on board
         }
-        int[] start = new int[] {player1Pieces[0].getX(), player1Pieces[0].getY()}; //this piece has to exist if a piece exists
+        int[] start = new int[] {arraySearched[0].getX(), arraySearched[0].getY()}; //this piece has to exist if a piece exists
         boolean[][] visited = new boolean[board.length][board[0].length]; //check if a square has been "found"
 
         search(start, visited); //makes all connections possible from start
@@ -395,7 +408,7 @@ public class Game{
                int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
                boolean hasNoOpponentNeighbors = true;
                for(int k = 0; k < neighborNeighbors.length; k++){
-                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][1]] == null || board[neighborNeighbors[k][0]][neighborNeighbors[k][1]].getTurn()))
                    hasNoOpponentNeighbors = false;
                }
                if(hasNoOpponentNeighbors)
@@ -419,7 +432,7 @@ public class Game{
                int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
                boolean hasNoOpponentNeighbors = true;
                for(int k = 0; k < neighborNeighbors.length; k++){
-                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][0]] == null || !board[neighborNeighbors[k][0]][neighborNeighbors[k][0]].getTurn()))
+                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][1]] == null || !board[neighborNeighbors[k][0]][neighborNeighbors[k][1]].getTurn()))
                    hasNoOpponentNeighbors = false;
                }
                if(hasNoOpponentNeighbors)

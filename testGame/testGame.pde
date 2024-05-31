@@ -34,6 +34,16 @@
   }
 
   void draw(){
+    //println("HI");
+    fill(WHITE);
+    rect(width - 150, 0, 150, 150);
+    fill(BLACK);
+    text("DEBUG INFO", width - 140, 20);
+    text("isTurnOne: " + game.isPlayerOneTurn, width - 140, 30);
+    text("isPlacing: " + game.placing, width - 140, 40);
+    text("CurrPiece: " + currPiece, width - 140, 50);
+    text("Turn: " + game.turnCount, width - 140, 60);
+    text("Turntype: " + turnType, width - 140, 70);
   }
   
   void mouseClicked(){
@@ -56,7 +66,7 @@
         
         currPiece = successfulAction;
         
-        if (successfulAction != null){
+        if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
           turnType++;
           turnType %= 2;
         }
@@ -65,16 +75,23 @@
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
         
+        boolean successfulAction = false;
         if (game.placing){
-          game.addPiece(currPiece, whereToGo[0], whereToGo[1]);
+          if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
         }
         else {
-          game.movePiece(currPiece, whereToGo[0], whereToGo[1]);
+          if (game.movePiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
         }
-        turnType++;
-        turnType %= 2;
-        game.toggleTurn();
-        game.turnCount++;
+        if (successfulAction){
+          turnType++;
+          turnType %= 2;
+          game.toggleTurn();
+          game.turnCount++;
+        }
       }
     }
     
