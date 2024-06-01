@@ -30,7 +30,6 @@
     drawUnplacedPieces(hexSize);
     drawBoard(hexSize);
     drawBorder(hexSize * 4);
-    promptUser();
   }
 
   void draw(){
@@ -99,7 +98,6 @@
     drawUnplacedPieces(hexSize);
     drawBoard(hexSize);
     drawBorder(hexSize * 4);
-    promptUser();
     
     //text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
   }
@@ -109,18 +107,6 @@
     rect(xLoc, 0, 10, height);
   }
   
-  public void promptUser(){
-      String prompt = "Player ";
-      if (game.isPlayerOneTurn){
-        prompt += "1";
-      }
-      else {
-        prompt += "2";
-      }
-      prompt += "\'s turn. Choose a piece to add or move.";
-      text(prompt, 300, height - 100);
-      
-    }
     
   
   void drawBoard(int hexSideLength){
@@ -131,7 +117,7 @@
           if (j % 2 == 1){
             downSet = h / 2 * sqrt(3);
           }
-          hexagon(5 * h + h * 1.5 * j, 10 + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
+          hexagon(7 * h + h * 1.5 * j, 10 + downSet + h * sqrt(3) * i, h, gameBoard[i][j]);
       }
     }
   }

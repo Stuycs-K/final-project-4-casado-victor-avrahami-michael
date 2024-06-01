@@ -44,7 +44,7 @@ public class Game{
           if (y % 2 == 1){
             downSet =  (h / 2 * sqrt(3));
           }
-          return new float[] {5 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
+          return new float[] {7 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
     }
     
     public boolean movePiece(GamePiece g, int moveX, int moveY){
@@ -127,7 +127,7 @@ public class Game{
     }
     
     public int[] getPlacedLocation(float x, float y, int hexSize){
-      int currX = 5 * hexSize;
+      int currX = 7 * hexSize;
         int col = 0;
         while (! (x >= currX && x <= currX + hexSize)){
           currX += 1.5 * hexSize;
@@ -488,5 +488,25 @@ public class Game{
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
       text(endText, 500, height - 100);
+    }
+    
+    public void displayInfo(){
+       String text = "Player ";
+       if (isPlayerOneTurn){
+         text += "1";
+         fill(GREEN);
+       }
+       else {
+         text += "2";
+         fill(BLUE);
+       }
+       text += "\'s turn";
+
+       rect(hexSize * 4, 0, 2 * hexSize, height);
+       rotate(-PI/2);
+       fill(BLACK);
+       text(text, -800, 200);
+       fill(WHITE);
+       rotate(PI/2);
     }
 }
