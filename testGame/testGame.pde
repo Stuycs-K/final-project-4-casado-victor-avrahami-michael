@@ -61,9 +61,7 @@
     }
     
     if (turnType == 0){
-        GamePiece successfulAction = game.findAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
-        
-        
+        GamePiece successfulAction = game.findAction(x, y, hexSize);                
         currPiece = successfulAction;
         
         if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
@@ -91,6 +89,18 @@
           turnType %= 2;
           game.toggleTurn();
           game.turnCount++;
+        }
+        else{
+          turnType++;
+          turnType %= 2;
+          if(game.placing){
+            if(game.isPlayerOneTurn){
+              game.p1Store[game.placingPieceStoreCoor] = currPiece;
+            }
+            else{
+              game.p2Store[game.placingPieceStoreCoor] = currPiece;
+            }
+          }
         }
       }
     }

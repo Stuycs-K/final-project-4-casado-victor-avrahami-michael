@@ -6,6 +6,7 @@ public class Game{
     public GamePiece player1Queen, player2Queen;
     public boolean placing;
     public int turnCount;
+    public int placingPieceStoreCoor;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -110,6 +111,7 @@ public class Game{
                 return null;
               }
               p1Store[currPiece] = null;
+              placingPieceStoreCoor = currPiece;
               return g;
             }
             else {
@@ -118,6 +120,7 @@ public class Game{
                 return null;
               }
               p2Store[currPiece] = null;
+              placingPieceStoreCoor = currPiece;
               return g;
             }
            
