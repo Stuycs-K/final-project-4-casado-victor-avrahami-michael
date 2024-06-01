@@ -1,10 +1,6 @@
   import java.util.*;
-  final color RED = color(255, 0, 0);
   final color GREEN = color(0, 255, 0);
-  final color BLUE = color(0, 0, 255);
-  final color YELLOW = color(127, 127, 0);
-  final color MAGENTA = color(127, 0, 127);
-  final color CYAN = color(0, 127, 127);
+  final color BLUE = color(100, 100, 255);
   final color BLACK = color(0, 0, 0);
   final color WHITE = color(255, 255, 255);
   final int QUEENBEE = 0;
