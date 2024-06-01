@@ -55,8 +55,24 @@
         game.endGame(gameOver);
       }
     }
+
     
     if (turnType == 0){
+      if(game.turnCount == 7 && game.player1Queen == null){
+        turnType++;
+        turnType %= 2;
+        game.placing = true;
+        System.out.println("forcing you to place a queen as it is your fourth turn");
+        currPiece = game.getUnplacedPiece(18,18,hexSize);
+      }
+      else if(game.turnCount == 8 && game.player2Queen == null){
+        turnType++;
+        turnType %= 2;
+        game.placing = true;
+        System.out.println("forcing you to place a queen as it is your fourth turn");
+        currPiece = game.getUnplacedPiece(90,20,hexSize);
+      }
+      else{
         GamePiece successfulAction = game.findAction(x, y, hexSize);                
         currPiece = successfulAction;
         
@@ -64,8 +80,9 @@
           turnType++;
           turnType %= 2;
         }
+      }
     }
-    else {
+    else{
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
         
