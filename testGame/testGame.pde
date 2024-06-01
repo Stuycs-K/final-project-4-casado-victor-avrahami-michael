@@ -4,10 +4,10 @@
   final color BLACK = color(0, 0, 0);
   final color WHITE = color(255, 255, 255);
   final int QUEENBEE = 0;
-  final int ANT = 1;
+  final int SPIDER = 1;
   final int BEETLE = 2;
   final int GRASSHOPPER = 3;
-  final int SPIDER = 4;
+  final int ANT = 4;
   final int hexSize = 36;
   
   Game game; 

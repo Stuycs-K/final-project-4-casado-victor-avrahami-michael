@@ -81,3 +81,9 @@ fixed a nullPointerException bug
 ### date 5/31
 Worked on addPiece and fixed bugs in it
 Fixed bugs in various other functions like findAction
+
+## Victor Casado
+## date 5/31
+fixed multiple gamebreaking bugs
+including crashes, pieces not being able to move, pieces rendering wrong, etc
+queens force placement
