@@ -16,7 +16,7 @@ public class Game{
         //create queens when added into game
         isPlayerOneTurn = true;
         placing = true;
-        board = new GamePiece[22][22];
+        board = new GamePiece[12][24];
         turnCount = 1;
         initializePieceStore();
     }
