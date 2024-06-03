@@ -151,7 +151,7 @@
   
   void drawBoard(int hexSideLength){
     int h = hexSideLength;
-    for (int i = 0; i < gameBoard.length; i++){
+    for (int i = 0; i < 12; i++){
       for (int j = 0; j < gameBoard[i].length; j++){
           float downSet = 0;
           if (j % 2 == 1){

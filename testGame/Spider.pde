@@ -30,9 +30,12 @@ public class Spider extends GamePiece{
     int[][] a2 = getGame().findSlidableMoves(this.getX(), this.getY(), 2);
     ArrayList<int[]> list = new ArrayList<int[]>();
     for(int i = 0; i < a3.length; i++){ //everything in 3 thats not in 2
+      list.add(a3[i]);
       for(int j = 0; j < a2.length; j++){
-        if(a3[i][0] != a2[j][0] || a3[i][1] != a2[j][1]){
-          list.add(a3[i]);
+        if(a3[i][0] == a2[j][0] && a3[i][1] == a2[j][1]){
+          if (list.contains(a3[i])){
+            list.remove(a3[i]);
+          }
         }
       }
     }
