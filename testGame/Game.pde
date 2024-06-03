@@ -17,7 +17,7 @@ public class Game{
         isPlayerOneTurn = true;
         placing = true;
         board = new GamePiece[12][24];
-        turnCount = 1;
+        turnCount = 0;
         initializePieceStore();
     }
     
@@ -45,32 +45,32 @@ public class Game{
           if (y % 2 == 1){
             downSet =  (h / 2 * sqrt(3));
           }
-          return new float[] {5 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
+          return new float[] {7 * h + h * 1.5 * y + 18, 10 + downSet + h * sqrt(3) * y + 30};
     }
     
     public boolean movePiece(GamePiece g, int moveX, int moveY){
-      println("You're moving a piece!");
+      //println("You're moving a piece!");
       board[g.getX()][g.getY()] = null;
       if(!isHiveConnected()){
-        println("The hive was not connected :(");
+        //println("The hive was not connected :(");
         board[g.getX()][g.getY()] = g;
         return false;
       }
       if(g.isLegalMove(moveX, moveY)){
-        println("Successful move?!");
+        //println("Successful move?!");
         board[moveX][moveY] = g;
         g.changeLocation(moveX, moveY);
         return true;
       }
       board[g.getX()][g.getY()] = g;
-      println("Not a legal move for other reasons");
+      //println("Not a legal move for other reasons");
       return false;
     }
     
     public boolean addPiece(GamePiece g, int placeX, int placeY){
       boolean canPlace = isLegalPlacement(placeX, placeY);
       if (! canPlace){
-        println("can't place");
+        //println("can't place");
       }
       if(canPlace){
         g.changeLocation(placeX, placeY);
@@ -130,7 +130,7 @@ public class Game{
     }
     
     public int[] getPlacedLocation(float x, float y, int hexSize){
-      int currX = 5 * hexSize;
+      int currX = 7 * hexSize;
         int col = 0;
         while (! (x >= currX && x <= currX + hexSize)){
           currX += 1.5 * hexSize;
@@ -494,5 +494,43 @@ public class Game{
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
       text(endText, 500, height - 100);
+    }
+    
+    public void displayInfo(){
+       String text1 = "Player ";
+       if (isPlayerOneTurn){
+         text1 += "1";
+         fill(GREEN);
+       }
+       else {
+         text1 += "2";
+         fill(BLUE);
+       }
+       text1 += "\'s turn";
+       
+       String text2 = "";
+       if (turnCount % 2 == 0){
+         text2 = "Click a piece to place or move.";
+       }
+       else {
+         if (placing){
+           text2 = "Select a hexagon to place your piece.";
+         }
+         else {
+           text2 = "Select a hexagon to move your piece.";
+         }
+       }
+       
+       //fill(BLUE);
+       //println("got here");
+       textSize(15);
+       rect(hexSize * 4, 0, 2 * hexSize, height);
+       rotate(-PI/2);
+       fill(BLACK);
+       text(text1, -750, 190);
+       text(text2, -750, 210);
+       fill(WHITE);
+       rotate(PI/2);
+       textSize(12);
     }
 }
