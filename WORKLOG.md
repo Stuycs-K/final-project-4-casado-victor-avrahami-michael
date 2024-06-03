@@ -87,3 +87,8 @@ Fixed bugs in various other functions like findAction
 fixed multiple gamebreaking bugs
 including crashes, pieces not being able to move, pieces rendering wrong, etc
 queens force placement
+
+## Michael Avrahami
+### date 6/2
+Finished display whose turn it is and what it's doing
+Rearranged endGame functions
