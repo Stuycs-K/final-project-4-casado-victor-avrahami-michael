@@ -1,7 +1,6 @@
 public class Spider extends GamePiece{
     private String name;
     private int type;
-    private int xLoc, yLoc;
     private boolean OwnedByPlayerOne;
 
     public Spider(int type, int x, int y, boolean isPlayerOneTurn, String name, Game game){
@@ -10,8 +9,7 @@ public class Spider extends GamePiece{
 
     public boolean move(int newX, int newY){
     if (isLegalMove(newX, newY)){
-      xLoc = newX;
-      yLoc = newY;
+      changeLocation(newX, newY);
       return true;
     }
     else {
@@ -28,9 +26,8 @@ public class Spider extends GamePiece{
     return false;
   }
   public int[][] getLegalMoves(){
-    int[][] a3 = getGame().findSlidableMoves(xLoc, yLoc, 3);
-    int[][] a2 = getGame().findSlidableMoves(xLoc, yLoc, 2);
-    int[][] a1 = getGame().findSlidableMoves(xLoc, yLoc, 1);
+    int[][] a3 = getGame().findSlidableMoves(this.getX(), this.getY(), 3);
+    int[][] a2 = getGame().findSlidableMoves(this.getX(), this.getY(), 2);
     ArrayList<int[]> list = new ArrayList<int[]>();
     for(int i = 0; i < a3.length; i++){ //everything in 3 thats not in 2
       for(int j = 0; j < a2.length; j++){

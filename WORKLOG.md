@@ -71,6 +71,8 @@ Finished addPiece part of the game loop
 - Set up function for movePiece as well
 
 ## Victor Casado
+### date 5/30 
+pieces have images now, fixed bug that would crash game
 ### date 5/31
 fixed ant image, add piece checks legality (kinda broke but fixable)
 fixed a nullPointerException bug
@@ -79,3 +81,9 @@ fixed a nullPointerException bug
 ### date 5/31
 Worked on addPiece and fixed bugs in it
 Fixed bugs in various other functions like findAction
+
+## Victor Casado
+## date 5/31
+fixed multiple gamebreaking bugs
+including crashes, pieces not being able to move, pieces rendering wrong, etc
+queens force placement

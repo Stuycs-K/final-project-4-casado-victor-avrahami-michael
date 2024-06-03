@@ -1,17 +1,13 @@
   import java.util.*;
-  final color RED = color(255, 0, 0);
   final color GREEN = color(0, 255, 0);
-  final color BLUE = color(0, 0, 255);
-  final color YELLOW = color(127, 127, 0);
-  final color MAGENTA = color(127, 0, 127);
-  final color CYAN = color(0, 127, 127);
+  final color BLUE = color(100, 100, 255);
   final color BLACK = color(0, 0, 0);
   final color WHITE = color(255, 255, 255);
   final int QUEENBEE = 0;
-  final int ANT = 1;
+  final int SPIDER = 1;
   final int BEETLE = 2;
   final int GRASSHOPPER = 3;
-  final int SPIDER = 4;
+  final int ANT = 4;
   final int hexSize = 36;
   
   Game game; 
@@ -43,6 +39,19 @@
     text("CurrPiece: " + currPiece, width - 240, 50);
     text("Turn: " + game.turnCount, width - 240, 60);
     text("Turntype: " + turnType, width - 240, 70);
+    
+    if (game.turnCount >= 9){
+      int gameOver = game.isGameOver();
+      if (gameOver > 0){
+        background(255);
+        drawUnplacedPieces(hexSize);
+        drawBoard(hexSize);
+        drawBorder(hexSize * 4);
+        game.endGame(gameOver);
+       // rect(300, 300, 200, 200);
+       // text("GAME OVER", 400, 400);
+      }
+    }
   }
   
   void mouseClicked(){
@@ -51,26 +60,34 @@
     float y = mouseY;
     
     //text(currPiece + " " + turnType + " " + "Player's turn: " + game.isPlayerOneTurn + " " + "Placing: " + game.placing, 400, 400);
-    
-    if (game.turnCount >= 9){
-      int gameOver = game.isGameOver();
-      if (gameOver > 0){
-        game.endGame(gameOver);
-      }
-    }
+
     
     if (turnType == 0){
-        GamePiece successfulAction = game.findAction(x, y, hexSize); // This will return true if a piece is added or moved, and false otherwise;
-        
-        
+      if(game.turnCount == 7 && game.player1Queen == null){
+        turnType++;
+        turnType %= 2;
+        game.placing = true;
+        System.out.println("forcing you to place a queen as it is your fourth turn");
+        currPiece = game.getUnplacedPiece(18,18,hexSize);
+      }
+      else if(game.turnCount == 8 && game.player2Queen == null){
+        turnType++;
+        turnType %= 2;
+        game.placing = true;
+        System.out.println("forcing you to place a queen as it is your fourth turn");
+        currPiece = game.getUnplacedPiece(90,20,hexSize);
+      }
+      else{
+        GamePiece successfulAction = game.findAction(x, y, hexSize);                
         currPiece = successfulAction;
         
         if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
           turnType++;
           turnType %= 2;
         }
+      }
     }
-    else {
+    else{
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
         
@@ -90,6 +107,18 @@
           turnType %= 2;
           game.toggleTurn();
           game.turnCount++;
+        }
+        else{
+          turnType++;
+          turnType %= 2;
+          if(game.placing){
+            if(game.isPlayerOneTurn){
+              game.p1Store[game.placingPieceStoreCoor] = currPiece;
+            }
+            else{
+              game.p2Store[game.placingPieceStoreCoor] = currPiece;
+            }
+          }
         }
       }
     }

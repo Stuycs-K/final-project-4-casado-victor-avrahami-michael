@@ -6,6 +6,7 @@ public class Game{
     public GamePiece player1Queen, player2Queen;
     public boolean placing;
     public int turnCount;
+    public int placingPieceStoreCoor;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -15,7 +16,7 @@ public class Game{
         //create queens when added into game
         isPlayerOneTurn = true;
         placing = true;
-        board = new GamePiece[22][22];
+        board = new GamePiece[12][24];
         turnCount = 1;
         initializePieceStore();
     }
@@ -110,6 +111,7 @@ public class Game{
                 return null;
               }
               p1Store[currPiece] = null;
+              placingPieceStoreCoor = currPiece;
               return g;
             }
             else {
@@ -118,6 +120,7 @@ public class Game{
                 return null;
               }
               p2Store[currPiece] = null;
+              placingPieceStoreCoor = currPiece;
               return g;
             }
            
@@ -180,11 +183,11 @@ public class Game{
       p1Store[0] = new Queen(0, 0, 0, true, "Queen", this);
       p2Store[0] = new Queen(0, 0, 0, false, "Queen", this);
       
-      p1Store[1] = new Spider(1, 0, 0, true, "Spider", this);
-      p2Store[1] = new Spider(1, 0, 0, false, "Spider", this);
+      //p1Store[1] = new Spider(1, 0, 0, true, "Spider", this);
+      //p2Store[1] = new Spider(1, 0, 0, false, "Spider", this);
       
-      p1Store[2] = new Spider(1, 0, 0, true, "Spider", this);
-      p2Store[2] = new Spider(1, 0, 0, false, "Spider", this);
+      //p1Store[2] = new Spider(1, 0, 0, true, "Spider", this);
+      //p2Store[2] = new Spider(1, 0, 0, false, "Spider", this);
       
      // p1Store[3] = new Beetle(2, 0, 0, true, "Beetle", this);
      // p2Store[3] = new Beetle(2, 0, 0, false, "Beetle", this);
@@ -349,9 +352,14 @@ public class Game{
         board[startX][startY] = null; // so we dont try to move onto ourselves
         boolean[][] beenIn = new boolean[board.length][board[0].length];
         findSlidableMoves(startX, startY, stepNum, a, beenIn, true);
-        int[][] returner = new int[a.size()][2]; 
         for(int i = 0; i < a.size(); i++){
-            returner[i] = a.get(i);
+          if(a.get(i)[0] == startX && a.get(i)[1] == startY){
+            a.remove(i);
+          }
+        }
+        int[][] returner = new int[a.size()][2];
+        for(int i = 0; i < a.size(); i++){
+          returner[i] = a.get(i);
         }
         board[startX][startY] = temp;
         return returner;
@@ -359,15 +367,13 @@ public class Game{
 
     private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis, boolean[][] beenIn, boolean isFirst){
         if(stepNum != 0){
-            int[][] neighbors = getNeighborLocations(startX, startY);
+            int[][] neighbors = getNeighborLocations(startX, startY);            
             for(int[] pos: neighbors){
                 if(board[pos[0]][pos[1]] == null && hasPieceNeighbor(pos[0], pos[1])){ //empty space w piece neighbor
                     //need to see if we can fit through there
                     if(!beenIn[pos[0]][pos[1]] && canPhysicallySlideToDist1(startX, startY, pos[0], pos[1])){
                         beenIn[pos[0]][pos[1]] = true;
-                        if(!isFirst){ //you cant move to where you already are
-                            returnThis.add(pos);
-                        }
+                        returnThis.add(new int[]{pos[0],pos[1]});
                         findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis, beenIn, false);
                     }
                 }

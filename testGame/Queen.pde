@@ -1,7 +1,6 @@
 public class Queen extends GamePiece{
     private String name;
     private int type;
-    private int xLoc, yLoc;
     private boolean OwnedByPlayerOne;
 
     public Queen(int type, int x, int y, boolean isPlayerOneTurn, String name, Game game){
@@ -10,8 +9,7 @@ public class Queen extends GamePiece{
 
     public boolean move(int newX, int newY){
     if (isLegalMove(newX, newY)){
-      xLoc = newX;
-      yLoc = newY;
+      changeLocation(newX, newY);
       return true;
     }
     else {
@@ -28,7 +26,7 @@ public class Queen extends GamePiece{
     return false;
   }
   public int[][] getLegalMoves(){
-    return getGame().findSlidableMoves(xLoc, yLoc, 1);
+    return getGame().findSlidableMoves(this.getX(), this.getY(), 1);
   }
     // no canMove method, needs board access, so needs to be in game class
 
