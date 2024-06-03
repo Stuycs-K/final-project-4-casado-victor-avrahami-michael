@@ -183,11 +183,11 @@ public class Game{
       p1Store[0] = new Queen(0, 0, 0, true, "Queen", this);
       p2Store[0] = new Queen(0, 0, 0, false, "Queen", this);
       
-      p1Store[1] = new Spider(1, 0, 0, true, "Spider", this);
-      p2Store[1] = new Spider(1, 0, 0, false, "Spider", this);
+      //p1Store[1] = new Spider(1, 0, 0, true, "Spider", this);
+      //p2Store[1] = new Spider(1, 0, 0, false, "Spider", this);
       
-      p1Store[2] = new Spider(1, 0, 0, true, "Spider", this);
-      p2Store[2] = new Spider(1, 0, 0, false, "Spider", this);
+      //p1Store[2] = new Spider(1, 0, 0, true, "Spider", this);
+      //p2Store[2] = new Spider(1, 0, 0, false, "Spider", this);
       
      // p1Store[3] = new Beetle(2, 0, 0, true, "Beetle", this);
      // p2Store[3] = new Beetle(2, 0, 0, false, "Beetle", this);
