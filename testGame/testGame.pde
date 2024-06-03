@@ -40,6 +40,19 @@
     text("CurrPiece: " + currPiece, width - 240, 50);
     text("Turn: " + game.turnCount, width - 240, 60);
     text("Turntype: " + turnType, width - 240, 70);
+    
+    if (game.turnCount >= 9){
+      int gameOver = game.isGameOver();
+      if (gameOver > 0){
+        background(255);
+        drawUnplacedPieces(hexSize);
+        drawBoard(hexSize);
+        drawBorder(hexSize * 4);
+        game.endGame(gameOver);
+       // rect(300, 300, 200, 200);
+       // text("GAME OVER", 400, 400);
+      }
+    }
   }
   
   void mouseClicked(){
@@ -48,13 +61,6 @@
     float y = mouseY;
     
     //text(currPiece + " " + turnType + " " + "Player's turn: " + game.isPlayerOneTurn + " " + "Placing: " + game.placing, 400, 400);
-    
-    if (game.turnCount >= 9){
-      int gameOver = game.isGameOver();
-      if (gameOver > 0){
-        game.endGame(gameOver);
-      }
-    }
 
     
     if (turnType == 0){
