@@ -3,6 +3,7 @@
   final color BLUE = color(100, 100, 255);
   final color BLACK = color(0, 0, 0);
   final color WHITE = color(255, 255, 255);
+  final color RED = color(255, 0, 0);
   final int QUEENBEE = 0;
   final int SPIDER = 1;
   final int BEETLE = 2;
@@ -99,7 +100,7 @@
     else{
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
-        
+        //outlineHex(whereToGo[0], whereToGo[1], RED);
         boolean successfulAction = false;
         if (game.placing){
           if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
@@ -131,6 +132,8 @@
         }
       }
     }
+    
+    //delay(1000);
     
     background(255);
     drawUnplacedPieces(hexSize);
@@ -207,6 +210,27 @@
       fill(BLACK);
       image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
     }
+  }
+  
+  void outlineHex(float xLoc, float yLoc, color strokeColor){
+    float downSet = 0;
+      if (yLoc % 2 == 1){
+        downSet = hexSize / 2 * sqrt(3);
+      }
+    float x = 7 * hexSize + hexSize * 1.5 * xLoc;
+    float y = 10 + downSet + hexSize * sqrt(3) * yLoc;
+    noFill();
+    stroke(strokeColor);
+    beginShape();
+    vertex(x, y);
+    vertex(x + hexSize, y);
+    vertex(x + hexSize * 1.5, y + hexSize / 2 * sqrt(3));
+    vertex(x + hexSize, y + hexSize * sqrt(3));
+    vertex(x - hexSize * 0.5, y + hexSize / 2 * sqrt(3));
+    vertex(x, y);
+    endShape();
+    fill(255, 255, 255);
+    stroke(BLACK);
   }
   
   PImage findImage(GamePiece g){
