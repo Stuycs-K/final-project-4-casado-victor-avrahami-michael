@@ -328,8 +328,6 @@ public class Game{
 
         search(start, visited); //makes all connections possible from start
         
-       print2DArray(visited);
-       println("-----");
 
         for(int i = 0; i < board.length; i++){
             for (int j = 0; j < board[0].length; j++){ //make sure all pieces have been found
