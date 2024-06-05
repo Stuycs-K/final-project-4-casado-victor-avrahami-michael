@@ -137,6 +137,8 @@
     drawBoard(hexSize);
     drawBorder(hexSize * 4);
     
+    outlineHex(currPiece.
+    
     game.displayInfo();
     
     //text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
@@ -207,6 +209,23 @@
       fill(BLACK);
       image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
     }
+  }
+  
+  void outlineHex(float x, float y, float sideLength, color strokeColor){
+    float x = 7 * hexSize + hexSize * 1.5 * currPiece.getX();
+    7 * h + h * 1.5 * j, 10 + downSet + h * sqrt(3) * i
+    noFill();
+    stroke(strokeColor);
+    beginShape();
+    vertex(x, y);
+    vertex(x + sideLength, y);
+    vertex(x + sideLength * 1.5, y + sideLength / 2 * sqrt(3));
+    vertex(x + sideLength, y + sideLength * sqrt(3));
+    vertex(x, y + sideLength * sqrt(3));
+    vertex(x - sideLength * 0.5, y + sideLength / 2 * sqrt(3));
+    vertex(x, y);
+    endShape();
+    fill(255, 255, 255);
   }
   
   PImage findImage(GamePiece g){
