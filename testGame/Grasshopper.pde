@@ -93,7 +93,10 @@ public class Grasshopper extends GamePiece{
     int saveY = this.getY();
     for(int i = 0; i < 6; i = i){
       int[] newLoc = getLocationInDirection(i);
-      if(getGame().board[newLoc[0]][newLoc[1]] == null){
+      if(newLoc[0] == -1){
+         i++;
+      }
+      else if(getGame().board[newLoc[0]][newLoc[1]] == null){
         returner.add(newLoc);
         i++;
       }
