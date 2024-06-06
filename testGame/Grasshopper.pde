@@ -97,6 +97,7 @@ public class Grasshopper extends GamePiece{
          i++;
       }
       else if(getGame().board[newLoc[0]][newLoc[1]] == null){
+        if(game.hasPieceNeighbor(newLoc[0],newLoc[1]))
         returner.add(newLoc);
         i++;
       }
