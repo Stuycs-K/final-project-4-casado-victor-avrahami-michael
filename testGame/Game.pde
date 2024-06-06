@@ -394,8 +394,8 @@ public class Game{
         }
         
         board[startX][startY] = temp;
-        println("Startx: " + startX + "  Starty: " + startY + "  Stepnum: " + stepNum);
-        print2DArray(returner);
+        //println("Startx: " + startX + "  Starty: " + startY + "  Stepnum: " + stepNum);
+        //print2DArray(returner);
         return returner;
     }
 
