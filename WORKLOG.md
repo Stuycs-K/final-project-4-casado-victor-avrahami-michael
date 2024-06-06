@@ -96,3 +96,7 @@ Rearranged endGame functions
 ## Michael Avrahami
 ### date 6/4
 Tried and failed to make outlining hexagon work
+
+## Victor Casado
+### date 6/6
+first pass at beetles
