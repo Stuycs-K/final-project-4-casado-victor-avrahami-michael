@@ -73,6 +73,18 @@ public class Game{
     
     public boolean movePiece(GamePiece g, int moveX, int moveY){
       //println("You're moving a piece!");
+      if(g.pieceOnTop != null){
+        if(g.pieceOnTop.isLegalMove(moveX, moveY)){
+          g.pieceOnTop.move(moveX, moveY);
+          if(board[moveX][moveY].pieceOnTop == null){
+            board[moveX][moveY] = g.pieceOnTop;
+          }
+          g.pieceOnTop = null;
+          return true;
+        }
+        return false;
+      }
+      
       board[g.getX()][g.getY()] = null;
       if(!isHiveConnected()){
         //println("The hive was not connected :(");
@@ -82,7 +94,7 @@ public class Game{
       if(g.isLegalMove(moveX, moveY)){
         //println("Successful move?!");
         board[moveX][moveY] = g;
-        g.changeLocation(moveX, moveY);
+        g.move(moveX, moveY);
         return true;
       }
       board[g.getX()][g.getY()] = g;
@@ -212,11 +224,11 @@ public class Game{
       p1Store[2] = new Spider(1, 0, 0, true, "Spider", this);
       p2Store[2] = new Spider(1, 0, 0, false, "Spider", this);
       
-     // p1Store[3] = new Beetle(2, 0, 0, true, "Beetle", this);
-     // p2Store[3] = new Beetle(2, 0, 0, false, "Beetle", this);
+      p1Store[3] = new Beetle(2, 0, 0, true, "Beetle", this);
+      p2Store[3] = new Beetle(2, 0, 0, false, "Beetle", this);
       
-     // p1Store[4] = new Beetle(2, 0, 0, true, "Beetle", this);
-     // p2Store[4] = new Beetle(2, 0, 0, false, "Beetle", this);
+      p1Store[4] = new Beetle(2, 0, 0, true, "Beetle", this);
+      p2Store[4] = new Beetle(2, 0, 0, false, "Beetle", this);
       
       p1Store[5] = new Grasshopper(3, 0, 0, true, "Grasshopper", this);
       p2Store[5] = new Grasshopper(3, 0, 0, false, "Grasshopper", this);

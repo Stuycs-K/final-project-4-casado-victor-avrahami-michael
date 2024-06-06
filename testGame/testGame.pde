@@ -205,9 +205,13 @@
     vertex(x, y);
     endShape();
     
-    if (g != null){
+    if (g != null && g.pieceOnTop != null){
       fill(BLACK);
-      image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
+      image(findImage(g.pieceOnTop), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
+    }
+    else if (g != null){
+        fill(BLACK);
+        image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
     }
   }
   
