@@ -92,3 +92,7 @@ queens force placement
 ### date 6/2
 Finished display whose turn it is and what it's doing
 Rearranged endGame functions
+
+## Michael Avrahami
+### date 6/4
+Tried and failed to make outlining hexagon work
