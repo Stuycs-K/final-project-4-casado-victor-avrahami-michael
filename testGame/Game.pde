@@ -365,8 +365,7 @@ public class Game{
         ArrayList<int[]> a= new ArrayList<int[]>();
         GamePiece temp = board[startX][startY];
         board[startX][startY] = null; // so we dont try to move onto ourselves
-        boolean[][] beenIn = new boolean[board.length][board[0].length];
-        findSlidableMoves(startX, startY, stepNum, a, beenIn, true);
+        findSlidableMoves(startX, startY, stepNum, a);
         for(int i = 0; i < a.size(); i++){
           if(a.get(i)[0] == startX && a.get(i)[1] == startY){
             a.remove(i);
@@ -374,17 +373,33 @@ public class Game{
         }
         //print2DArray(a);
         //print2DArray(board);
-        int[][] returner = new int[a.size()][2];
+        ArrayList<int[]> aNoRepeats = new ArrayList<int[]>();
+        
         for(int i = 0; i < a.size(); i++){
-          returner[i] = a.get(i);
+          boolean repeat = false;
+          for (int j = 0; j < aNoRepeats.size(); j++){
+            if (aNoRepeats.get(j)[0] == a.get(i)[0] && aNoRepeats.get(j)[1] == a.get(i)[1]){
+              repeat = true;
+            }
+          }
+          if (! repeat){
+            aNoRepeats.add(a.get(i));
+          }
         }
+        
+        int[][] returner = new int[aNoRepeats.size()][2];
+        
+        for (int i = 0; i < returner.length; i++){
+          returner[i] = aNoRepeats.get(i);
+        }
+        
         board[startX][startY] = temp;
-       // println("Startx: " + startX + "  Starty: " + startY + "  Stepnum: " + stepNum);
-       // print2DArray(returner);
+        println("Startx: " + startX + "  Starty: " + startY + "  Stepnum: " + stepNum);
+        print2DArray(returner);
         return returner;
     }
 
-    private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis, boolean[][] beenIn, boolean isFirst){
+    private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis){
        // println("x: " + startX + " y: " + startY + " stepnum: " + stepNum);
        // print2DArray(returnThis);
         if(stepNum != 0){
@@ -395,10 +410,9 @@ public class Game{
                 if(board[pos[0]][pos[1]] == null && hasPieceNeighbor(pos[0], pos[1])){
                   //empty space w piece neighbor
                     //need to see if we can fit through there
-                    if(!beenIn[pos[0]][pos[1]] && canPhysicallySlideToDist1(startX, startY, pos[0], pos[1])){
-                        beenIn[pos[0]][pos[1]] = true;
-                        returnThis.add(new int[]{pos[0],pos[1]});
-                        findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis, beenIn, false);
+                    if(canPhysicallySlideToDist1(startX, startY, pos[0], pos[1])){
+                      returnThis.add(new int[]{pos[0],pos[1]});
+                      findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis);
                     }
                 }
             }
