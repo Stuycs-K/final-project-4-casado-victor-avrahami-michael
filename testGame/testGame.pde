@@ -77,6 +77,7 @@
         game.turnType++;
         game.turnType %= 2;
         game.placing = true;
+        legalMoves = game.getPlacableLocations();
         System.out.println("forcing you to place a queen as it is your fourth turn");
         currPiece = game.getUnplacedPiece(18,18,hexSize);
       }
@@ -84,6 +85,7 @@
         game.turnType++;
         game.turnType %= 2;
         game.placing = true;
+        legalMoves = game.getPlacableLocations();
         System.out.println("forcing you to place a queen as it is your fourth turn");
         currPiece = game.getUnplacedPiece(90,20,hexSize);
       }
@@ -152,6 +154,7 @@
     
     if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY())){
       for (int[] loc: legalMoves){
+        //println(loc[0] + ", " + loc[1]);
         outlineHex(loc[0], loc[1], RED);
       }
     }
