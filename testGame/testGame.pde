@@ -14,6 +14,7 @@
   Game game; 
   GamePiece[][] gameBoard;
   GamePiece currPiece;
+  int[][] legalMoves;
   
   
   void setup(){
@@ -89,11 +90,13 @@
       else{
         GamePiece successfulAction = game.findAction(x, y, hexSize);                
         currPiece = successfulAction;
-        println(currPiece == null);
+        //println(currPiece == null);
         
         if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
           game.turnType++;
           game.turnType %= 2;
+          game.print2DArray(currPiece.getLegalMoves());
+          legalMoves = currPiece.getLegalMoves();
         }
       }
     }
@@ -141,6 +144,10 @@
     drawBorder(hexSize * 4);
     
     game.displayInfo();
+    
+    for (int[] loc: legalMoves){
+      outlineHex(loc[0], loc[1], RED);
+    }
     
     //text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
   }
@@ -217,8 +224,8 @@
       if (yLoc % 2 == 1){
         downSet = hexSize / 2 * sqrt(3);
       }
-    float x = 7 * hexSize + hexSize * 1.5 * xLoc;
-    float y = 10 + downSet + hexSize * sqrt(3) * yLoc;
+    float x = 7 * hexSize + hexSize * 1.5 * yLoc;
+    float y = 10 + downSet + hexSize * sqrt(3) * xLoc;
     noFill();
     stroke(strokeColor);
     beginShape();
@@ -226,6 +233,7 @@
     vertex(x + hexSize, y);
     vertex(x + hexSize * 1.5, y + hexSize / 2 * sqrt(3));
     vertex(x + hexSize, y + hexSize * sqrt(3));
+    vertex(x, y + hexSize * sqrt(3));
     vertex(x - hexSize * 0.5, y + hexSize / 2 * sqrt(3));
     vertex(x, y);
     endShape();
