@@ -73,6 +73,7 @@ public class Game{
     
     public boolean movePiece(GamePiece g, int moveX, int moveY){
       //println("You're moving a piece!");
+      //println("You called movePiece: " + g.getX() + ", " + g.getY());
       board[g.getX()][g.getY()] = null;
       if(!isHiveConnected()){
         //println("The hive was not connected :(");

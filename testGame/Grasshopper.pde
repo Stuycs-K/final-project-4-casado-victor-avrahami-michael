@@ -97,19 +97,36 @@ public class Grasshopper extends GamePiece{
     ArrayList<int[]> returner = new ArrayList<int[]>();
     int saveX = this.getX();
     int saveY = this.getY();
-    for(int i = 0; i < 6; i = i){
+    boolean needToReplace = false;
+    if (getGame().board[saveX][saveY] != null){
+      needToReplace = true;
+      getGame().board[saveX][saveY] = null; //to avoid glitches
+    }
+    for(int i = 0; i < 6; i++){
+      boolean hasJumped = false;
+      changeLocation(saveX, saveY);
       int[] newLoc = getLocationInDirection(i);
-      if(newLoc[0] == -1){
-         i++;
+      while (true){
+        if (hasJumped){
+          newLoc = getLocationInDirection(i);
+        }
+        //println(newLoc[0] + ", " + newLoc[1]);
+        if(newLoc[0] == -1){
+          break;
+        }
+        else if(getGame().board[newLoc[0]][newLoc[1]] != null){
+          hasJumped = true;
+          changeLocation(newLoc[0], newLoc[1]);
+        }
+        else {
+          if(game.hasPieceNeighbor(newLoc[0],newLoc[1]) && hasJumped)
+            returner.add(newLoc);
+          break;
+        }
       }
-      else if(getGame().board[newLoc[0]][newLoc[1]] == null){
-        if(game.hasPieceNeighbor(newLoc[0],newLoc[1]))
-        returner.add(newLoc);
-        i++;
-      }
-      else{
-        changeLocation(newLoc[0], newLoc[1]);
-      }
+    }
+    if (needToReplace){
+      getGame().board[saveX][saveY] = this;
     }
     int[][] returnThis = new int[returner.size()][2];
     for(int i = 0; i < returner.size(); i++){
