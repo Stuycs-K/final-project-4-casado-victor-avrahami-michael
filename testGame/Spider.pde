@@ -28,6 +28,8 @@ public class Spider extends GamePiece{
   public int[][] getLegalMoves(){
     int[][] a3 = getGame().findSlidableMoves(this.getX(), this.getY(), 3);
     int[][] a2 = getGame().findSlidableMoves(this.getX(), this.getY(), 2);
+    //game.print2DArray(a3);
+    //game.print2DArray(a2);
     ArrayList<int[]> list = new ArrayList<int[]>();
     for(int i = 0; i < a3.length; i++){ //everything in 3 thats not in 2
       list.add(a3[i]);
@@ -43,7 +45,10 @@ public class Spider extends GamePiece{
     for(int i = 0; i < list.size(); i++){
       returner[i] = list.get(i);
     }
+    //println("# Legal moves: " + returner.length);
+    //game.print2DArray(returner);
     return returner;
+    
   }
 
 }

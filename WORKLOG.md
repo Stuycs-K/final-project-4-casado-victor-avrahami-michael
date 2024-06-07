@@ -88,5 +88,16 @@ fixed multiple gamebreaking bugs
 including crashes, pieces not being able to move, pieces rendering wrong, etc
 queens force placement
 
-## date 6/6
+## Michael Avrahami
+### date 6/2
+Finished display whose turn it is and what it's doing
+Rearranged endGame functions
+
+## Michael Avrahami
+### date 6/4
+Tried and failed to make outlining hexagon work
+
+## Victor Casado
+### date 6/6
 grasshoppers work now
+

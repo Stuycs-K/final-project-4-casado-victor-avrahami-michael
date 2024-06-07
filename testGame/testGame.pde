@@ -3,6 +3,7 @@
   final color BLUE = color(100, 100, 255);
   final color BLACK = color(0, 0, 0);
   final color WHITE = color(255, 255, 255);
+  final color RED = color(255, 0, 0);
   final int QUEENBEE = 0;
   final int SPIDER = 1;
   final int BEETLE = 2;
@@ -12,7 +13,6 @@
   
   Game game; 
   GamePiece[][] gameBoard;
-  int turnType = 0;
   GamePiece currPiece;
   
   
@@ -40,7 +40,7 @@
     text("isPlacing: " + game.placing, width - 240, 40);
     text("CurrPiece: " + currPiece, width - 240, 50);
     text("Turn: " + game.turnCount, width - 240, 60);
-    text("Turntype: " + turnType, width - 240, 70);
+    text("Turntype: " + game.turnType, width - 240, 70);
   }
 
   void draw(){
@@ -71,17 +71,17 @@
    
 
     
-    if (turnType == 0){
+    if (game.turnType == 0){
       if(game.turnCount == 7 && game.player1Queen == null){
-        turnType++;
-        turnType %= 2;
+        game.turnType++;
+        game.turnType %= 2;
         game.placing = true;
         System.out.println("forcing you to place a queen as it is your fourth turn");
         currPiece = game.getUnplacedPiece(18,18,hexSize);
       }
       else if(game.turnCount == 8 && game.player2Queen == null){
-        turnType++;
-        turnType %= 2;
+        game.turnType++;
+        game.turnType %= 2;
         game.placing = true;
         System.out.println("forcing you to place a queen as it is your fourth turn");
         currPiece = game.getUnplacedPiece(90,20,hexSize);
@@ -92,15 +92,15 @@
         println(currPiece == null);
         
         if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
-          turnType++;
-          turnType %= 2;
+          game.turnType++;
+          game.turnType %= 2;
         }
       }
     }
     else{
       int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
       if (whereToGo != null){
-        
+        //outlineHex(whereToGo[0], whereToGo[1], RED);
         boolean successfulAction = false;
         if (game.placing){
           if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
@@ -113,14 +113,14 @@
           }
         }
         if (successfulAction){
-          turnType++;
-          turnType %= 2;
+          game.turnType++;
+          game.turnType %= 2;
           game.toggleTurn();
           game.turnCount++;
         }
         else{
-          turnType++;
-          turnType %= 2;
+          game.turnType++;
+          game.turnType %= 2;
           if(game.placing){
             if(game.isPlayerOneTurn){
               game.p1Store[game.placingPieceStoreCoor] = currPiece;
@@ -132,6 +132,8 @@
         }
       }
     }
+    
+    //delay(1000);
     
     background(255);
     drawUnplacedPieces(hexSize);
@@ -208,6 +210,27 @@
       fill(BLACK);
       image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
     }
+  }
+  
+  void outlineHex(float xLoc, float yLoc, color strokeColor){
+    float downSet = 0;
+      if (yLoc % 2 == 1){
+        downSet = hexSize / 2 * sqrt(3);
+      }
+    float x = 7 * hexSize + hexSize * 1.5 * xLoc;
+    float y = 10 + downSet + hexSize * sqrt(3) * yLoc;
+    noFill();
+    stroke(strokeColor);
+    beginShape();
+    vertex(x, y);
+    vertex(x + hexSize, y);
+    vertex(x + hexSize * 1.5, y + hexSize / 2 * sqrt(3));
+    vertex(x + hexSize, y + hexSize * sqrt(3));
+    vertex(x - hexSize * 0.5, y + hexSize / 2 * sqrt(3));
+    vertex(x, y);
+    endShape();
+    fill(255, 255, 255);
+    stroke(BLACK);
   }
   
   PImage findImage(GamePiece g){
