@@ -180,7 +180,7 @@ public class Game{
         }
         //movePiece(board[row][col]);
         
-        
+        //println(row + " " + col);
         return new int[]{row, col};
         
         //text("x: " + x + " currX: " + currX + " currY: " + currY + " y: " + y + " " + row + " " + col, 500, 500);

@@ -89,6 +89,7 @@
       else{
         GamePiece successfulAction = game.findAction(x, y, hexSize);                
         currPiece = successfulAction;
+        println(currPiece == null);
         
         if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
           game.turnType++;

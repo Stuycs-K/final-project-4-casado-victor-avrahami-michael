@@ -97,6 +97,8 @@ Rearranged endGame functions
 ### date 6/4
 Tried and failed to make outlining hexagon work
 
-## date 6/6
+
+## Victor Casado
+### date 6/6
 grasshoppers work now
 
