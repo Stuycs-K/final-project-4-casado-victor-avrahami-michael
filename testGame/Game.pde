@@ -76,7 +76,7 @@ public class Game{
       if(g.pieceOnTop != null){
         if(g.pieceOnTop.isLegalMove(moveX, moveY)){
           g.pieceOnTop.move(moveX, moveY);
-          if(board[moveX][moveY].pieceOnTop == null){
+          if(board[moveX][moveY] == null){
             board[moveX][moveY] = g.pieceOnTop;
           }
           g.pieceOnTop = null;
@@ -93,7 +93,8 @@ public class Game{
       }
       if(g.isLegalMove(moveX, moveY)){
         //println("Successful move?!");
-        board[moveX][moveY] = g;
+        if(board[moveX][moveY] == null)
+          board[moveX][moveY] = g;
         g.move(moveX, moveY);
         return true;
       }

@@ -26,7 +26,7 @@ public class Ant extends GamePiece{
     return false;
   }
   public int[][] getLegalMoves(){
-    return getGame().findSlidableMoves(this.getX(), this.getY(), 1000); //1000 is just arbitrarily big
+    return getGame().findSlidableMoves(this.getX(), this.getY(), 50); //1000 is just arbitrarily big
   }
     // no canMove method, needs board access, so needs to be in game class
 
