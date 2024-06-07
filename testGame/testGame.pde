@@ -150,7 +150,7 @@
     
     game.displayInfo();
     
-    if (game.turnType == 1){
+    if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY())){
       for (int[] loc: legalMoves){
         outlineHex(loc[0], loc[1], RED);
       }
