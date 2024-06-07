@@ -13,7 +13,6 @@
   
   Game game; 
   GamePiece[][] gameBoard;
-  int turnType = 0;
   GamePiece currPiece;
   
   
@@ -41,7 +40,7 @@
     text("isPlacing: " + game.placing, width - 240, 40);
     text("CurrPiece: " + currPiece, width - 240, 50);
     text("Turn: " + game.turnCount, width - 240, 60);
-    text("Turntype: " + turnType, width - 240, 70);
+    text("Turntype: " + game.turnType, width - 240, 70);
   }
 
   void draw(){
@@ -72,17 +71,17 @@
    
 
     
-    if (turnType == 0){
+    if (game.turnType == 0){
       if(game.turnCount == 7 && game.player1Queen == null){
-        turnType++;
-        turnType %= 2;
+        game.turnType++;
+        game.turnType %= 2;
         game.placing = true;
         System.out.println("forcing you to place a queen as it is your fourth turn");
         currPiece = game.getUnplacedPiece(18,18,hexSize);
       }
       else if(game.turnCount == 8 && game.player2Queen == null){
-        turnType++;
-        turnType %= 2;
+        game.turnType++;
+        game.turnType %= 2;
         game.placing = true;
         System.out.println("forcing you to place a queen as it is your fourth turn");
         currPiece = game.getUnplacedPiece(90,20,hexSize);
@@ -90,10 +89,11 @@
       else{
         GamePiece successfulAction = game.findAction(x, y, hexSize);                
         currPiece = successfulAction;
+        println(currPiece == null);
         
         if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
-          turnType++;
-          turnType %= 2;
+          game.turnType++;
+          game.turnType %= 2;
         }
       }
     }
@@ -113,14 +113,14 @@
           }
         }
         if (successfulAction){
-          turnType++;
-          turnType %= 2;
+          game.turnType++;
+          game.turnType %= 2;
           game.toggleTurn();
           game.turnCount++;
         }
         else{
-          turnType++;
-          turnType %= 2;
+          game.turnType++;
+          game.turnType %= 2;
           if(game.placing){
             if(game.isPlayerOneTurn){
               game.p1Store[game.placingPieceStoreCoor] = currPiece;

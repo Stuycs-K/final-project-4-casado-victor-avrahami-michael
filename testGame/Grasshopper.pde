@@ -18,7 +18,13 @@ public class Grasshopper extends GamePiece{
     }
   }
     public boolean isLegalMove(int newX, int newY){
-    return true;
+    int[][] legalMoves = getLegalMoves();
+    for(int i = 0; i < legalMoves.length; i++){
+      if(legalMoves[i][0] == newX && legalMoves[i][1] == newY){
+        return true;
+      }
+    }
+    return false;
   }
 
   private int[] getLocationInDirection(int direction){ //if returns -1, -1 then out of board
@@ -93,7 +99,11 @@ public class Grasshopper extends GamePiece{
     int saveY = this.getY();
     for(int i = 0; i < 6; i = i){
       int[] newLoc = getLocationInDirection(i);
-      if(getGame().board[newLoc[0]][newLoc[1]] == null){
+      if(newLoc[0] == -1){
+         i++;
+      }
+      else if(getGame().board[newLoc[0]][newLoc[1]] == null){
+        if(game.hasPieceNeighbor(newLoc[0],newLoc[1]))
         returner.add(newLoc);
         i++;
       }

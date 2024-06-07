@@ -96,3 +96,14 @@ Rearranged endGame functions
 ## Michael Avrahami
 ### date 6/4
 Tried and failed to make outlining hexagon work
+
+
+## Victor Casado
+### date 6/6
+grasshoppers work now
+
+## Michael Avrahami
+### date 6/6
+Fixed annoying spider error
+Cleaned code up slightly
+
