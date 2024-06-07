@@ -365,59 +365,50 @@ public class Game{
         ArrayList<int[]> a= new ArrayList<int[]>();
         GamePiece temp = board[startX][startY];
         board[startX][startY] = null; // so we dont try to move onto ourselves
-        findSlidableMoves(startX, startY, stepNum, a);
+        
+        boolean[][] beenIn = new boolean[board.length][board[0].length];
+        beenIn[startX][startY] = true;
+        a.add(new int[]{startX, startY});
+        
+        findSlidableMoves(startX, startY, stepNum, a, beenIn, 0);
+        //println(a);
+        
+        a.remove(0);
+        int[][] returner = new int[a.size()][2]; 
         for(int i = 0; i < a.size(); i++){
-          if(a.get(i)[0] == startX && a.get(i)[1] == startY){
-            a.remove(i);
-          }
+            returner[i] = a.get(i);
         }
-        //print2DArray(a);
-        //print2DArray(board);
-        ArrayList<int[]> aNoRepeats = new ArrayList<int[]>();
-        
-        for(int i = 0; i < a.size(); i++){
-          boolean repeat = false;
-          for (int j = 0; j < aNoRepeats.size(); j++){
-            if (aNoRepeats.get(j)[0] == a.get(i)[0] && aNoRepeats.get(j)[1] == a.get(i)[1]){
-              repeat = true;
-            }
-          }
-          if (! repeat){
-            aNoRepeats.add(a.get(i));
-          }
-        }
-        
-        int[][] returner = new int[aNoRepeats.size()][2];
-        
-        for (int i = 0; i < returner.length; i++){
-          returner[i] = aNoRepeats.get(i);
-        }
-        
         board[startX][startY] = temp;
-        //println("Startx: " + startX + "  Starty: " + startY + "  Stepnum: " + stepNum);
-        //print2DArray(returner);
         return returner;
     }
 
-    private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis){
-       // println("x: " + startX + " y: " + startY + " stepnum: " + stepNum);
-       // print2DArray(returnThis);
+    private void findSlidableMoves(int startX, int startY, int stepNum, ArrayList<int[]> returnThis, boolean[][] beenIn, int numToStartFrom){
         if(stepNum != 0){
-            
-            
-            int[][] neighbors = getNeighborLocations(startX, startY);            
-            for(int[] pos: neighbors){
-                if(board[pos[0]][pos[1]] == null && hasPieceNeighbor(pos[0], pos[1])){
-                  //empty space w piece neighbor
-                    //need to see if we can fit through there
-                    if(canPhysicallySlideToDist1(startX, startY, pos[0], pos[1])){
-                      returnThis.add(new int[]{pos[0],pos[1]});
-                      findSlidableMoves(pos[0], pos[1], stepNum - 1, returnThis);
-                    }
-                }
-            }
+          int nextNumToStartFrom = numToStartFrom;
+          int origSize = returnThis.size();
+          for (int i = numToStartFrom; i < origSize; i++){
+            //println(returnThis.get(i)[0] + " " + returnThis.get(i)[1]);
+            findNextSlidableMoves(returnThis.get(i)[0], returnThis.get(i)[1], returnThis, beenIn);
+            nextNumToStartFrom++;
+          }
+          //print2DArray(returnThis);
+          findSlidableMoves(startX, startY, stepNum - 1, returnThis, beenIn, nextNumToStartFrom);  
         }
     }
+    
+    private void findNextSlidableMoves(int startX, int startY, ArrayList<int[]> returnThis, boolean[][] beenIn){
+      int[][] neighbors = getNeighborLocations(startX, startY);
+        for (int[] pos: neighbors){
+          int x = pos[0];
+          int y = pos[1];
+          if (board[x][y] == null && hasPieceNeighbor(x, y)){
+            if (!beenIn[x][y] && canPhysicallySlideToDist1(startX, startY, x, y)){
+              beenIn[x][y] = true;
+              returnThis.add(new int[]{x, y});
+            }
+          }
+        }
+      }
 
     public boolean hasPieceNeighbor(int x, int y){
         GamePiece[] neighbors = getNeighbors(x, y);
@@ -507,8 +498,11 @@ public class Game{
     }
     
     public boolean isLegalPlacement(int x, int y){
-      if (turnCount <= 2){
+      if (turnCount <= 1){
         return true;
+      }
+      if (turnCount == 2){
+        return hasPieceNeighbor(x, y);
       }
       int[][] places = getPlacableLocations();
       for(int i = 0; i < places.length; i++){
