@@ -8,6 +8,10 @@ public class Game{
     public int turnCount;
     public int placingPieceStoreCoor;
     public int turnType = 0;
+    public Display d;
+    public int hexSize;
+    GamePiece currPiece;
+    int[][] legalMoves;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -19,7 +23,98 @@ public class Game{
         placing = true;
         board = new GamePiece[23][23];
         turnCount = 0;
-        initializePieceStore();
+        hexSize = 36;
+        currPiece = null;
+        legalMoves = null;
+        d = new Display(this);
+        setup();
+    }
+    
+    public void setup(){
+      initializePieceStore();
+      d.display();
+      turnCount++;
+    }
+    
+    public void move(float x, float y){
+      if (turnType == 0){
+        if(turnCount == 7 && player1Queen == null){
+          turnType++;
+          turnType %= 2;
+          placing = true;
+          legalMoves = game.getPlacableLocations();
+          System.out.println("forcing you to place a queen as it is your fourth turn");
+          currPiece = game.getUnplacedPiece(18,18,hexSize);
+        }
+        else if(turnCount == 8 && player2Queen == null){
+          turnType++;
+          turnType %= 2;
+          placing = true;
+          legalMoves = game.getPlacableLocations();
+          System.out.println("forcing you to place a queen as it is your fourth turn");
+          currPiece = game.getUnplacedPiece(90,20,hexSize);
+        }
+        else{
+          GamePiece successfulAction = findAction(x, y, hexSize);                
+          currPiece = successfulAction;
+        
+          if (currPiece != null && ((successfulAction.getTurn() && isPlayerOneTurn) || ! (successfulAction.getTurn() || isPlayerOneTurn))){
+            println("not null");
+            turnType++;
+            turnType %= 2;
+            if (! placing){
+              legalMoves = currPiece.getLegalMoves();
+            }
+            else {
+              legalMoves = getPlacableLocations();
+            }
+          }
+        }
+      }
+      else{
+        int[] whereToGo = getPlacedLocation(x, y, hexSize);
+        if (whereToGo != null){
+          boolean successfulAction = false;
+          if (placing){
+            if (addPiece(currPiece, whereToGo[0], whereToGo[1])){
+              successfulAction = true;
+            }
+          }
+          else {
+            if (movePiece(currPiece, whereToGo[0], whereToGo[1])){
+              successfulAction = true;
+            }
+          }
+          if (successfulAction){
+            turnType++;
+            turnType %= 2;
+            toggleTurn();
+            turnCount++;
+          }
+          else{
+            turnType++;
+            turnType %= 2;
+            if(placing){
+              if(isPlayerOneTurn){
+                p1Store[placingPieceStoreCoor] = currPiece;
+              }
+              else{
+                p2Store[placingPieceStoreCoor] = currPiece;
+              }
+            }
+          }
+        }
+      }
+      d.display();
+    }
+    
+    public void checkGameOver(){
+      if (player1Queen != null && player2Queen != null){
+        int gameOver = game.isGameOver();
+        if (gameOver > 0){
+          game.endGame(gameOver);
+        }
+      }
     }
     
     public void print2DArray(GamePiece[][] t){
@@ -527,43 +622,5 @@ public class Game{
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
       text(endText, 500, height - 100);
-    }
-    
-    public void displayInfo(){
-       String text1 = "Player ";
-       if (isPlayerOneTurn){
-         text1 += "1";
-         fill(GREEN);
-       }
-       else {
-         text1 += "2";
-         fill(BLUE);
-       }
-       text1 += "\'s turn";
-       
-       String text2 = "";
-       if (turnType % 2 == 0){
-         text2 = "Click a piece to place or move.";
-       }
-       else {
-         if (placing){
-           text2 = "Select a hexagon to place your piece.";
-         }
-         else {
-           text2 = "Select a hexagon to move your piece.";
-         }
-       }
-       
-       //fill(BLUE);
-       //println("got here");
-       textSize(15);
-       rect(hexSize * 4, 0, 2 * hexSize, height);
-       rotate(-PI/2);
-       fill(BLACK);
-       text(text1, -750, 190);
-       text(text2, -750, 210);
-       fill(WHITE);
-       rotate(PI/2);
-       textSize(12);
     }
 }
