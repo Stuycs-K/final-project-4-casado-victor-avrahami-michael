@@ -8,6 +8,7 @@ public class Game{
     public int turnCount;
     public int placingPieceStoreCoor;
     public int turnType = 0;
+    public Display d;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -19,7 +20,13 @@ public class Game{
         placing = true;
         board = new GamePiece[23][23];
         turnCount = 0;
-        initializePieceStore();
+        d = new Display(this);
+        setup();
+    }
+    
+    public void setup(){
+      initializePieceStore();
+      Display.display();
     }
     
     public void print2DArray(GamePiece[][] t){

@@ -19,7 +19,6 @@
   
   void setup(){
     size(1500, 800);
-    background(255);
     game = new Game();
     gameBoard = game.board;
     
@@ -144,20 +143,6 @@
     }
     
     //delay(1000);
-    
-    background(255);
-    drawUnplacedPieces(hexSize);
-    drawBoard(hexSize);
-    drawBorder(hexSize * 4);
-    
-    game.displayInfo();
-    
-    if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY())){
-      for (int[] loc: legalMoves){
-        //println(loc[0] + ", " + loc[1]);
-        outlineHex(loc[0], loc[1], RED);
-      }
-    }
     
     //text(currPiece + " " + turnType + " " + game.isPlayerOneTurn, 400, 400);
   }
