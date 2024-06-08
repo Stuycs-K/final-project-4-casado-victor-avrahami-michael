@@ -9,6 +9,9 @@ public class Game{
     public int placingPieceStoreCoor;
     public int turnType = 0;
     public Display d;
+    public int hexSize;
+    GamePiece currPiece;
+    int[][] legalMoves;
 
     public Game(){
         player1Pieces = new GamePiece[11];
@@ -20,19 +23,20 @@ public class Game{
         placing = true;
         board = new GamePiece[23][23];
         turnCount = 0;
+        hexSize = 36;
+        currPiece = null;
+        legalMoves = null;
         d = new Display(this);
         setup();
     }
     
     public void setup(){
       initializePieceStore();
-      Display.display();
+      d.display();
       turnCount++;
     }
     
-    public void move(){
-      int[][] legalMoves;
-      GamePiece currPiece;
+    public void move(float x, float y){
       if (turnType == 0){
         if(turnCount == 7 && player1Queen == null){
           turnType++;
@@ -54,7 +58,8 @@ public class Game{
           GamePiece successfulAction = findAction(x, y, hexSize);                
           currPiece = successfulAction;
         
-          if (successfulAction != null && ((successfulAction.getTurn() && isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
+          if (currPiece != null && ((successfulAction.getTurn() && isPlayerOneTurn) || ! (successfulAction.getTurn() || isPlayerOneTurn))){
+            println("not null");
             turnType++;
             turnType %= 2;
             if (! placing){
@@ -66,50 +71,51 @@ public class Game{
           }
         }
       }
-    else{
-      int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
-      if (whereToGo != null){
-        //outlineHex(whereToGo[0], whereToGo[1], RED);
-        boolean successfulAction = false;
-        if (game.placing){
-          if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
-            successfulAction = true;
-          }
-        }
-        else {
-          if (game.movePiece(currPiece, whereToGo[0], whereToGo[1])){
-            successfulAction = true;
-          }
-        }
-        if (successfulAction){
-          game.turnType++;
-          game.turnType %= 2;
-          game.toggleTurn();
-          game.turnCount++;
-        }
-        else{
-          game.turnType++;
-          game.turnType %= 2;
-          if(game.placing){
-            if(game.isPlayerOneTurn){
-              game.p1Store[game.placingPieceStoreCoor] = currPiece;
+      else{
+        int[] whereToGo = getPlacedLocation(x, y, hexSize);
+        if (whereToGo != null){
+          boolean successfulAction = false;
+          if (placing){
+            if (addPiece(currPiece, whereToGo[0], whereToGo[1])){
+              successfulAction = true;
             }
-            else{
-              game.p2Store[game.placingPieceStoreCoor] = currPiece;
+          }
+          else {
+            if (movePiece(currPiece, whereToGo[0], whereToGo[1])){
+              successfulAction = true;
+            }
+          }
+          if (successfulAction){
+            turnType++;
+            turnType %= 2;
+            toggleTurn();
+            turnCount++;
+          }
+          else{
+            turnType++;
+            turnType %= 2;
+            if(placing){
+              if(isPlayerOneTurn){
+                p1Store[placingPieceStoreCoor] = currPiece;
+              }
+              else{
+                p2Store[placingPieceStoreCoor] = currPiece;
+              }
             }
           }
         }
       }
+      d.display();
     }
     
     public void checkGameOver(){
       if (player1Queen != null && player2Queen != null){
         int gameOver = game.isGameOver();
         if (gameOver > 0){
-          Display.display();
           game.endGame(gameOver);
         }
       }
+    }
     
     public void print2DArray(GamePiece[][] t){
       for (int i = 0; i < t.length; i++){
@@ -616,43 +622,5 @@ public class Game{
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
       text(endText, 500, height - 100);
-    }
-    
-    public void displayInfo(){
-       String text1 = "Player ";
-       if (isPlayerOneTurn){
-         text1 += "1";
-         fill(GREEN);
-       }
-       else {
-         text1 += "2";
-         fill(BLUE);
-       }
-       text1 += "\'s turn";
-       
-       String text2 = "";
-       if (turnType % 2 == 0){
-         text2 = "Click a piece to place or move.";
-       }
-       else {
-         if (placing){
-           text2 = "Select a hexagon to place your piece.";
-         }
-         else {
-           text2 = "Select a hexagon to move your piece.";
-         }
-       }
-       
-       //fill(BLUE);
-       //println("got here");
-       textSize(15);
-       rect(hexSize * 4, 0, 2 * hexSize, height);
-       rotate(-PI/2);
-       fill(BLACK);
-       text(text1, -750, 190);
-       text(text2, -750, 210);
-       fill(WHITE);
-       rotate(PI/2);
-       textSize(12);
     }
 }
