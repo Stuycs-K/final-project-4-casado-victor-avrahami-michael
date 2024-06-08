@@ -177,4 +177,28 @@
        rotate(PI/2);
        textSize(12);
     }
+    
+    public void textBox(String text, int startX, int startY, int boxWidth){
+      int currY = startY;
+      while (text.length() > 0){
+        String line = "";
+        while (text.length() > 0 && textWidth(line) < boxWidth){
+          line += text.charAt(0);
+          text = text.substring(1); 
+        }
+        fill(RED);
+        stroke(RED);
+        
+        rect(startX, currY, boxWidth, currY + 15);
+        fill(BLACK);
+        stroke(BLACK);
+        
+        currY += 15;
+        text(line, startX + 5, currY);
+      }
+      
+      fill(RED);
+      rect(startX, startY, boxWidth, currY - startY);
+      fill(BLACK);
+    }
 }

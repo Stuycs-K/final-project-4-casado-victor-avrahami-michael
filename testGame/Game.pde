@@ -107,13 +107,15 @@ public class Game{
       d.display();
     }
     
-    public void checkGameOver(){
+    public boolean checkGameOver(){
       if (player1Queen != null && player2Queen != null){
         int gameOver = game.isGameOver();
         if (gameOver > 0){
           game.endGame(gameOver);
+          return true;
         }
       }
+      return false;
     }
     
     public void print2DArray(GamePiece[][] t){
@@ -620,6 +622,9 @@ public class Game{
       if (trapped == 3){
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
-      text(endText, 500, height - 100);
+      //println("here");
+      //text("WASSUP", 500, 500);
+      d.textBox(endText, width / 2 - 200, height / 2 - 100, 400);
+      delay(5000);
     }
 }

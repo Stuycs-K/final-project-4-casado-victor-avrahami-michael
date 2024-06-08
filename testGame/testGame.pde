@@ -8,7 +8,7 @@
     game = new Game();
   }
 
-  void draw(){   
+  void draw(){
     game.checkGameOver();
   }
   
