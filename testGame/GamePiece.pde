@@ -3,6 +3,7 @@ public abstract class GamePiece{
     private int type;
     private int xLoc, yLoc;
     private boolean OwnedByPlayerOne;
+    public GamePiece pieceOnTop, pieceBelow;
     private Game game;
 
     public GamePiece(int type, int x, int y, boolean p1, String name, Game game){

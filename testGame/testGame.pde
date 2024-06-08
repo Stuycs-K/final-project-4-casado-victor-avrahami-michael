@@ -152,7 +152,7 @@
     
     game.displayInfo();
     
-    if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY())){
+    if (game.turnType == 1){
       for (int[] loc: legalMoves){
         //println(loc[0] + ", " + loc[1]);
         outlineHex(loc[0], loc[1], RED);
@@ -199,6 +199,9 @@
     if (g != null){
       String text = g.getName().substring(0, 1);
       //fill(255, 0, 0);
+    while(g.pieceOnTop != null){
+      g = g.pieceOnTop;
+    }
       boolean player1 = g.getTurn();
     
       if (player1){
@@ -223,6 +226,7 @@
     vertex(x, y);
     endShape();
     
+
     if (g != null){
       fill(BLACK);
       image(findImage(g), x+ sideLength / 2 - 45, y + sideLength / 2 * sqrt(3) - 40, 100, 100);
