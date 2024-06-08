@@ -27,7 +27,89 @@ public class Game{
     public void setup(){
       initializePieceStore();
       Display.display();
+      turnCount++;
     }
+    
+    public void move(){
+      int[][] legalMoves;
+      GamePiece currPiece;
+      if (turnType == 0){
+        if(turnCount == 7 && player1Queen == null){
+          turnType++;
+          turnType %= 2;
+          placing = true;
+          legalMoves = game.getPlacableLocations();
+          System.out.println("forcing you to place a queen as it is your fourth turn");
+          currPiece = game.getUnplacedPiece(18,18,hexSize);
+        }
+        else if(turnCount == 8 && player2Queen == null){
+          turnType++;
+          turnType %= 2;
+          placing = true;
+          legalMoves = game.getPlacableLocations();
+          System.out.println("forcing you to place a queen as it is your fourth turn");
+          currPiece = game.getUnplacedPiece(90,20,hexSize);
+        }
+        else{
+          GamePiece successfulAction = findAction(x, y, hexSize);                
+          currPiece = successfulAction;
+        
+          if (successfulAction != null && ((successfulAction.getTurn() && isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
+            turnType++;
+            turnType %= 2;
+            if (! placing){
+              legalMoves = currPiece.getLegalMoves();
+            }
+            else {
+              legalMoves = getPlacableLocations();
+            }
+          }
+        }
+      }
+    else{
+      int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
+      if (whereToGo != null){
+        //outlineHex(whereToGo[0], whereToGo[1], RED);
+        boolean successfulAction = false;
+        if (game.placing){
+          if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
+        }
+        else {
+          if (game.movePiece(currPiece, whereToGo[0], whereToGo[1])){
+            successfulAction = true;
+          }
+        }
+        if (successfulAction){
+          game.turnType++;
+          game.turnType %= 2;
+          game.toggleTurn();
+          game.turnCount++;
+        }
+        else{
+          game.turnType++;
+          game.turnType %= 2;
+          if(game.placing){
+            if(game.isPlayerOneTurn){
+              game.p1Store[game.placingPieceStoreCoor] = currPiece;
+            }
+            else{
+              game.p2Store[game.placingPieceStoreCoor] = currPiece;
+            }
+          }
+        }
+      }
+    }
+    
+    public void checkGameOver(){
+      if (player1Queen != null && player2Queen != null){
+        int gameOver = game.isGameOver();
+        if (gameOver > 0){
+          Display.display();
+          game.endGame(gameOver);
+        }
+      }
     
     public void print2DArray(GamePiece[][] t){
       for (int i = 0; i < t.length; i++){

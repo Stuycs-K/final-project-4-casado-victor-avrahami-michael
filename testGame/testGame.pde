@@ -20,46 +20,10 @@
   void setup(){
     size(1500, 800);
     game = new Game();
-    gameBoard = game.board;
-    
-    background(255);
-    drawUnplacedPieces(hexSize);
-    drawBoard(hexSize);
-    drawBorder(hexSize * 4);
-    
-    game.displayInfo();
-    game.turnCount++;
-  }
-  
-  void printDebug(){
-    fill(WHITE);
-    rect(width - 250, 0, 150, 150);
-    fill(BLACK);
-    text("DEBUG INFO", width - 240, 20);
-    text("isTurnOne: " + game.isPlayerOneTurn, width - 240, 30);
-    text("isPlacing: " + game.placing, width - 240, 40);
-    text("CurrPiece: " + currPiece, width - 240, 50);
-    text("Turn: " + game.turnCount, width - 240, 60);
-    text("Turntype: " + game.turnType, width - 240, 70);
   }
 
-  void draw(){
-    //println("HI");
-    
-    //printDebug();
-    
-    if (game.turnCount >= 9){
-      int gameOver = game.isGameOver();
-      if (gameOver > 0){
-        background(255);
-        drawUnplacedPieces(hexSize);
-        drawBoard(hexSize);
-        drawBorder(hexSize * 4);
-        game.endGame(gameOver);
-       // rect(300, 300, 200, 200);
-       // text("GAME OVER", 400, 400);
-      }
-    }
+  void draw(){   
+    game.checkGameOver();
   }
   
   void mouseClicked(){
@@ -71,76 +35,7 @@
    
 
     
-    if (game.turnType == 0){
-      if(game.turnCount == 7 && game.player1Queen == null){
-        game.turnType++;
-        game.turnType %= 2;
-        game.placing = true;
-        legalMoves = game.getPlacableLocations();
-        System.out.println("forcing you to place a queen as it is your fourth turn");
-        currPiece = game.getUnplacedPiece(18,18,hexSize);
-      }
-      else if(game.turnCount == 8 && game.player2Queen == null){
-        game.turnType++;
-        game.turnType %= 2;
-        game.placing = true;
-        legalMoves = game.getPlacableLocations();
-        System.out.println("forcing you to place a queen as it is your fourth turn");
-        currPiece = game.getUnplacedPiece(90,20,hexSize);
-      }
-      else{
-        GamePiece successfulAction = game.findAction(x, y, hexSize);                
-        currPiece = successfulAction;
-        //println(currPiece == null);
-        
-        if (successfulAction != null && ((successfulAction.getTurn() && game.isPlayerOneTurn) || ! (successfulAction.getTurn() || game.isPlayerOneTurn))){
-          game.turnType++;
-          game.turnType %= 2;
-          //game.print2DArray(currPiece.getLegalMoves());
-          if (! game.placing){
-            legalMoves = currPiece.getLegalMoves();
-          }
-          else {
-            legalMoves = game.getPlacableLocations();
-          }
-        }
-      }
-    }
-    else{
-      int[] whereToGo = game.getPlacedLocation(x, y, hexSize);
-      if (whereToGo != null){
-        //outlineHex(whereToGo[0], whereToGo[1], RED);
-        boolean successfulAction = false;
-        if (game.placing){
-          if (game.addPiece(currPiece, whereToGo[0], whereToGo[1])){
-            successfulAction = true;
-          }
-        }
-        else {
-          if (game.movePiece(currPiece, whereToGo[0], whereToGo[1])){
-            successfulAction = true;
-          }
-        }
-        if (successfulAction){
-          game.turnType++;
-          game.turnType %= 2;
-          game.toggleTurn();
-          game.turnCount++;
-        }
-        else{
-          game.turnType++;
-          game.turnType %= 2;
-          if(game.placing){
-            if(game.isPlayerOneTurn){
-              game.p1Store[game.placingPieceStoreCoor] = currPiece;
-            }
-            else{
-              game.p2Store[game.placingPieceStoreCoor] = currPiece;
-            }
-          }
-        }
-      }
-    }
+    
     
     //delay(1000);
     
