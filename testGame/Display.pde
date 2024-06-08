@@ -1,6 +1,5 @@
   import java.util.*;
-  public class Display{
-    
+  public class Display{    
     final color GREEN = color(0, 255, 0);
     final color BLUE = color(100, 100, 255);
     final color BLACK = color(0, 0, 0);
@@ -28,9 +27,8 @@
     
       displayInfo();
     
-      if (game.turnType == 1 && game.canMove(game.currPiece.getX(), game.currPiece.getY())){
-        for (int[] loc: game.legalMoves){
-          //println(loc[0] + ", " + loc[1]);
+      if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY())){
+        for (int[] loc: legalMoves){
           outlineHex(loc[0], loc[1], RED);
         }
       }
@@ -71,8 +69,6 @@
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength, GamePiece g) {
     if (g != null){
-      String text = g.getName().substring(0, 1);
-      //fill(255, 0, 0);
       boolean player1 = g.getTurn();
     
       if (player1){
@@ -171,8 +167,6 @@
          }
        }
        
-       //fill(BLUE);
-       //println("got here");
        textSize(15);
        rect(hexSize * 4, 0, 2 * hexSize, height);
        rotate(-PI/2);

@@ -1,42 +1,42 @@
 import java.util.ArrayList;
 public class Game{
     public GamePiece[][] board;
-    public boolean isPlayerOneTurn;
     public GamePiece[] player1Pieces, player2Pieces, p1Store, p2Store;
     public GamePiece player1Queen, player2Queen;
-    public boolean placing;
-    public int turnCount;
-    public int placingPieceStoreCoor;
-    public int turnType = 0;
     public Display d;
-    public int hexSize;
-    GamePiece currPiece;
-    int[][] legalMoves;
+    
+    public boolean placing, isPlayerOneTurn;
+    public int turnCount, turnType;
+    public int placingPieceStoreCoor;
+    
 
     public Game(){
         player1Pieces = new GamePiece[11];
         player2Pieces = new GamePiece[11];
         p1Store = new GamePiece[11];
         p2Store = new GamePiece[11];
+        board = new GamePiece[23][23];
         //create queens when added into game
+        
+        d = new Display(this);
+        
         isPlayerOneTurn = true;
         placing = true;
-        board = new GamePiece[23][23];
+        
         turnCount = 0;
-        hexSize = 36;
-        currPiece = null;
-        legalMoves = null;
-        d = new Display(this);
-        setup();
+        turnType = 0;
+
+        
+        gameSetup();
     }
     
-    public void setup(){
+    public void gameSetup(){
       initializePieceStore();
       d.display();
       turnCount++;
     }
     
-    public void move(float x, float y){
+    public void run(float x, float y){
       if (turnType == 0){
         if(turnCount == 7 && player1Queen == null){
           turnType++;
@@ -59,7 +59,6 @@ public class Game{
           currPiece = successfulAction;
         
           if (currPiece != null && ((successfulAction.getTurn() && isPlayerOneTurn) || ! (successfulAction.getTurn() || isPlayerOneTurn))){
-            println("not null");
             turnType++;
             turnType %= 2;
             if (! placing){
