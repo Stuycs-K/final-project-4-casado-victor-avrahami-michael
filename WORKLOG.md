@@ -107,3 +107,6 @@ grasshoppers work now
 Fixed annoying spider error
 Cleaned code up slightly
 
+## Victor Casado
+### date 6/8 
+Beetles implemented
