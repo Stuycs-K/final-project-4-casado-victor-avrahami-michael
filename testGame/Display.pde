@@ -141,39 +141,18 @@
   }
   
   public void displayInfo(){
-       String text1 = "Player ";
        if (game.isPlayerOneTurn){
-         text1 += "1";
          fill(GREEN);
        }
        else {
-         text1 += "2";
          fill(BLUE);
        }
-       text1 += "\'s turn";
        
-       String text2 = "";
-       if (game.turnType % 2 == 0){
-         text2 = "Click a piece to place or move.";
-       }
-       else {
-         if (game.placing){
-           text2 = "Select a hexagon to place your piece.";
-         }
-         else {
-           text2 = "Select a hexagon to move your piece.";
-         }
-       }
-       
-       textSize(15);
        rect(hexSize * 4, 0, 2 * hexSize, height);
        rotate(-PI/2);
        fill(BLACK);
-       text(text1, -750, 190);
-       text(text2, -750, 210);
        fill(WHITE);
        rotate(PI/2);
-       textSize(12);
     }
     
     public void textBox(String text, int startX, int startY, int boxWidth, int textSize){
