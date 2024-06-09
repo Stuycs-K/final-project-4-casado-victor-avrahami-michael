@@ -621,6 +621,6 @@ public class Game{
       if (trapped == 3){
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
-      text(endText, 500, height - 100);
+      d.textBox(endText, 500, height - 100);
     }
 }
