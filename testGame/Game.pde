@@ -608,7 +608,10 @@ public class Game{
         return false;
     }
     
-    public boolean canMove(int x, int y){      
+    public boolean canMove(int x, int y){     
+      if(board[x][y] != null && board[x][y].pieceOnTop != null){
+        return false;
+      }
       GamePiece temp = board[x][y];
       board[x][y] = null;
       boolean returner = isHiveConnected();
