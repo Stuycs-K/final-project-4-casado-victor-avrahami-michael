@@ -170,7 +170,9 @@ public class Game{
     public boolean movePiece(GamePiece g, int moveX, int moveY){
       //println("You're moving a piece!");
       //println("You called movePiece: " + g.getX() + ", " + g.getY());
-
+      if((isPlayerOneTurn && player1Queen == null) || (!isPlayerOneTurn && player2Queen == null)){
+        return false;
+      }
       if(g.getType() == BEETLE){
         if(g.pieceBelow != null){//on top of something
           if(g.isLegalMove(moveX, moveY)){

@@ -1,7 +1,7 @@
   import java.util.*;
   public class Display{    
-    final color GREEN = color(0, 255, 0);
-    final color BLUE = color(100, 100, 255);
+    final color GREEN = color(50, 255, 50);
+    final color BLUE = color(120, 120, 255);
     final color BLACK = color(0, 0, 0);
     final color WHITE = color(255, 255, 255);
     final color RED = color(255, 0, 0);
@@ -22,7 +22,7 @@
     
       displayInfo();
     
-      if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY())){
+      if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY()) && !((game.isPlayerOneTurn && game.player1Queen == null && game.placing == false) || (game.placing == false && !game.isPlayerOneTurn && game.player2Queen == null))){
         for (int[] loc: legalMoves){
           outlineHex(loc[0], loc[1], RED);
         }
