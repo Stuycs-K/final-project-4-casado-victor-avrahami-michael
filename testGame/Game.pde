@@ -610,7 +610,7 @@ public class Game{
     
     public boolean canMove(int x, int y){     
       if(board[x][y] != null && board[x][y].pieceOnTop != null){
-        return false;
+        return true;
       }
       GamePiece temp = board[x][y];
       board[x][y] = null;
