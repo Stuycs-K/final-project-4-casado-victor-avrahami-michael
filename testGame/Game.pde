@@ -622,9 +622,7 @@ public class Game{
       if (trapped == 3){
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
-      println("here");
-      //text("WASSUP", 500, 500);
-      d.textBox(endText, width / 2 - 200, height / 2 - 100, 400);
-      //delay(5000);
+      endText += " Press r to restart the game.";
+      d.textBox(endText, width / 2 - 200, height / 2 - 100, 400, 12);
     }
 }

@@ -178,27 +178,46 @@
        textSize(12);
     }
     
-    public void textBox(String text, int startX, int startY, int boxWidth){
+    public void textBox(String text, int startX, int startY, int boxWidth, int textSize){
+      float heightDiff = 5 / 3 * textSize;
       int currY = startY;
-      while (text.length() > 0){
+      int firstSpace = text.indexOf(" ");
+      while (firstSpace != -1){
         String line = "";
-        while (text.length() > 0 && textWidth(line) < boxWidth){
-          line += text.charAt(0);
-          text = text.substring(1); 
+        //println("hi");
+        while (firstSpace != -1 && textWidth(line + text.substring(0, firstSpace)) < boxWidth - 5){
+          line += text.substring(0, firstSpace + 1);
+          text = text.substring(firstSpace + 1);
+          firstSpace = text.indexOf(" ");
         }
         fill(RED);
         stroke(RED);
         
-        rect(startX, currY, boxWidth, currY + 15);
+        rect(startX, currY, boxWidth, 20);
         fill(BLACK);
-        stroke(BLACK);
         
-        currY += 15;
-        text(line, startX + 5, currY);
+        currY += 20;
+        
+        if (firstSpace == -1 && textWidth(line + text) < boxWidth - 5){
+          line += text;
+          text = "";
+        }
+        text(line, startX + 5, currY - 5);
       }
       
-      fill(RED);
-      rect(startX, startY, boxWidth, currY - startY);
-      fill(BLACK);
+      if (text.length() > 0){
+        fill(RED);
+        stroke(RED);
+        
+        rect(startX, currY, boxWidth, 15);
+        fill(BLACK);
+        
+        currY += 20;
+        text(text, startX + 5, currY - 5);
+      }
+
+
+      stroke(BLACK);
+      
     }
 }
