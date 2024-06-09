@@ -116,3 +116,7 @@ Fixed grasshopper
 Worked on display ending screen
 Reorganized folder
 
+## Victor Casado
+### date 6/8 
+Beetles implemented
+

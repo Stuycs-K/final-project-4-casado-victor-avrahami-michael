@@ -169,6 +169,52 @@ public class Game{
     public boolean movePiece(GamePiece g, int moveX, int moveY){
       //println("You're moving a piece!");
       //println("You called movePiece: " + g.getX() + ", " + g.getY());
+
+      if(g.getType() == BEETLE){
+        if(g.pieceBelow != null){//on top of something
+          if(g.isLegalMove(moveX, moveY)){
+            if(board[moveX][moveY] != null){
+              GamePiece piece = board[moveX][moveY];
+              while(piece.pieceOnTop != null){
+                piece = piece.pieceOnTop;
+              }
+              g.pieceBelow.pieceOnTop = null;
+              g.pieceBelow = piece;
+              piece.pieceOnTop = g;
+              g.changeLocation(moveX, moveY);
+              return true;
+            }
+            board[moveX][moveY] = g;
+            g.pieceBelow.pieceOnTop = null;
+            g.pieceBelow = null;
+            g.changeLocation(moveX, moveY);  
+            return true;
+          }
+          return false;
+        }
+        
+        
+        
+        if(g.isLegalMove(moveX, moveY)){
+          if(board[moveX][moveY] != null){
+            GamePiece piece = board[moveX][moveY];
+            while(piece.pieceOnTop != null){
+              piece = piece.pieceOnTop;
+            }
+            g.pieceBelow = piece;
+            piece.pieceOnTop = g;
+            board[g.getX()][g.getY()] = null;
+            g.changeLocation(moveX, moveY);
+            return true;
+          }
+          board[moveX][moveY] = g;
+          board[g.getX()][g.getY()] = null;
+          g.changeLocation(moveX, moveY);  
+          return true;
+        }
+        return false;
+      }
+      
       board[g.getX()][g.getY()] = null;
       if(!isHiveConnected()){
         //println("The hive was not connected :(");
@@ -289,7 +335,11 @@ public class Game{
         placing = false;
         if(coords == null)
           return null;
-        return (board[coords[0]][coords[1]]);
+        GamePiece returner = board[coords[0]][coords[1]];
+        while(returner.pieceOnTop != null){
+          returner = returner.pieceOnTop;
+        }
+        return returner;
       }
       else {
         placing = true;
@@ -308,11 +358,11 @@ public class Game{
       p1Store[2] = new Spider(1, 0, 0, true, "Spider", this);
       p2Store[2] = new Spider(1, 0, 0, false, "Spider", this);
       
-     // p1Store[3] = new Beetle(2, 0, 0, true, "Beetle", this);
-     // p2Store[3] = new Beetle(2, 0, 0, false, "Beetle", this);
+      p1Store[3] = new Beetle(2, 0, 0, true, "Beetle", this);
+      p2Store[3] = new Beetle(2, 0, 0, false, "Beetle", this);
       
-     // p1Store[4] = new Beetle(2, 0, 0, true, "Beetle", this);
-     // p2Store[4] = new Beetle(2, 0, 0, false, "Beetle", this);
+      p1Store[4] = new Beetle(2, 0, 0, true, "Beetle", this);
+      p2Store[4] = new Beetle(2, 0, 0, false, "Beetle", this);
       
       p1Store[5] = new Grasshopper(3, 0, 0, true, "Grasshopper", this);
       p2Store[5] = new Grasshopper(3, 0, 0, false, "Grasshopper", this);
@@ -533,7 +583,7 @@ public class Game{
         return false;
     }
     
-    public boolean canMove(int x, int y){
+    public boolean canMove(int x, int y){      
       GamePiece temp = board[x][y];
       board[x][y] = null;
       boolean returner = isHiveConnected();
