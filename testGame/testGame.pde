@@ -27,4 +27,10 @@
     
     game.run(x, y);
   }
+  
+  void keyPressed(){
+    if(key == 'r' || key == 'R'){
+      game = new Game();
+    }
+  }
  
