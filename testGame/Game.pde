@@ -37,8 +37,12 @@ public class Game{
     }
     
     public void run(float x, float y){
-      
-      if (turnType == 0){
+      boolean earlyExit = false;
+      if(nothingLegal()){
+        isPlayerOneTurn = !isPlayerOneTurn;
+        earlyExit = true;
+      }
+      if (turnType == 0 && !earlyExit){
         if(turnCount == 7 && player1Queen == null){
           turnType++;
           turnType %= 2;
@@ -64,7 +68,7 @@ public class Game{
             turnType %= 2;
             if (! placing){
               legalMoves = currPiece.getLegalMoves();
-              if(legalMoves.length == 0){
+              if(legalMoves.length == 0 || canMove(currPiece.getX(), currPiece.getY()) == false){
                 turnType++;
                 turnType %= 2;
               }
@@ -85,7 +89,7 @@ public class Game{
           }
         }
       }
-      else{
+      else if (!earlyExit){
         int[] whereToGo = getPlacedLocation(x, y, hexSize);
         if (whereToGo != null){
           boolean successfulAction = false;
@@ -694,4 +698,33 @@ public class Game{
       }
       d.textBox(endText, width / 2 - 200, height / 2 - 100, 400, 12); //12 is textSize
     }
+
+  private boolean nothingLegal(){
+    if(turnCount <= 2){
+      return false;
+    }
+    GamePiece[] pieces;
+    if(isPlayerOneTurn){
+      pieces = player1Pieces;
+    }
+    else{
+      pieces = player2Pieces;
+    }
+    for(GamePiece piece : pieces){
+      if(piece != null && piece.getLegalMoves().length != 0 && canMove(piece.getX(), piece.getY())){
+        return false;
+      }
+    }
+    if(isPlayerOneTurn){
+      pieces = p1Store;
+    }
+    else{
+      pieces = p2Store;
+    }
+    if(getPlacableLocations().length != 0 && pieces.length != 0){
+      return false;
+    }
+    return true;
+  }
+  
 }
