@@ -193,27 +193,27 @@
         fill(RED);
         stroke(RED);
         
-        rect(startX, currY, boxWidth, 20);
+        rect(startX, currY, boxWidth, heightDiff);
         fill(BLACK);
         
-        currY += 20;
+        currY += heightDiff;
         
         if (firstSpace == -1 && textWidth(line + text) < boxWidth - 5){
           line += text;
           text = "";
         }
-        text(line, startX + 5, currY - 5);
+        text(line, startX + 5, currY);
       }
       
       if (text.length() > 0){
         fill(RED);
         stroke(RED);
         
-        rect(startX, currY, boxWidth, 15);
+        rect(startX, currY, boxWidth, heightDiff);
         fill(BLACK);
         
-        currY += 20;
-        text(text, startX + 5, currY - 5);
+        currY += heightDiff;
+        text(text, startX + 5, currY);
       }
 
 

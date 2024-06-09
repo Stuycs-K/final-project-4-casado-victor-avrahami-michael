@@ -623,6 +623,6 @@ public class Game{
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
       endText += " Press r to restart the game.";
-      d.textBox(endText, width / 2 - 200, height / 2 - 100, 400, 12);
+      d.textBox("Wassup", width / 2 - 200, height / 2 - 100, 400, 12); //12 is textSize
     }
 }
