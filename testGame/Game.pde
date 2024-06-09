@@ -627,8 +627,15 @@ public class Game{
                int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
                boolean hasNoOpponentNeighbors = true;
                for(int k = 0; k < neighborNeighbors.length; k++){
-                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][1]] == null || board[neighborNeighbors[k][0]][neighborNeighbors[k][1]].getTurn()))
-                   hasNoOpponentNeighbors = false;
+                 GamePiece piece = board[neighborNeighbors[k][0]][neighborNeighbors[k][1]];
+                 if(piece != null){
+                   while(piece.pieceOnTop != null){
+                     piece = piece.pieceOnTop;
+                   }
+                   if(!piece.getTurn()){
+                     hasNoOpponentNeighbors = false;
+                   }
+                 }
                }
                if(hasNoOpponentNeighbors)
                  spots.add(neighbors[j]);
@@ -651,8 +658,15 @@ public class Game{
                int[][] neighborNeighbors = getNeighborLocations(neighbors[j][0],neighbors[j][1]);
                boolean hasNoOpponentNeighbors = true;
                for(int k = 0; k < neighborNeighbors.length; k++){
-                 if(!(board[neighborNeighbors[k][0]][neighborNeighbors[k][1]] == null || !board[neighborNeighbors[k][0]][neighborNeighbors[k][1]].getTurn()))
-                   hasNoOpponentNeighbors = false;
+                 GamePiece piece = board[neighborNeighbors[k][0]][neighborNeighbors[k][1]];
+                 if(piece != null){
+                   while(piece.pieceOnTop != null){
+                     piece = piece.pieceOnTop;
+                   }
+                   if(piece.getTurn()){
+                     hasNoOpponentNeighbors = false;
+                   }
+                 }
                }
                if(hasNoOpponentNeighbors)
                  spots.add(neighbors[j]);
