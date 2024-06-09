@@ -2,6 +2,7 @@
   final int hexSize = 36;
   GamePiece currPiece = null;
   int[][] legalMoves = null;
+  boolean gameEnded = false;
   
   void setup(){
     size(1500, 800);
@@ -9,7 +10,9 @@
   }
 
   void draw(){
-    game.checkGameOver();
+    if (! gameEnded){
+      gameEnded = game.checkGameOver();
+    }
   }
   
   void mouseClicked(){
