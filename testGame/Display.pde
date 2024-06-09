@@ -64,11 +64,10 @@
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength, GamePiece g) {
     if (g != null){
-      boolean player1 = g.getTurn();
-      
       while (g.pieceOnTop != null){
         g = g.pieceOnTop;
       }
+      boolean player1 = g.getTurn();
     
       if (player1){
         fill(GREEN);
