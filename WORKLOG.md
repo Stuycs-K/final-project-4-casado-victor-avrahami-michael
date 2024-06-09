@@ -120,3 +120,11 @@ Reorganized folder
 ### date 6/8 
 Beetles implemented
 
+### date 6/9
+removed sideways text in favor of displaying info visually
+removed ability to move before queens are placed
+removed ability to attempt to move pieces that cannot move
+displayed which piece is active visually
+added ability to restart game
+placing with a beetle on top of a piece works as intended
+updated canmove to reflect beetles being in game
