@@ -5,11 +5,6 @@
     final color BLACK = color(0, 0, 0);
     final color WHITE = color(255, 255, 255);
     final color RED = color(255, 0, 0);
-    final int QUEENBEE = 0;
-    final int SPIDER = 1;
-    final int BEETLE = 2;
-    final int GRASSHOPPER = 3;
-    final int ANT = 4;
     final int hexSize = 36;
     GamePiece[][] gameBoard;
     Game game;
@@ -70,6 +65,10 @@
   void hexagon(float x, float y, float sideLength, GamePiece g) {
     if (g != null){
       boolean player1 = g.getTurn();
+      
+      while (g.pieceOnTop != null){
+        g = g.pieceOnTop;
+      }
     
       if (player1){
         fill(GREEN);

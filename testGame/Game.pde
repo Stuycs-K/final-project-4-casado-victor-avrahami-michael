@@ -337,6 +337,9 @@ public class Game{
         if(coords == null)
           return null;
         GamePiece returner = board[coords[0]][coords[1]];
+        if (returner == null){
+          return null;
+        }
         while(returner.pieceOnTop != null){
           returner = returner.pieceOnTop;
         }
