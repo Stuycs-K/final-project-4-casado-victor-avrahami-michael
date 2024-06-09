@@ -27,6 +27,9 @@
           outlineHex(loc[0], loc[1], RED);
         }
       }
+      if(game.turnType == 1 && game.placing == false){
+        outlineHex(currPiece.getX(), currPiece.getY(), BLACK);
+      }
     }
     
   public void drawBorder(int xLoc){
