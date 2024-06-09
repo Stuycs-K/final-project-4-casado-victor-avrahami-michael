@@ -14,6 +14,10 @@ Click on a piece in the sidebar to select it, then click on a legal empty hexago
 
 Keep in mind that the game **will** force you to place your queen by your fourth turn if you haven't already, and that it will not let you move pieces until you have placed your queen.
 
+If a player cannot move on a certain turn, click anywhere on the screen and the game will automatically shift to the next player's turn. (only if the player really cannot move)
+
+The colored bar represents whose turn it is.
+
 Press r to restart the game at any time.
 
 ## Presentation Link
@@ -21,6 +25,7 @@ INSERT HERE
 ## Major Bugs
 + Clicking outside the bounds of the board may result in the game breaking
 + Clicking on a piece / hexagon must be within the center of the piece / hexagon, as the click detection detects a rectangle in the center of each hexagon
+  
 While they are not bugs, the following are features of our game that are different from the regular board game, due to difficulty implementing
 + The space is limited to a 12x23 board. This changes the strategy of the game by bringing edges and corners into play, and makes it easier to trap pieces.
 + Spiders not only have to move exactly three spaces, they can only move to a space which is three spaces away. In the board game, spiders can move to hexagons less than 3 three spaces away if they can get there by moving three spaces.
