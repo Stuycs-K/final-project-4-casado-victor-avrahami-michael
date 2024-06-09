@@ -1,42 +1,42 @@
 import java.util.ArrayList;
 public class Game{
     public GamePiece[][] board;
-    public boolean isPlayerOneTurn;
     public GamePiece[] player1Pieces, player2Pieces, p1Store, p2Store;
     public GamePiece player1Queen, player2Queen;
-    public boolean placing;
-    public int turnCount;
-    public int placingPieceStoreCoor;
-    public int turnType = 0;
     public Display d;
-    public int hexSize;
-    GamePiece currPiece;
-    int[][] legalMoves;
+    
+    public boolean placing, isPlayerOneTurn;
+    public int turnCount, turnType;
+    public int placingPieceStoreCoor;
+    
 
     public Game(){
         player1Pieces = new GamePiece[11];
         player2Pieces = new GamePiece[11];
         p1Store = new GamePiece[11];
         p2Store = new GamePiece[11];
+        board = new GamePiece[23][23];
         //create queens when added into game
+        
+        d = new Display(this);
+        
         isPlayerOneTurn = true;
         placing = true;
-        board = new GamePiece[23][23];
+        
         turnCount = 0;
-        hexSize = 36;
-        currPiece = null;
-        legalMoves = null;
-        d = new Display(this);
-        setup();
+        turnType = 0;
+
+        
+        gameSetup();
     }
     
-    public void setup(){
+    public void gameSetup(){
       initializePieceStore();
       d.display();
       turnCount++;
     }
     
-    public void move(float x, float y){
+    public void run(float x, float y){
       if (turnType == 0){
         if(turnCount == 7 && player1Queen == null){
           turnType++;
@@ -59,7 +59,6 @@ public class Game{
           currPiece = successfulAction;
         
           if (currPiece != null && ((successfulAction.getTurn() && isPlayerOneTurn) || ! (successfulAction.getTurn() || isPlayerOneTurn))){
-            println("not null");
             turnType++;
             turnType %= 2;
             if (! placing){
@@ -108,13 +107,15 @@ public class Game{
       d.display();
     }
     
-    public void checkGameOver(){
+    public boolean checkGameOver(){
       if (player1Queen != null && player2Queen != null){
         int gameOver = game.isGameOver();
         if (gameOver > 0){
           game.endGame(gameOver);
+          return true;
         }
       }
+      return false;
     }
     
     public void print2DArray(GamePiece[][] t){
@@ -671,6 +672,6 @@ public class Game{
       if (trapped == 3){
         endText += "1 and 2\'s queens are both trapped and the game ends in a draw.";
       }
-      d.textBox(endText, 500, height - 100);
+      d.textBox(endText, width / 2 - 200, height / 2 - 100, 400, 12); //12 is textSize
     }
 }

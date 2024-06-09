@@ -1,6 +1,5 @@
   import java.util.*;
-  public class Display{
-    
+  public class Display{    
     final color GREEN = color(0, 255, 0);
     final color BLUE = color(100, 100, 255);
     final color BLACK = color(0, 0, 0);
@@ -28,9 +27,8 @@
     
       displayInfo();
     
-      if (game.turnType == 1 && game.canMove(game.currPiece.getX(), game.currPiece.getY())){
-        for (int[] loc: game.legalMoves){
-          //println(loc[0] + ", " + loc[1]);
+      if (game.turnType == 1 && game.canMove(currPiece.getX(), currPiece.getY())){
+        for (int[] loc: legalMoves){
           outlineHex(loc[0], loc[1], RED);
         }
       }
@@ -71,8 +69,6 @@
   // x and y represent top left vertex of hexagon
   void hexagon(float x, float y, float sideLength, GamePiece g) {
     if (g != null){
-      String text = g.getName().substring(0, 1);
-      //fill(255, 0, 0);
       boolean player1 = g.getTurn();
     
       if (player1){
@@ -171,8 +167,6 @@
          }
        }
        
-       //fill(BLUE);
-       //println("got here");
        textSize(15);
        rect(hexSize * 4, 0, 2 * hexSize, height);
        rotate(-PI/2);
@@ -182,5 +176,48 @@
        fill(WHITE);
        rotate(PI/2);
        textSize(12);
+    }
+    
+    public void textBox(String text, int startX, int startY, int boxWidth, int textSize){
+      float heightDiff = 5 / 3 * textSize;
+      int currY = startY;
+      int firstSpace = text.indexOf(" ");
+      while (firstSpace != -1){
+        String line = "";
+        //println("hi");
+        while (firstSpace != -1 && textWidth(line + text.substring(0, firstSpace)) < boxWidth - 5){
+          line += text.substring(0, firstSpace + 1);
+          text = text.substring(firstSpace + 1);
+          firstSpace = text.indexOf(" ");
+        }
+        fill(RED);
+        stroke(RED);
+        
+        rect(startX, currY, boxWidth, heightDiff);
+        fill(BLACK);
+        
+        currY += heightDiff;
+        
+        if (firstSpace == -1 && textWidth(line + text) < boxWidth - 5){
+          line += text;
+          text = "";
+        }
+        text(line, startX + 5, currY);
+      }
+      
+      if (text.length() > 0){
+        fill(RED);
+        stroke(RED);
+        
+        rect(startX, currY, boxWidth, heightDiff);
+        fill(BLACK);
+        
+        currY += heightDiff;
+        text(text, startX + 5, currY);
+      }
+
+
+      stroke(BLACK);
+      
     }
 }
