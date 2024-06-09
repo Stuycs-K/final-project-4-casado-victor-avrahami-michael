@@ -27,7 +27,9 @@ public class Beetle extends GamePiece{
   }
   public int[][] getLegalMoves(){
     ArrayList<int[]> locs = new ArrayList<int[]>();
-    game.board[this.getX()][this.getY()]  = null;
+    if(pieceBelow == null){
+      game.board[this.getX()][this.getY()] = null;
+    }
     int[][] neighbors = game.getNeighborLocations(this.getX(), this.getY());
     for(int[] neighbor : neighbors){
       if(game.board[neighbor[0]][neighbor[1]] != null){
@@ -41,7 +43,9 @@ public class Beetle extends GamePiece{
     for(int i = 0; i < locs.size(); i++){
       returner[i] = locs.get(i);
     }
-    game.board[this.getX()][this.getY()] = this;
+    if(pieceBelow == null){
+      game.board[this.getX()][this.getY()] = this;
+    }
     return returner;
   }
     // no canMove method, needs board access, so needs to be in game class
