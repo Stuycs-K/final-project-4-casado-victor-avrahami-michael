@@ -107,3 +107,12 @@ grasshoppers work now
 Fixed annoying spider error
 Cleaned code up slightly
 
+## Michael Avrahami
+### date 6/7
+Fixed grasshopper
+
+## Michael Avrahami
+### date 6/8
+Worked on display ending screen
+Reorganized folder
+
