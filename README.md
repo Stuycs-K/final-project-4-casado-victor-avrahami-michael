@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/syDSSnTt)
 # Hive - APCS2 Final Project
-## Group Info
-**Name:** Miners of Moria
+## Group Info   
+**Name:** Miners of Moria   
 **Group Members:** Michael Avrahami, Victor Casado
 ## Overview
 Our project is to replicate the not-too-well-known board game Hive in processing. Hive is a strategy game similar to chess, where each piece has different movement types, except there is no board. Instead, the pieces make up the board, and you can place new pieces next to your existing ones. The goal of the game is to surround the opponent's Queen (Queen Bee because Hive is bug-themed) with other pieces, which is equivalent to a checkmate in chess.
