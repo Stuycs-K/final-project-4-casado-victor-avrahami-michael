@@ -37,6 +37,7 @@ public class Game{
     }
     
     public void run(float x, float y){
+      
       if (turnType == 0){
         if(turnCount == 7 && player1Queen == null){
           turnType++;
@@ -63,9 +64,23 @@ public class Game{
             turnType %= 2;
             if (! placing){
               legalMoves = currPiece.getLegalMoves();
+              if(legalMoves.length == 0){
+                turnType++;
+                turnType %= 2;
+              }
             }
             else {
               legalMoves = getPlacableLocations();
+              if(legalMoves.length == 0 && turnCount > 2){
+                turnType++;
+                turnType %= 2;              
+                if(isPlayerOneTurn){
+                  p1Store[placingPieceStoreCoor] = currPiece;
+                }
+                else{
+                  p2Store[placingPieceStoreCoor] = currPiece;
+                }
+              }
             }
           }
         }
