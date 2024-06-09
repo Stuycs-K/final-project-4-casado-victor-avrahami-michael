@@ -21,7 +21,7 @@ The colored bar represents whose turn it is.
 Press r to restart the game at any time.
 
 ## Presentation Link
-INSERT HERE
+https://drive.google.com/file/d/1qtStETaygVFMd0bHVzobtm6KbsPrsyqi/view?usp=sharing
 ## Major Bugs
 + Clicking outside the bounds of the board may result in the game breaking
 + Clicking on a piece / hexagon must be within the center of the piece / hexagon, as the click detection detects a rectangle in the center of each hexagon
