@@ -610,7 +610,15 @@ public class Game{
     
     public boolean canMove(int x, int y){     
       if(board[x][y] != null && board[x][y].pieceOnTop != null){
-        return true;
+        GamePiece piece = board[x][y];
+        GamePiece pieceSave = piece;
+        while(piece.pieceOnTop != null){
+          piece = piece.pieceOnTop;
+        }
+        if(pieceSave.getTurn() == piece.getTurn()){
+          return true;
+        }
+        return false;
       }
       GamePiece temp = board[x][y];
       board[x][y] = null;
