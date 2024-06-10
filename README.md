@@ -6,7 +6,8 @@
 ## Overview
 Our project is to replicate the not-too-well-known board game Hive in processing. Hive is a strategy game similar to chess, where each piece has different movement types, except there is no board. Instead, the pieces make up the board, and you can place new pieces next to your existing ones. The goal of the game is to surround the opponent's Queen (Queen Bee because Hive is bug-themed) with other pieces, which is equivalent to a checkmate in chess.
 ## Instructions
-The rules of the game of hive can be found at this link: https://www.gen42.com/download/rules/hive/Hive_English_Rules.pdf
+**Running the Project:** Simply open processing, open the testGame folder in processing, and press run.   
+**Rules:** The rules of the game of hive can be found at this link: https://www.gen42.com/download/rules/hive/Hive_English_Rules.pdf
 
 In general, the program will show only legal moves and will force you to play only legal moves. The game will also end when it is supposed to. However, it is worth noting that the first piece can be placed anywhere on the board, and the second piece (player 2's first piece) must be placed next to player 1's. After that, the normal one hive and only placing your piece next to your pieces rules apply (see rules).
 
